@@ -1,8 +1,8 @@
 { config, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
-    ../../../common/core/default.nix
-    ../../../common/server/boot.nix
+    ../../../../common/core/default.nix
+    ../../../../common/server/boot.nix
   ];
 
   networking.hostName = "battlebus";
