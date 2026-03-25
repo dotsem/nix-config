@@ -10,6 +10,9 @@
   # Enable QEMU Guest Agent for Proxmox
   services.qemuGuest.enable = true;
 
+  # Disk configuration (overriding disko-config.nix default)
+  disko.devices.disk.main.device = "/dev/sda";
+
   # Docker support
   virtualisation.docker.enable = true;
   users.users.sem.extraGroups = [ "docker" ];

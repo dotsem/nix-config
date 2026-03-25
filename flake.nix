@@ -41,6 +41,8 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./common/core
+          inputs.disko.nixosModules.disko
+          ./common/disko-config.nix
           ./machines/server/battlebus/nix-web/configuration.nix
         ];
       };
