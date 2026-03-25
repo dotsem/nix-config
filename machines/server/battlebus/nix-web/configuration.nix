@@ -38,17 +38,17 @@
 
   # Cloudflare Tunnel
   # The user will need to provide the tunnel credentials/token
-  services.cloudflared = {
-    enable = true;
-    tunnels = {
-      "stratego-tunnel" = {
-        ingress = {
-          "stratego.example.com" = "http://localhost:80"; # Points to Nginx
-        };
-        default = "http_status:404";
-      };
-    };
-  };
+  # services.cloudflared = {
+  #   enable = true;
+  #   tunnels = {
+  #     "stratego-tunnel" = {
+  #       ingress = {
+  #         "stratego.example.com" = "http://localhost:80"; # Points to Nginx
+  #       };
+  #       default = "http_status:404";
+  #     };
+  #   };
+  # };
 
   # Minimal packages
   environment.systemPackages = with pkgs; [
