@@ -36,12 +36,12 @@
         ];
       };
 
-      server = nixpkgs.lib.nixosSystem {
+      battlebus = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
           ./common/core
-          ./machines/server/generic/configuration.nix
+          ./machines/server/battlebus/nix-web/configuration.nix
         ];
       };
     };
