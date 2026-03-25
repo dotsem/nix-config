@@ -36,14 +36,14 @@
         ];
       };
 
-      battlebus = nixpkgs.lib.nixosSystem {
+      retail-row = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
           ./common/core
           inputs.disko.nixosModules.disko
           ./common/disko-config.nix
-          ./machines/server/battlebus/nix-web/configuration.nix
+          ./machines/server/battlebus/retail-row/configuration.nix
         ];
       };
     };
