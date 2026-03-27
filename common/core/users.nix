@@ -8,5 +8,7 @@
     ];
   };
 
+  users.users.sem.initialPassword = "blub";
+
   programs.fish.enable = true;
 }
