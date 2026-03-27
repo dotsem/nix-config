@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   imports = [
     ./hardware-configuration.nix
     ../../../../common/core/default.nix
@@ -39,26 +39,19 @@
     };
   };
 
-   services.cloudflared = {
-    enable = true;
-    tunnels = {
-      "stratego-tunnel" = {
-        token = "dummy"; 
-        ingress = {
-          "stratego.dotsem.be" = "http://localhost:80";
-        };
-        default = "http_status:404";
-      };
-    };
-  };
-
-  systemd.services."cloudflared-tunnel-stratego-tunnel" = {
+  # Securely run the Cloudflare Tunnel using your token from /etc/cloudflared/stratego.env
+  systemd.services.stratego-tunnel = {
+    description = "Cloudflare Tunnel for Stratego";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       EnvironmentFile = "/etc/cloudflared/stratego.env";
-      ExecStart = lib.mkForce "${pkgs.cloudflared}/bin/cloudflared tunnel --no-autoupdate run --token \${CLOUDFLARED_TOKEN}";
+      ExecStart = "${pkgs.cloudflared}/bin/cloudflared tunnel --no-autoupdate run --token \${CLOUDFLARED_TOKEN}";
+      Restart = "on-failure";
+      RestartSec = "5s";
     };
   };
-
 
   # Minimal packages
   environment.systemPackages = with pkgs; [
@@ -66,6 +59,7 @@
     vim
     rsync
     docker-compose
+    cloudflared
   ];
 
   # Basic firewall for server
