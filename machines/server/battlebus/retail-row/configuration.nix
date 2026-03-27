@@ -25,7 +25,7 @@
     enable = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
-    virtualHosts."stratego.local" = {
+    virtualHosts."stratego.dotsem.be" = {
       locations."/" = {
         proxyPass = "http://localhost:5173"; # Frontend
       };
@@ -39,19 +39,26 @@
     };
   };
 
-  # Cloudflare Tunnel
-  # The user will need to provide the tunnel credentials/token
-  # services.cloudflared = {
-  #   enable = true;
-  #   tunnels = {
-  #     "stratego-tunnel" = {
-  #       ingress = {
-  #         "stratego.example.com" = "http://localhost:80"; # Points to Nginx
-  #       };
-  #       default = "http_status:404";
-  #     };
-  #   };
-  # };
+   services.cloudflared = {
+    enable = true;
+    tunnels = {
+      "stratego-tunnel" = {
+        token = "dummy"; 
+        ingress = {
+          "stratego.dotsem.be" = "http://localhost:80";
+        };
+        default = "http_status:404";
+      };
+    };
+  };
+
+  systemd.services."cloudflared-tunnel-stratego-tunnel" = {
+    serviceConfig = {
+      EnvironmentFile = "/etc/cloudflared/stratego.env";
+      ExecStart = lib.mkForce "${pkgs.cloudflared}/bin/cloudflared tunnel --no-autoupdate run --token \${CLOUDFLARED_TOKEN}";
+    };
+  };
+
 
   # Minimal packages
   environment.systemPackages = with pkgs; [
