@@ -3,6 +3,7 @@
     ./hardware-configuration.nix
     ../../../../common/core/default.nix
     ../../../../common/server/boot.nix
+    ./nginx.nix
   ];
 
   networking.hostName = "retail-row";
@@ -19,25 +20,6 @@
   # Docker support
   virtualisation.docker.enable = true;
   users.users.sem.extraGroups = [ "docker" ];
-
-  # Nginx Reverse Proxy
-  services.nginx = {
-    enable = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-    virtualHosts."stratego.dotsem.be" = {
-      locations."/" = {
-        proxyPass = "http://localhost:5173"; # Frontend
-      };
-      locations."/api" = {
-        proxyPass = "http://localhost:8080"; # Backend
-      };
-      locations."/ws" = {
-        proxyPass = "http://localhost:8080";
-        proxyWebsockets = true;
-      };
-    };
-  };
 
   # Securely run the Cloudflare Tunnel using your token from /etc/cloudflared/stratego.env
   systemd.services.stratego-tunnel = {
