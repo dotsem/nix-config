@@ -7,11 +7,11 @@
       locations."/" = {
         proxyPass = "http://localhost:1000"; # Frontend
       };
-      locations."/api" = {
-        proxyPass = "http://localhost:1001"; # Backend
+      locations."/api/" = {
+        proxyPass = "http://localhost:1001/"; # Backend
       };
-      locations."/ws" = {
-        proxyPass = "http://localhost:1001";
+      locations."/ws/" = {
+        proxyPass = "http://localhost:1001/";
         proxyWebsockets = true;
       };
     };
