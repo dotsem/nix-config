@@ -1,8 +1,14 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   imports = [
     ./hardware-configuration.nix
     ../../../../common/core/default.nix
-    ../../../../common/server/boot.nix
+    ../../../../common/server/default.nix
     ./nginx.nix
   ];
 
@@ -45,6 +51,9 @@
   ];
 
   # Basic firewall for server
-  networking.firewall.allowedTCPPorts = [ 22 80 443 ];
+  networking.firewall.allowedTCPPorts = [
+    22
+    80
+    443
+  ];
 }
-
