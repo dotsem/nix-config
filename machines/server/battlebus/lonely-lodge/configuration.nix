@@ -16,15 +16,29 @@
   virtualisation.docker.enable = true;
   users.users.sem.extraGroups = [ "docker" ];
 
+  # Ensure the docker-compose and config files are present on the system
+  environment.etc = {
+    "logging/docker-compose.yml".source = ./../../../../docker/logging/docker-compose.yml;
+    "logging/loki-config.yaml".source = ./../../../../docker/logging/loki-config.yaml;
+    "logging/promtail-config.yaml".source = ./../../../../docker/logging/promtail-config.yaml;
+  };
+
   # Systemd service to ensure the logging stack is running
   systemd.services.logging-stack = {
     description = "Grafana Loki Logging Stack";
-    after = [ "network-online.target" ];
+    after = [
+      "network-online.target"
+      "docker.service"
+    ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "simple";
-      WorkingDirectory = "/home/sem/nix-config/docker/logging";
+      WorkingDirectory = "/etc/logging";
+      ExecStartPre = [
+        "${pkgs.coreutils}/bin/mkdir -p /logging/loki"
+        "${pkgs.coreutils}/bin/chown -R 10001:10001 /logging"
+      ];
       ExecStart = "${pkgs.docker-compose}/bin/docker-compose up";
       ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
       Restart = "always";
