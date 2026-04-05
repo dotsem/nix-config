@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
   # SSH Hardening
   services.openssh.settings = {
@@ -11,7 +16,7 @@
   services.crowdsec = {
     enable = true;
     autoUpdateService = true;
-    allowLocalNetworkAccess = true;
+    openFirewall = true;
     hub = {
       collections = [
         "crowdsecurity/linux"
@@ -37,9 +42,9 @@
     ];
   };
 
-  # System Auditing (tracks sensitive file changes)
-  security.auditd.enable = true;
-  security.audit = {
+  # System Auditing (disabled in containers as they lack kernel access)
+  security.auditd.enable = lib.mkIf (!config.boot.isContainer) true;
+  security.audit = lib.mkIf (!config.boot.isContainer) {
     enable = true;
     rules = [
       "-w /etc/passwd -p wa -k passwd_changes"
