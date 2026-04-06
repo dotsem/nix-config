@@ -2,13 +2,21 @@
   config,
   pkgs,
   lib,
+  modulesPath,
   ...
 }:
 {
   imports = [
+    (modulesPath + "/virtualisation/proxmox-lxc.nix")
     ../../../../common/core/default.nix
     ../../../../common/server/default.nix
   ];
+
+  # Requirement for NixOS configurations (even containers) to define a root filesystem
+  fileSystems."/" = {
+    device = "/dev/disk/by-label/nixos"; # Placeholder, overridden by LXC host
+    fsType = "ext4";
+  };
 
   networking.hostName = "lonely-lodge";
 

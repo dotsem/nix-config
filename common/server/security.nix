@@ -27,12 +27,12 @@
     };
   };
 
-  # Firewall bouncer for CrowdSec
-  services.crowdsec-firewall-bouncer.enable = true;
+  # Firewall bouncer for CrowdSec (disabled in containers)
+  services.crowdsec-firewall-bouncer.enable = lib.mkIf (!config.boot.isContainer) true;
 
-  # Fail2Ban as a safety net
+  # Fail2Ban as a safety net (disabled in containers)
   services.fail2ban = {
-    enable = true;
+    enable = lib.mkIf (!config.boot.isContainer) true;
     maxretry = 6;
     ignoreIP = [
       "127.0.0.1/8"
