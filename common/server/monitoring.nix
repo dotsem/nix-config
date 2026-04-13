@@ -5,6 +5,8 @@
   ...
 }:
 {
+  users.users.promtail.extraGroups = [ "docker" ];
+
   # Shipping logs to Loki on lonely-lodge
   services.promtail = {
     enable = true;
@@ -15,8 +17,7 @@
       };
       clients = [
         {
-          # Assuming the logging host is reachable via its hostname internally
-          url = "http://lonely-lodge:3100/loki/api/v1/push";
+          url = "http://192.168.200.6:3100/loki/api/v1/push";
         }
       ];
       scrape_configs = [

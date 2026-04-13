@@ -28,7 +28,11 @@
   };
 
   # Firewall bouncer for CrowdSec (disabled in containers)
-  services.crowdsec-firewall-bouncer.enable = lib.mkIf (!config.boot.isContainer) true;
+  # services.crowdsec-firewall-bouncer = {
+  #   enable = lib.mkIf (!config.boot.isContainer) true;
+  #   # manually register later with 'cscli bouncers add'
+  #   registerBouncer.enable = false;
+  # };
 
   # Fail2Ban as a safety net (disabled in containers)
   services.fail2ban = {
