@@ -1,1 +1,1 @@
-nix run nixpkgs#nixos-rebuild -- switch --flake .#retail-row --target-host sem@192.168.200.4 --ask-sudo-password
+nix run nixpkgs#nixos-rebuild -- switch --flake ../.#retail-row --target-host sem@192.168.200.4 --ask-sudo-password
