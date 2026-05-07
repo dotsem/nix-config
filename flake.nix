@@ -52,6 +52,7 @@
             inputs.disko.nixosModules.disko
             ./common/disko-config.nix
             ./machines/server/battlebus/retail-row/configuration.nix
+            { custom.server.description = "production server for GoStrategy"; }
           ];
         };
 
@@ -61,6 +62,9 @@
           modules = [
             ./common/core
             ./machines/server/battlebus/lonely-lodge/configuration.nix
+            {
+              custom.server.description = "logging stack with grafana, loki and promtail, logs for all nixos machines";
+            }
           ];
         };
       };

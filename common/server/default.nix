@@ -4,5 +4,6 @@
     ./boot.nix
     ./security.nix
     ./monitoring.nix
+    ./motd.nix
   ];
 }
