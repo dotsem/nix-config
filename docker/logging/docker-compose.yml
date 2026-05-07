@@ -5,8 +5,8 @@ services:
     ports:
       - "3100:3100"
     volumes:
-      - ./loki-config.yaml:/etc/loki/local-config.yaml
-      - /logging:/logging
+      - /etc/logging/loki-config.yaml:/etc/loki/local-config.yaml
+      - /logging/loki:/logging/loki
     command: -config.file=/etc/loki/local-config.yaml
     restart: unless-stopped
     networks:
@@ -16,7 +16,7 @@ services:
     image: grafana/promtail:latest
     container_name: logging-promtail
     volumes:
-      - ./promtail-config.yaml:/etc/promtail/config.yml
+      - /etc/logging/promtail-config.yaml:/etc/promtail/config.yml
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
     command: -config.file=/etc/promtail/config.yml
@@ -32,7 +32,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana-data:/var/lib/grafana
+      - /logging/grafana:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
     restart: unless-stopped

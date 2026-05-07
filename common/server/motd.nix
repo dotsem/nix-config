@@ -9,8 +9,8 @@ let
   cfg = config.custom.server;
   motdScript = pkgs.writeShellScript "motd.sh" ''
     ${pkgs.fastfetch}/bin/fastfetch
-    echo -e "\n\033[1;32mWelcome to ${config.networking.hostName}!\033[0m"
-    echo -e "\033[1;34m${cfg.description}\033[0m\n"
+    printf "\n\033[1;32mWelcome to %s!\033[0m\n" "${config.networking.hostName}"
+    printf "\033[1;34m%s\033[0m\n\n" "${cfg.description}"
   '';
 in
 {

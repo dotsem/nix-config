@@ -45,7 +45,9 @@
       WorkingDirectory = "/etc/logging";
       ExecStartPre = [
         "${pkgs.coreutils}/bin/mkdir -p /logging/loki"
-        "${pkgs.coreutils}/bin/chown -R 10001:10001 /logging"
+        "${pkgs.coreutils}/bin/mkdir -p /logging/grafana"
+        "${pkgs.coreutils}/bin/chown -R 10001:10001 /logging/loki"
+        "${pkgs.coreutils}/bin/chown -R 472:472 /logging/grafana"
       ];
       ExecStart = "${pkgs.docker-compose}/bin/docker-compose up";
       ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
