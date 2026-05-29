@@ -10,16 +10,6 @@
   ];
 
 
-  # Basic desktop packages
-  environment.systemPackages = with pkgs; [
-    alacritty 
-    firefox
-    libnotify
-    wl-clipboard
-    grim
-    slurp
-    swaybg
-  ];
 
   # Enable XDG portals
   xdg.portal = {
