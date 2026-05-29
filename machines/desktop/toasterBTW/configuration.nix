@@ -8,6 +8,7 @@
 
   # Better battery life on laptop
   services.tlp.enable = true;
+  services.power-profiles-daemon.enable = false;
   services.upower.enable = true;
 
   # Power profiles

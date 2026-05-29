@@ -4,7 +4,11 @@
     ./media.nix
     ./hardware.nix
     ./boot.nix
+    ./services.nix
+    ./packages.nix
+    ./user.nix
   ];
+
 
   # Basic desktop packages
   environment.systemPackages = with pkgs; [

@@ -1,8 +1,8 @@
 { config, pkgs, inputs, ... }: {
-  # Greater
+  # SDDM Display Manager
   services.displayManager.sddm.enable = true; 
 
-  # Niri (default)
+  # Niri (Wayland compositor)
   programs.niri.enable = true;
 
   environment.systemPackages = [
@@ -10,11 +10,12 @@
   ];
 
   # Hyprland
-  programs.hyprland.enable = true;
+  # programs.hyprland.enable = true;
 
   # Sway
-  programs.sway.enable = true;
+  # programs.sway.enable = true;
 
-  # KDE Plasma
+  # KDE Plasma6
   services.desktopManager.plasma6.enable = true;
 }
+
