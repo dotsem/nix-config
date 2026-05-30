@@ -36,8 +36,19 @@
   # Real-time support
   security.rtkit.enable = true;
 
-  # Printing support
-  services.printing.enable = true;
+  # Printing support (complete out-of-the-box USB and network printing)
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [
+      gutenprint      # High-quality drivers for Canon, Epson, Lexmark, Sony, etc.
+      gutenprintBin   # Binary version for extra proprietary capabilities
+      hplip           # HP device support
+    ];
+  };
+
+  # Driverless IPP-over-USB printing and scanning support
+  services.ipp-usb.enable = true;
+
   services.avahi = {
     enable = true;
     nssmdns4 = true;
