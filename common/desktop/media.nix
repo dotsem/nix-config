@@ -7,6 +7,30 @@
     pulse.enable = true;
     jack.enable = true;
     wireplumber.enable = true;
+
+    # Stutter prevention & low-latency tuning under heavy CPU/GPU loads
+    extraConfig.pipewire = {
+      "99-low-latency" = {
+        "context.properties" = {
+          "default.clock.rate" = 48000;
+          "default.clock.quantum" = 1024;
+          "default.clock.min-quantum" = 128;
+          "default.clock.max-quantum" = 2048;
+        };
+      };
+    };
+
+    # Match buffer tuning for PulseAudio applications/games
+    extraConfig.pipewire-pulse = {
+      "99-low-latency" = {
+        "pulse.properties" = {
+          "pulse.min.req" = "128/48000";
+          "pulse.default.req" = "1024/48000";
+          "pulse.max.req" = "2048/48000";
+          "pulse.min.quantum" = "128/48000";
+        };
+      };
+    };
   };
 
   # Real-time support

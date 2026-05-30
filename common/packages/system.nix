@@ -37,6 +37,7 @@
     strace
     stress
     v4l-utils
+    hwinfo
 
     # Terminal Utilities & Fun
     chafa

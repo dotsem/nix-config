@@ -5,11 +5,16 @@
     google-chrome
     brave
     vesktop
+    networkmanager-openvpn
 
-    # Code Editors
+    # Code Editors & IDEs
     vscode
     antigravity
     zed-editor
+    android-studio
+    flutter
+    postman
+    insomnia
 
     # Productivity & Notes
     libreoffice-still
@@ -46,6 +51,17 @@
     thunar-archive-plugin
     xarchiver
     zenity
+    networkmanagerapplet
+    udiskie
+    gnome-keyring
+    seahorse
+    libsecret
+
+    # Thumbnailers & Document Support (font.sh/setup.sh equivalents)
+    tumbler
+    ffmpegthumbnailer
+    libgsf
+    poppler
 
     # Wayland / Compositor Utilities
     alacritty
@@ -69,6 +85,9 @@
     wl-screenrec
     wofi
     wtype
+    waybar
+    gtk-layer-shell
+    polybar
 
     # Gaming & Virtualization
     lutris
@@ -81,5 +100,7 @@
     simple-scan
     tuxguitar
     xsel
+    blueman
+    os-prober
   ];
 }
