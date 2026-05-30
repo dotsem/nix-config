@@ -51,12 +51,24 @@
       Type = "simple";
       WorkingDirectory = "/etc/logging";
       ExecStartPre = [
+        # Ensure directories exist
         "${pkgs.coreutils}/bin/mkdir -p /logging/loki"
         "${pkgs.coreutils}/bin/mkdir -p /logging/grafana"
         "${pkgs.coreutils}/bin/mkdir -p /logging/prometheus"
+        "${pkgs.coreutils}/bin/mkdir -p /logging/config/grafana"
+
+        # Dereference symlinks using cp -rL into host-local stateful config partition
+        "${pkgs.coreutils}/bin/rm -rf /logging/config/prometheus.yml /logging/config/grafana/provisioning /logging/config/grafana/dashboards"
+        "${pkgs.coreutils}/bin/cp -rL /etc/logging/prometheus.yml /logging/config/prometheus.yml"
+        "${pkgs.coreutils}/bin/cp -rL /etc/logging/grafana/provisioning /logging/config/grafana/provisioning"
+        "${pkgs.coreutils}/bin/cp -rL /etc/logging/grafana/dashboards /logging/config/grafana/dashboards"
+
+        # Ensure correct ownership permissions for container runs
         "${pkgs.coreutils}/bin/chown -R 10001:10001 /logging/loki"
         "${pkgs.coreutils}/bin/chown -R 472:472 /logging/grafana"
+        "${pkgs.coreutils}/bin/chown -R 472:472 /logging/config/grafana"
         "${pkgs.coreutils}/bin/chown -R 65534:65534 /logging/prometheus"
+        "${pkgs.coreutils}/bin/chown -R 65534:65534 /logging/config/prometheus.yml"
       ];
       ExecStart = "${pkgs.bash}/bin/bash -c 'GRAFANA_PASSWORD=$(cat ${config.sops.secrets.grafana_admin_password.path}) ${pkgs.docker-compose}/bin/docker-compose up'";
       ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
