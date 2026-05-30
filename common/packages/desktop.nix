@@ -26,7 +26,7 @@
     audacity
     cava
     easyeffects
-    helvum
+    crosspipe
     mpv
     openshot-qt
     pavucontrol
@@ -44,7 +44,7 @@
 
     # Desktop Utilities & File Managers
     baobab
-    bitwarden
+    bitwarden-desktop
     libnotify
     mousepad
     thunar
@@ -82,7 +82,7 @@
 
     # Gaming & Virtualization
     lutris
-    minecraft-launcher
+    prismlauncher
     openttd
     steam
     virt-manager

@@ -23,5 +23,6 @@ datasources:
     uid: gostrategy-postgres
     jsonData:
       sslmode: "disable"
+      database: gostrategy
     secureJsonData:
       password: "pass"

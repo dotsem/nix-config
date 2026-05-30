@@ -47,6 +47,15 @@
     ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
+    restartTriggers = [
+      config.environment.etc."logging/docker-compose.yml".source
+      config.environment.etc."logging/loki-config.yaml".source
+      config.environment.etc."logging/promtail-config.yaml".source
+      config.environment.etc."logging/prometheus.yml".source
+      config.environment.etc."logging/grafana/provisioning/dashboards/dashboards.yml".source
+      config.environment.etc."logging/grafana/provisioning/datasources/datasources.yml".source
+      config.environment.etc."logging/grafana/dashboards/gostrategy.json".source
+    ];
     serviceConfig = {
       Type = "simple";
       WorkingDirectory = "/etc/logging";
