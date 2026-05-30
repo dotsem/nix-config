@@ -9,19 +9,17 @@
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
-      package = pkgs.qemu_full;
-      ovmf.enable = true;
       runAsRoot = false;
     };
   };
 
-  # Enable Android Debug Bridge (ADB) - automatically configures android-udev rules globally
-  programs.adb.enable = true;
+  environment.systemPackages = with pkgs; [
+    android-tools
+  ];
 
-  # Dynamically add the custom user to required virtualization and debugging groups
+  # Dynamically add the custom user to required virtualization groups
   users.users.${config.custom.username}.extraGroups = [
     "docker"
     "libvirtd"
-    "adbusers"
   ];
 }
