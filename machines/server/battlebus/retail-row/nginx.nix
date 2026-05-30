@@ -3,7 +3,15 @@
     enable = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
-    virtualHosts."stratego.dotsem.be" = {
+    virtualHosts."gostrategy.dotsem.be" = {
+      locations."~ /\\.(?!well-known(/|$))" = {
+        return = "404";
+      };
+
+      locations."~* \\.(env|key|pem|pypirc|bak|config|sql|yaml|yml)(;|/|$)" = {
+        return = "404";
+      };
+
       locations."/" = {
         proxyPass = "http://localhost:1000"; # Frontend
       };
