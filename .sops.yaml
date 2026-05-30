@@ -10,7 +10,7 @@
 
 keys:
   # Your user master key (allows you to edit secrets from your dev workstation)
-  - &user_sem "age16dw69xlynvzvr3060h70r6l59ql8s2z85zjtsdlusxeuvs5rtp4q0z6jks"
+  - &user_sem "age1x4weu2q4ulwgpdadrz5khr95vt7k8kx0z29he4n402440vhkzcwss72m78"
 
   # Machine host keys (allows each respective machine to decrypt its own secrets at boot)
   - &server_retail "age1hxxxu4jl875hryqmyh5uxc0sv29xrkqmsq5cur2df07l3fc80f4q3hvu0e"
