@@ -53,6 +53,35 @@
               target_label = "image";
             }
           ];
+          pipeline_stages = [
+            {
+              regex = {
+                expression = ".*\\[(?P<level>[A-Z ]+)\\].*";
+              };
+            }
+            {
+              labels = {
+                level = null;
+              };
+            }
+            {
+              match = {
+                selector = "{container=\"gostrategy-backend\"}";
+                stages = [
+                  {
+                    regex = {
+                      expression = ".*\\[SECURITY\\].*";
+                    };
+                  }
+                  {
+                    labels = {
+                      security_event = "true";
+                    };
+                  }
+                ];
+              };
+            }
+          ];
         }
       ]);
     };

@@ -4,7 +4,7 @@ _rebuild host ip:
 
 # Install NixOS onto a clean target machine using nixos-anywhere
 install host ip:
-    nix run github:nix-community/nixos-anywhere -- --flake ".#{{host}}" --extra-files ./common/disko-config.nix "root@{{ip}}"
+    nix run github:nix-community/nixos-anywhere -- --flake ".#{{host}}" --extra-files ./common/disko-config.nix "nixos@{{ip}}"
 
 # Automate the deployment of master flake and .envrc files inside ~/prog
 setup-dev:

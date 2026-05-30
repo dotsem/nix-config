@@ -29,3 +29,17 @@ scrape_configs:
         target_label: "image"
       - source_labels: ["__meta_docker_container_log_stream"]
         target_label: "stream"
+    pipeline_stages:
+      # Annotate log level from our custom tags
+      - regex:
+          expression: '.*\[(?P<level>[A-Z ]+)\].*'
+      - labels:
+          level:
+      # Promote [SECURITY] logs to a dedicated label for alerting
+      - match:
+          selector: '{container="gostrategy-backend"}'
+          stages:
+            - regex:
+                expression: '.*\[SECURITY\].*'
+            - labels:
+                security_event: "true"

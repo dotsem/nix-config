@@ -26,6 +26,23 @@ services:
     networks:
       - logging-net
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: logging-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - /etc/logging/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /logging/prometheus:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    restart: unless-stopped
+    depends_on:
+      - loki
+    networks:
+      - logging-net
+
   grafana:
     image: grafana/grafana:latest
     container_name: logging-grafana
@@ -33,9 +50,14 @@ services:
       - "3000:3000"
     volumes:
       - /logging/grafana:/var/lib/grafana
+      - /etc/logging/grafana/provisioning:/etc/grafana/provisioning
+      - /etc/logging/grafana/dashboards:/var/lib/grafana/dashboards
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:?GRAFANA_PASSWORD must be provided}
     restart: unless-stopped
+    depends_on:
+      - prometheus
+      - loki
     networks:
       - logging-net
 
