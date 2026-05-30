@@ -26,7 +26,6 @@
     ];
     config = {
       common.default = [ "gnome" ];
-      niri.default = [ "gnome" ];
       kde.default = [ "kde" ];
     };
   };

@@ -28,7 +28,6 @@
     easyeffects
     crosspipe
     mpv
-    openshot-qt
     pavucontrol
     playerctl
     spotify
