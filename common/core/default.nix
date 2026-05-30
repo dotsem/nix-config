@@ -21,21 +21,10 @@
   i18n.defaultLocale = "en_US.UTF-8";
   console.keyMap = "be-latin1";
 
-  # SSD Trimming 
   services.fstrim.enable = true;
 
-  # Systemd Journal log size limiting
+  # cap journal to prevent log runaway on long-lived installs
   services.journald.extraConfig = "SystemMaxUse=100M";
 
-  # Nix garbage collection & store optimization
-  nix = {
-    settings.auto-optimise-store = true;
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 14d";
-    };
-  };
-
-  system.stateVersion = "25.11"; # Updated to current stable or recent
+  system.stateVersion = "25.11";
 }

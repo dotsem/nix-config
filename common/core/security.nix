@@ -1,11 +1,26 @@
 { config, pkgs, ... }: {
-  # Enable built-in NixOS firewall (equivalent to UFW setup)
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 22 ]; # Allow SSH
+    allowedTCPPorts = [ 22 ];
     allowPing = true;
   };
 
-  # Enable fail2ban for automated intrusion prevention
-  services.fail2ban.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+      MaxAuthTries = 5;
+    };
+  };
+
+  services.fail2ban = {
+    enable = true;
+    jails.sshd.settings = {
+      filter = "sshd";
+      bantime = "24h";
+      findtime = "10m";
+      maxretry = 5;
+    };
+  };
 }

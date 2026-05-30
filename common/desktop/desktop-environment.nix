@@ -1,21 +1,17 @@
 { config, pkgs, inputs, ... }: {
-  # SDDM Display Manager
-  services.displayManager.sddm.enable = true; 
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
 
-  # Niri (Wayland compositor)
+  # Niri — primary compositor
   programs.niri.enable = true;
 
+  # KDE Plasma 6 — fallback session
+  services.desktopManager.plasma6.enable = true;
+
+  # DankMaterialShell shell layer
   environment.systemPackages = [
     inputs.dms.packages.${pkgs.system}.default
   ];
-
-  # Hyprland
-  # programs.hyprland.enable = true;
-
-  # Sway
-  # programs.sway.enable = true;
-
-  # KDE Plasma6
-  services.desktopManager.plasma6.enable = true;
 }
-

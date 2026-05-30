@@ -57,7 +57,7 @@
     seahorse
     libsecret
 
-    # Thumbnailers & Document Support (font.sh/setup.sh equivalents)
+    # Thumbnailers & Document Support
     tumbler
     ffmpegthumbnailer
     libgsf
@@ -66,28 +66,19 @@
     # Wayland / Compositor Utilities
     alacritty
     brightnessctl
-    dunst
     fuzzel
     grim
-    hypridle
-    hyprlock
-    hyprpaper
-    hyprpicker
-    hyprshot
-    hyprsunset
-    mako
+    hyprlock   # standalone locker, works on niri
+    hyprpicker # color picker, wayland-native
     mangohud
     matugen
+    mako
     nwg-look
     slurp
     wl-clipboard
     wl-mirror
     wl-screenrec
-    wofi
     wtype
-    waybar
-    gtk-layer-shell
-    polybar
 
     # Gaming & Virtualization
     lutris
@@ -99,8 +90,6 @@
     # Other Utilities
     simple-scan
     tuxguitar
-    xsel
     blueman
-    os-prober
   ];
 }

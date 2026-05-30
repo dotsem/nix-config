@@ -2,7 +2,7 @@
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true;
-    trusted-users = [ "root" "@wheel" ];
+    trusted-users = [ "root" ];
     substituters = [
       "https://nix-community.cachix.org"
       "https://niri.cachix.org"
@@ -13,10 +13,9 @@
     ];
   };
 
-  # Garbage collection
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 7d";
+    options = "--delete-older-than 14d";
   };
 }
