@@ -20,6 +20,9 @@
 
   networking.hostName = "lonely-lodge";
 
+  sops.defaultSopsFile = ./secrets.yaml;
+  sops.secrets.grafana_admin_password = {};
+
   # Enable Docker for the logging stack
   virtualisation.docker.enable = true;
   users.users.sem.extraGroups = [ "docker" ];
@@ -49,7 +52,7 @@
         "${pkgs.coreutils}/bin/chown -R 10001:10001 /logging/loki"
         "${pkgs.coreutils}/bin/chown -R 472:472 /logging/grafana"
       ];
-      ExecStart = "${pkgs.docker-compose}/bin/docker-compose up";
+      ExecStart = "${pkgs.bash}/bin/bash -c 'GRAFANA_PASSWORD=$(cat ${config.sops.secrets.grafana_admin_password.path}) ${pkgs.docker-compose}/bin/docker-compose up'";
       ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
       Restart = "always";
     };

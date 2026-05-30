@@ -1,0 +1,31 @@
+# .sops.yaml - SOPS configuration file for managing recipient keys
+#
+# Before encrypting secrets, you must obtain:
+# 1. Your user's age public key (from ~/.ssh/id_ed25519.pub):
+#    ssh-to-age < ~/.ssh/id_ed25519.pub
+# 2. Each machine's age public key (from /etc/ssh/ssh_host_ed25519_key.pub on the machine):
+#    ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub
+#
+# Replace the placeholders below with the resulting "age..." public keys.
+
+keys:
+  # Your user master key (allows you to edit secrets from your dev workstation)
+  - &user_sem "age16dw69xlynvzvr3060h70r6l59ql8s2z85zjtsdlusxeuvs5rtp4q0z6jks"
+
+  # Machine host keys (allows each respective machine to decrypt its own secrets at boot)
+  - &server_retail "age1hxxxu4jl875hryqmyh5uxc0sv29xrkqmsq5cur2df07l3fc80f4q3hvu0e"
+  - &server_lonely "age186deupfpq3ztuk9qher083mwerfxclzmtfkrv3dc2e5jrvyerdjsyx5ym9"
+
+creation_rules:
+  # Secret matching rules by directory path
+  - path_regex: machines/server/battlebus/retail-row/secrets\.yaml$
+    key_groups:
+      - age:
+          - *user_sem
+          - *server_retail
+
+  - path_regex: machines/server/battlebus/lonely-lodge/secrets\.yaml$
+    key_groups:
+      - age:
+          - *user_sem
+          - *server_lonely

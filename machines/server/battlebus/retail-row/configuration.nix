@@ -14,6 +14,9 @@
 
   networking.hostName = "retail-row";
 
+  sops.defaultSopsFile = ./secrets.yaml;
+  sops.secrets.cloudflare_tunnel_token = {};
+
   # Enable QEMU Guest Agent for Proxmox
   services.qemuGuest.enable = true;
 
@@ -27,15 +30,14 @@
   virtualisation.docker.enable = true;
   users.users.sem.extraGroups = [ "docker" ];
 
-  # Securely run the Cloudflare Tunnel using your token from /etc/cloudflared/stratego.env
+  # Securely run the Cloudflare Tunnel using your token from sops-nix
   systemd.services.stratego-tunnel = {
     description = "Cloudflare Tunnel for Stratego";
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
-      EnvironmentFile = "/etc/cloudflared/stratego.env";
-      ExecStart = "${pkgs.cloudflared}/bin/cloudflared tunnel --no-autoupdate run --token \${CLOUDFLARED_TOKEN}";
+      ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.cloudflared}/bin/cloudflared tunnel --no-autoupdate run --token $(cat ${config.sops.secrets.cloudflare_tunnel_token.path})'";
       Restart = "on-failure";
       RestartSec = "5s";
     };

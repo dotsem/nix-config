@@ -15,6 +15,7 @@
     ./git.nix
     ./security.nix
     ./dotfiles-setup.nix
+    ./sops.nix
   ];
 
   time.timeZone = "Europe/Brussels";
