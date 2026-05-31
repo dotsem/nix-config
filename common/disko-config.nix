@@ -3,7 +3,7 @@
     disk = {
       main = {
         type = "disk";
-        device = lib.mkDefault "/dev/nvme0n1"; # Default for most machines
+        device = lib.mkDefault "/dev/sda"; # Default for most machines
         content = {
           type = "gpt";
           partitions = {
