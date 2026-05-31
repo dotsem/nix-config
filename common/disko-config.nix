@@ -3,7 +3,8 @@
     disk = {
       main = {
         type = "disk";
-        device = lib.mkDefault "/dev/sda"; # Default for most machines
+        # TODO: remove this once installing on a real machine
+        device = lib.mkDefault "/dev/sda"; 
         content = {
           type = "gpt";
           partitions = {

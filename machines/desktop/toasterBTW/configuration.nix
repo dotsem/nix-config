@@ -19,11 +19,16 @@
     };
   };
 
+  # Disk configuration (overriding disko-config.nix default)
+  # TODO: remove this once installing on a real machine
+  disko.devices.disk.main.device = "/dev/sda";
+
   services.thermald.enable = true;
   services.libinput.enable = true;
 
   # Dynamic GPU Control: Nvidia proprietary drivers with PRIME offloading & D3cold power management
-  services.xserver.videoDrivers = [ "nvidia" ];
+  # TODO: uncomment for real machine
+  # services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = true;

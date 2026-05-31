@@ -50,5 +50,6 @@
     pv
     ueberzugpp
     xxHash
+    rustdesk-flutter
   ];
 }

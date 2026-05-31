@@ -1,3 +1,3 @@
 {
-  custom.desktop.fullProfile.enable = true;
+  custom.desktop.fullProfile.enable = false;
 }
