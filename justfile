@@ -10,8 +10,8 @@ install host ip:
 setup-dev:
     bash ./scripts/setup-devshells.sh
 
-lonely-lodge: (rebuild "lonely-lodge" "192.168.200.6")
-retail-row:   (rebuild "retail-row"   "192.168.200.4")
+lonely-lodge: (rebuild "lonely-lodge" "192.168.200.103")
+retail-row:   (rebuild "retail-row"   "192.168.200.102")
 toast-test:   (rebuild "toasterBTW"   "192.168.200.5")
 
 # Prepare target configuration for initial fast bootstrap (essential apps only)

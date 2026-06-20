@@ -7,7 +7,7 @@ in {
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     virtualHosts."gostrategy.dotsem.be" = {
-      serverAliases = [ "192.168.200.4" ];
+      serverAliases = [ "192.168.200.102" ];
       locations = securityLocations // {
         "/" = {
           proxyPass = "http://localhost:1000"; # Frontend
@@ -22,7 +22,7 @@ in {
         "/metrics" = {
           proxyPass = "http://localhost:1001/metrics";
           extraConfig = ''
-            allow 192.168.200.6;
+            allow 192.168.200.103;
             deny all;
           '';
         };

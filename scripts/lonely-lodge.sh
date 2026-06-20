@@ -1,1 +1,1 @@
-nix run nixpkgs#nixos-rebuild -- switch --flake ../.#lonely-lodge --target-host sem@192.168.200.6 --ask-sudo-password
+nix run nixpkgs#nixos-rebuild -- switch --flake ../.#lonely-lodge --target-host sem@192.168.200.103 --ask-sudo-password

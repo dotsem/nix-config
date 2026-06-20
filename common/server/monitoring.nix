@@ -17,7 +17,7 @@
       };
       clients = [
         {
-          url = "http://192.168.200.6:3100/loki/api/v1/push";
+          url = "http://192.168.200.103:3100/loki/api/v1/push";
         }
       ];
       scrape_configs = [
