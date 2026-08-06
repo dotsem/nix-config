@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  hosts,
   ...
 }:
 {
@@ -13,6 +14,18 @@
   ];
 
   networking.hostName = "retail-row";
+
+  # Static IP — values sourced from lib/hosts.nix.
+  # Verify interface name with `ip link` on the machine; Proxmox VMs commonly use ens18.
+  networking.useDHCP = false;
+  networking.interfaces.ens18.ipv4.addresses = [
+    {
+      address = hosts.retail-row.ip;
+      prefixLength = hosts.retail-row.prefixLength;
+    }
+  ];
+  networking.defaultGateway = hosts.retail-row.gateway;
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets.cloudflare_tunnel_token = {};

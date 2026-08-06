@@ -22,6 +22,9 @@
       sops-nix,
       ...
     }@inputs:
+    let
+      hosts = import ./lib/hosts.nix;
+    in
     {
       nixosConfigurations = {
         nasaPC = nixpkgs.lib.nixosSystem {
@@ -52,7 +55,7 @@
 
         retail-row = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs hosts; };
           modules = [
             ./common/core
             inputs.disko.nixosModules.disko
@@ -65,7 +68,7 @@
 
         lonely-lodge = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs hosts; };
           modules = [
             ./common/core
             inputs.sops-nix.nixosModules.sops

@@ -1,3 +1,6 @@
+set dotenv-filename := "hosts.env"
+set dotenv-load
+
 # Rebuild and switch a NixOS flake target host
 rebuild host ip:
     nix run nixpkgs#nixos-rebuild -- switch --flake .#{{host}} --target-host sem@{{ip}} --ask-sudo-password
@@ -10,9 +13,8 @@ install host ip:
 setup-dev:
     bash ./scripts/setup-devshells.sh
 
-lonely-lodge: (rebuild "lonely-lodge" "192.168.200.103")
-retail-row:   (rebuild "retail-row"   "192.168.200.102")
-toast-test:   (rebuild "toasterBTW"   "192.168.200.5")
+lonely-lodge: (rebuild "lonely-lodge" env_var("LONELY_LODGE_IP"))
+retail-row:   (rebuild "retail-row"   env_var("RETAIL_ROW_IP"))
 
 # Prepare target configuration for initial fast bootstrap (essential apps only)
 bootstrap-prep:
