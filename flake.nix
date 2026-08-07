@@ -78,6 +78,19 @@
             }
           ];
         };
+
+        adguard-home = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs hosts; };
+          modules = [
+            ./common/core
+            inputs.sops-nix.nixosModules.sops
+            ./machines/server/battlebus/adguard-home/configuration.nix
+            {
+              custom.server.description = "AdGuard Home DNS server";
+            }
+          ];
+        };
       };
     };
 }

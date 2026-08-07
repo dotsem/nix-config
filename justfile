@@ -13,6 +13,7 @@ install host ip:
 setup-dev:
     bash ./scripts/setup-devshells.sh
 
+adguard-home:  (rebuild "adguard-home"  env_var("ADGUARD_HOME_IP"))
 lonely-lodge: (rebuild "lonely-lodge" env_var("LONELY_LODGE_IP"))
 retail-row:   (rebuild "retail-row"   env_var("RETAIL_ROW_IP"))
 

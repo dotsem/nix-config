@@ -24,7 +24,10 @@
       prefixLength = hosts.retail-row.prefixLength;
     }
   ];
-  networking.defaultGateway = hosts.retail-row.gateway;
+  networking.defaultGateway = {
+    address = hosts.retail-row.gateway;
+    interface = "ens18";
+  };
   networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
   sops.defaultSopsFile = ./secrets.yaml;
