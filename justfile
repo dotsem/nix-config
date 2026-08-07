@@ -8,11 +8,12 @@ rebuild host ip action="switch":
 rebuild-all parallel="false":
     #!/usr/bin/env bash
     if [ "{{parallel}}" = "true" ]; then
-        just adguard-home & just lonely-lodge & just retail-row & wait
+        just adguard-home & just lonely-lodge & just retail-row & just tailscale & wait
     else
         just adguard-home
         just lonely-lodge
         just retail-row
+        just tailscale
     fi
 
 # Install NixOS onto a clean target machine using nixos-anywhere
