@@ -65,11 +65,11 @@
         safe_search = {
           enabled = false;
         };
-        rewrites = [
-          { domain = hosts.adguard-home.domain; answer = hosts.adguard-home.ip; enabled = true; }
-          { domain = hosts.retail-row.domain; answer = hosts.retail-row.ip; enabled = true; }
-          { domain = hosts.lonely-lodge.domain; answer = hosts.lonely-lodge.ip; enabled = true; }
-        ];
+        rewrites = lib.mapAttrsToList (name: host: {
+          domain = host.domain;
+          answer = host.ip;
+          enabled = true;
+        }) hosts;
       };
     };
   };
