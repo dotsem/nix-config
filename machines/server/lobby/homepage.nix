@@ -97,9 +97,9 @@
         "Applications" = [
           {
             "GoStrategy" = {
-              icon = "nginx.png";
+              icon = "gomft.png";
               href = "https://gostrategy.dotsem.be";
-              description = "Production GoStrategy Server";
+              siteMonitor = "https://gostrategy.dotsem.be";
             };
           }
         ];
