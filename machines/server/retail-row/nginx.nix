@@ -1,6 +1,6 @@
 { config, pkgs, hosts, ... }:
 let
-  securityLocations = import ../../../../common/server/nginx-blocking.nix;
+  securityLocations = import ../../../common/server/nginx-blocking.nix;
 in {
   services.nginx = {
     enable = true;
