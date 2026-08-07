@@ -2,7 +2,7 @@
 # Git pre-commit hook: Verifies hosts.env is up-to-date with lib/hosts.nix
 
 # Setup:
-# ln -sf scripts/pre-commit-check-hosts.sh .git/hooks/pre-commit
+# ln -sf scripts/pre-commit-check-hosts.sh .git/hooks/
 # chmod +x scripts/pre-commit-check-hosts.sh
 
 HOSTS_NIX="lib/hosts.nix"
