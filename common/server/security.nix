@@ -9,7 +9,7 @@
   services.openssh.settings = {
     PasswordAuthentication = false;
     KbdInteractiveAuthentication = false;
-    PermitRootLogin = "no";
+    PermitRootLogin = "prohibit-password";
   };
 
   # Modern collaborative brute-force protection
