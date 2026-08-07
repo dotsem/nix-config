@@ -61,7 +61,7 @@
             inputs.disko.nixosModules.disko
             inputs.sops-nix.nixosModules.sops
             ./common/disko-config.nix
-            ./machines/server/battlebus/retail-row/configuration.nix
+            ./machines/server/retail-row/configuration.nix
             { custom.server.description = "production server for GoStrategy"; }
           ];
         };
@@ -72,7 +72,7 @@
           modules = [
             ./common/core
             inputs.sops-nix.nixosModules.sops
-            ./machines/server/battlebus/lonely-lodge/configuration.nix
+            ./machines/server/lonely-lodge/configuration.nix
             {
               custom.server.description = "logging stack with grafana, loki and promtail, logs for all nixos machines";
             }
@@ -85,9 +85,22 @@
           modules = [
             ./common/core
             inputs.sops-nix.nixosModules.sops
-            ./machines/server/battlebus/adguard-home/configuration.nix
+            ./machines/server/adguard-home/configuration.nix
             {
               custom.server.description = "AdGuard Home DNS server";
+            }
+          ];
+        };
+
+        tailscale = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs hosts; };
+          modules = [
+            ./common/core
+            inputs.sops-nix.nixosModules.sops
+            ./machines/server/tailscale/configuration.nix
+            {
+              custom.server.description = "Tailscale Subnet Router & Exit Node LXC";
             }
           ];
         };
