@@ -57,6 +57,7 @@
       config.environment.etc."logging/grafana/provisioning/dashboards/dashboards.yml".source
       config.environment.etc."logging/grafana/provisioning/datasources/datasources.yml".source
       config.environment.etc."logging/grafana/dashboards/gostrategy.json".source
+      config.environment.etc."logging/grafana/dashboards/server-snack.json".source
     ];
     serviceConfig = {
       Type = "simple";
