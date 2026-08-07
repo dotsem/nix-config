@@ -45,7 +45,7 @@ This repository uses NixOS 26.05 and the following declarative tools:
 | **nasaPC** | Desktop | Dynamic (DHCP) | High-performance workstation. NVIDIA proprietary drivers, Steam, GameMode optimizations. | `machines/desktop/nasaPC` |
 | **toasterBTW** | Workstation | Dynamic (DHCP) | Mobile laptop setup. TLP power management, Intel/NVIDIA hybrid graphics (PRIME offloading), thermald. | `machines/desktop/toasterBTW` |
 | **adguard-home** | Server (LXC) | `192.168.10.100` | Network-wide DNS resolution and ad-blocking server. | `machines/server/adguard-home` |
-| **lobby** | Server (LXC) | `192.168.10.101` | Central homelab gateway dashboard (Homepage) on HTTP (80) & HTTPS (443). | `machines/server/lobby` |
+| **lobby** | Server (LXC) | `192.168.10.101` | Central homelab gateway dashboard (Homepage) on HTTP (80). | `machines/server/lobby` |
 | **retail-row** | Server (VM) | `192.168.10.102` | Production application server hosting GoStrategy with Nginx reverse proxy. | `machines/server/retail-row` |
 | **lonely-lodge** | Server (LXC) | `192.168.10.103` | Telemetry & log aggregation node running Docker-managed Grafana, Loki, Promtail, and Prometheus. | `machines/server/lonely-lodge` |
 | **tailscale** | Server (LXC) | `192.168.10.110` | Secure remote access subnet router and exit node. | `machines/server/tailscale` |

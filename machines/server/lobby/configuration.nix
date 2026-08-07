@@ -20,22 +20,11 @@
 
   networking.hostName = "lobby";
 
-  # Ensure self-signed TLS certificate is available for port 443 (HTTPS)
-  systemd.services.nginx.preStart = ''
-    if [ ! -f /var/lib/nginx/cert.pem ]; then
-      mkdir -p /var/lib/nginx
-      ${pkgs.openssl}/bin/openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
-        -keyout /var/lib/nginx/cert.key \
-        -out /var/lib/nginx/cert.pem \
-        -subj "/CN=lobby.home"
-      chmod 600 /var/lib/nginx/cert.key
-    fi
-  '';
-
   # Native Homepage Dashboard Service
   services.homepage-dashboard = {
     enable = true;
     listenPort = 8080;
+    allowedHosts = "*";
 
     settings = {
       title = "Lobby Gateway";
@@ -132,20 +121,15 @@
     ];
   };
 
-  # Reverse proxy Homepage on HTTP (80) & HTTPS (443)
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;
-    recommendedTlsSettings = true;
     virtualHosts."lobby.home" = {
       default = true;
       serverAliases = [
         hosts.lobby.ip
         "_"
       ];
-      addSSL = true;
-      sslCertificate = "/var/lib/nginx/cert.pem";
-      sslCertificateKey = "/var/lib/nginx/cert.key";
       locations."/" = {
         proxyPass = "http://127.0.0.1:8080";
         proxyWebsockets = true;
@@ -153,9 +137,5 @@
     };
   };
 
-  # Open HTTP (80) and HTTPS (443) firewall ports
-  networking.firewall.allowedTCPPorts = [
-    80
-    443
-  ];
+  networking.firewall.allowedTCPPorts = [ 80 ];
 }
