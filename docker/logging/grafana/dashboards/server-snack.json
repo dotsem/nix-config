@@ -1,0 +1,205 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "custom": {
+            "align": "auto",
+            "cellOptions": { "type": "auto" },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "orange", "value": 75 },
+              { "color": "red", "value": 90 }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Hostname" },
+            "properties": [
+              { "id": "custom.cellOptions", "value": { "type": "auto" } },
+              { "id": "width", "value": 180 }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "CPU %" },
+            "properties": [
+              { "id": "unit", "value": "percent" },
+              { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "gauge" } }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Memory %" },
+            "properties": [
+              { "id": "unit", "value": "percent" },
+              { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "gauge" } }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Disk %" },
+            "properties": [
+              { "id": "unit", "value": "percent" },
+              { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "gauge" } }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Disk Read" },
+            "properties": [
+              { "id": "unit", "value": "Bps" }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Disk Write" },
+            "properties": [
+              { "id": "unit", "value": "Bps" }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Net In" },
+            "properties": [
+              { "id": "unit", "value": "bps" }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Net Out" },
+            "properties": [
+              { "id": "unit", "value": "bps" }
+            ]
+          }
+        ]
+      },
+      "gridPos": { "h": 18, "w": 24, "x": 0, "y": 0 },
+      "id": 1,
+      "options": {
+        "footer": { "fields": "", "reducer": ["sum"], "show": false },
+        "frameIndex": 0,
+        "showHeader": true,
+        "sortBy": [{ "displayName": "Hostname", "desc": false }]
+      },
+      "pluginVersion": "10.0.0",
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+          "editorMode": "code",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[2m])) * 100)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "CPU %",
+          "refId": "CPU"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+          "editorMode": "code",
+          "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Memory %",
+          "refId": "Memory"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+          "editorMode": "code",
+          "expr": "100 - ((node_filesystem_avail_bytes{mountpoint=\"/\"} / node_filesystem_size_bytes{mountpoint=\"/\"}) * 100)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Disk %",
+          "refId": "Disk"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+          "editorMode": "code",
+          "expr": "sum by (instance) (rate(node_disk_read_bytes_total[2m]))",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Disk Read",
+          "refId": "DiskRead"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+          "editorMode": "code",
+          "expr": "sum by (instance) (rate(node_disk_written_bytes_total[2m]))",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Disk Write",
+          "refId": "DiskWrite"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+          "editorMode": "code",
+          "expr": "sum by (instance) (rate(node_network_receive_bytes_total{device!~\"lo|veth.*|docker.*\"}[2m])) * 8",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Net In",
+          "refId": "NetIn"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+          "editorMode": "code",
+          "expr": "sum by (instance) (rate(node_network_transmit_bytes_total{device!~\"lo|veth.*|docker.*\"}[2m])) * 8",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Net Out",
+          "refId": "NetOut"
+        }
+      ],
+      "title": "Server Health Overview (Quick Snack)",
+      "transformations": [
+        {
+          "id": "seriesToColumns",
+          "options": { "byField": "instance" }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": { "Time": true, "Time 1": true, "Time 2": true, "Time 3": true, "Time 4": true, "Time 5": true, "Time 6": true },
+            "indexByName": {
+              "instance": 0,
+              "Value #CPU": 1,
+              "Value #Memory": 2,
+              "Value #Disk": 3,
+              "Value #DiskRead": 4,
+              "Value #DiskWrite": 5,
+              "Value #NetIn": 6,
+              "Value #NetOut": 7
+            },
+            "renameByName": {
+              "instance": "Hostname",
+              "Value #CPU": "CPU %",
+              "Value #Memory": "Memory %",
+              "Value #Disk": "Disk %",
+              "Value #DiskRead": "Disk Read",
+              "Value #DiskWrite": "Disk Write",
+              "Value #NetIn": "Net In",
+              "Value #NetOut": "Net Out"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["overview", "servers"],
+  "time": { "from": "now-5m", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Server Health Overview",
+  "uid": "server-snack-overview",
+  "version": 1
+}

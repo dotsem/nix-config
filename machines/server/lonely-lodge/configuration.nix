@@ -30,13 +30,14 @@
 
   # Ensure the docker-compose and config files are present on the system
   environment.etc = {
-    "logging/docker-compose.yml".source = ./../../../../docker/logging/docker-compose.yml;
-    "logging/loki-config.yaml".source = ./../../../../docker/logging/loki-config.yaml;
-    "logging/promtail-config.yaml".source = ./../../../../docker/logging/promtail-config.yaml;
-    "logging/prometheus.yml".source = ./../../../../docker/logging/prometheus.yml;
-    "logging/grafana/provisioning/dashboards/dashboards.yml".source = ./../../../../docker/logging/grafana/provisioning/dashboards/dashboards.yml;
-    "logging/grafana/provisioning/datasources/datasources.yml".source = ./../../../../docker/logging/grafana/provisioning/datasources/datasources.yml;
-    "logging/grafana/dashboards/gostrategy.json".source = ./../../../../docker/logging/grafana/dashboards/gostrategy.json;
+    "logging/docker-compose.yml".source = ../../../docker/logging/docker-compose.yml;
+    "logging/loki-config.yaml".source = ../../../docker/logging/loki-config.yaml;
+    "logging/promtail-config.yaml".source = ../../../docker/logging/promtail-config.yaml;
+    "logging/prometheus.yml".source = ../../../docker/logging/prometheus.yml;
+    "logging/grafana/provisioning/dashboards/dashboards.yml".source = ../../../docker/logging/grafana/provisioning/dashboards/dashboards.yml;
+    "logging/grafana/provisioning/datasources/datasources.yml".source = ../../../docker/logging/grafana/provisioning/datasources/datasources.yml;
+    "logging/grafana/dashboards/gostrategy.json".source = ../../../docker/logging/grafana/dashboards/gostrategy.json;
+    "logging/grafana/dashboards/server-snack.json".source = ../../../docker/logging/grafana/dashboards/server-snack.json;
   };
 
   # Systemd service to ensure the logging stack is running
