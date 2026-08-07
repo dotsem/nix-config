@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  hosts,
   modulesPath,
   ...
 }:

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, hosts, ... }:
 let
   securityLocations = import ../../../../common/server/nginx-blocking.nix;
 in {
@@ -7,7 +7,7 @@ in {
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     virtualHosts."gostrategy.dotsem.be" = {
-      serverAliases = [ "192.168.200.102" ];
+      serverAliases = [ hosts.retail-row.ip "retail-row.home" ];
       locations = securityLocations // {
         "/" = {
           proxyPass = "http://localhost:1000"; # Frontend
@@ -22,7 +22,7 @@ in {
         "/metrics" = {
           proxyPass = "http://localhost:1001/metrics";
           extraConfig = ''
-            allow 192.168.200.103;
+            allow ${hosts.lonely-lodge.ip};
             deny all;
           '';
         };
