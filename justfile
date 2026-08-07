@@ -3,7 +3,17 @@ set dotenv-load
 
 # Rebuild and switch a NixOS flake target host
 rebuild host ip:
-    nix run nixpkgs#nixos-rebuild -- switch --flake .#{{host}} --target-host sem@{{ip}} --ask-sudo-password
+    nix run nixpkgs#nixos-rebuild -- switch --flake .#{{host}} --target-host root@{{ip}}
+
+rebuild-all parallel="false":
+    #!/usr/bin/env bash
+    if [ "{{parallel}}" = "true" ]; then
+        just adguard-home & just lonely-lodge & just retail-row & wait
+    else
+        just adguard-home
+        just lonely-lodge
+        just retail-row
+    fi
 
 # Install NixOS onto a clean target machine using nixos-anywhere
 install host ip:
