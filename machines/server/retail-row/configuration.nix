@@ -8,8 +8,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../../../common/core/default.nix
-    ../../../../common/server/default.nix
+    ../../../common/core/default.nix
+    ../../../common/server/default.nix
     ./nginx.nix
   ];
 

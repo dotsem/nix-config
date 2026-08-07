@@ -2,17 +2,18 @@ set dotenv-filename := "hosts.env"
 set dotenv-load
 
 # Rebuild and switch a NixOS flake target host
-rebuild host ip:
-    nix run nixpkgs#nixos-rebuild -- switch --flake .#{{host}} --target-host root@{{ip}}
+rebuild host ip action="switch":
+    nix run nixpkgs#nixos-rebuild -- {{action}} --flake .#{{host}} --target-host root@{{ip}}
 
 rebuild-all parallel="false":
     #!/usr/bin/env bash
     if [ "{{parallel}}" = "true" ]; then
-        just adguard-home & just lonely-lodge & just retail-row & wait
+        just adguard-home & just lonely-lodge & just retail-row & just tailscale & wait
     else
         just adguard-home
         just lonely-lodge
         just retail-row
+        just tailscale
     fi
 
 # Install NixOS onto a clean target machine using nixos-anywhere
@@ -24,6 +25,7 @@ setup-dev:
     bash ./scripts/setup-devshells.sh
 
 adguard-home:  (rebuild "adguard-home"  env_var("ADGUARD_HOME_IP"))
+tailscale:     (rebuild "tailscale"     env_var("TAILSCALE_IP"))
 lonely-lodge: (rebuild "lonely-lodge" env_var("LONELY_LODGE_IP"))
 retail-row:   (rebuild "retail-row"   env_var("RETAIL_ROW_IP"))
 
