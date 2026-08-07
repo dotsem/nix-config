@@ -2,8 +2,8 @@ set dotenv-filename := "hosts.env"
 set dotenv-load
 
 # Rebuild and switch a NixOS flake target host
-rebuild host ip:
-    nix run nixpkgs#nixos-rebuild -- switch --flake .#{{host}} --target-host root@{{ip}}
+rebuild host ip action="switch":
+    nix run nixpkgs#nixos-rebuild -- {{action}} --flake .#{{host}} --target-host root@{{ip}}
 
 rebuild-all parallel="false":
     #!/usr/bin/env bash
