@@ -92,6 +92,19 @@
           ];
         };
 
+        lobby = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs hosts; };
+          modules = [
+            ./common/core
+            inputs.sops-nix.nixosModules.sops
+            ./machines/server/lobby/configuration.nix
+            {
+              custom.server.description = "Homepage gateway dashboard server";
+            }
+          ];
+        };
+
         tailscale = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs hosts; };
