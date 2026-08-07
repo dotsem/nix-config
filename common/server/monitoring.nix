@@ -7,6 +7,14 @@
 {
   users.users.promtail.extraGroups = [ "docker" ];
 
+  # System metrics exporter for Prometheus
+  services.prometheus.exporters.node = {
+    enable = true;
+    enabledCollectors = [ "systemd" ];
+    port = 9100;
+    openFirewall = true;
+  };
+
   # Shipping logs to Loki on lonely-lodge
   services.promtail = {
     enable = true;
@@ -17,7 +25,7 @@
       };
       clients = [
         {
-          url = "http://192.168.200.103:3100/loki/api/v1/push";
+          url = "http://lonely-lodge.home:3100/loki/api/v1/push";
         }
       ];
       scrape_configs = [
