@@ -32,7 +32,7 @@
     address = hosts.adguard-home.gateway;
     interface = "eth0";
   };
-  networking.nameservers = [ "1.1.1.1" ];
+  networking.nameservers = lib.mkForce [ "1.1.1.1" ];
 
   # Disable systemd-resolved so AdGuard Home can bind to port 53
   services.resolved.enable = false;
