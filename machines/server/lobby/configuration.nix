@@ -72,11 +72,11 @@
           {
             "AdGuard Home" = {
               icon = "adguard-home.png";
-              href = "http://192.168.10.100";
+              href = "http://192.168.10.100:3000";
               description = "DNS & Ad Blocker";
               widget = {
                 type = "adguard";
-                url = "http://192.168.10.100";
+                url = "http://192.168.10.100:3000";
               };
             };
           }
