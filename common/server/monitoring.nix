@@ -5,7 +5,7 @@
   ...
 }:
 {
-  users.users.promtail.extraGroups = [ "docker" ];
+  users.users.promtail.extraGroups = lib.optionals config.virtualisation.docker.enable [ "docker" ];
 
   # System metrics exporter for Prometheus
   services.prometheus.exporters.node = {

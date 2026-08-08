@@ -12,11 +12,18 @@
     PermitRootLogin = lib.mkForce "prohibit-password";
   };
 
-  # Modern collaborative brute-force protection
-  services.crowdsec = {
+  # Modern collaborative brute-force protection (disabled in containers)
+  services.crowdsec = lib.mkIf (!config.boot.isContainer) {
     enable = true;
     autoUpdateService = true;
     openFirewall = true;
+    localConfig.acquisitions = [
+      {
+        source = "journalctl";
+        journalctl_filter = [ "_SYSTEMD_UNIT=sshd.service" ];
+        labels.type = "syslog";
+      }
+    ];
     hub = {
       collections = [
         "crowdsecurity/linux"

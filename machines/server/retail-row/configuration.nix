@@ -28,7 +28,7 @@
     address = hosts.retail-row.gateway;
     interface = "ens18";
   };
-  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
+  networking.nameservers = [ hosts.adguard-home.ip "1.1.1.1" ];
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets.cloudflare_tunnel_token = {};

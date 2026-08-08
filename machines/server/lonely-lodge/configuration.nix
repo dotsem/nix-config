@@ -22,7 +22,12 @@
   networking.hostName = "lonely-lodge";
 
   sops.defaultSopsFile = ./secrets.yaml;
-  sops.secrets.grafana_admin_password = {};
+  sops.secrets.grafana_admin_password = {
+    restartUnits = [ "logging-stack.service" ];
+  };
+  sops.templates."grafana-env".content = ''
+    GRAFANA_PASSWORD=${config.sops.placeholder.grafana_admin_password}
+  '';
 
   # Enable Docker for the logging stack
   virtualisation.docker.enable = true;
@@ -46,8 +51,13 @@
     after = [
       "network-online.target"
       "docker.service"
+      "sops-nix.service"
     ];
-    wants = [ "network-online.target" ];
+    wants = [
+      "network-online.target"
+      "docker.service"
+      "sops-nix.service"
+    ];
     wantedBy = [ "multi-user.target" ];
     restartTriggers = [
       config.environment.etc."logging/docker-compose.yml".source
@@ -62,11 +72,13 @@
     serviceConfig = {
       Type = "simple";
       WorkingDirectory = "/etc/logging";
+      EnvironmentFile = [ "-${config.sops.templates."grafana-env".path}" ];
       ExecStartPre = [
         # Ensure directories exist
         "${pkgs.coreutils}/bin/mkdir -p /logging/loki"
         "${pkgs.coreutils}/bin/mkdir -p /logging/grafana"
         "${pkgs.coreutils}/bin/mkdir -p /logging/prometheus"
+        "${pkgs.coreutils}/bin/mkdir -p /logging/config"
         "${pkgs.coreutils}/bin/mkdir -p /logging/config/grafana"
 
         # Dereference symlinks using cp -rL into host-local stateful config partition
@@ -82,7 +94,7 @@
         "${pkgs.coreutils}/bin/chown -R 65534:65534 /logging/prometheus"
         "${pkgs.coreutils}/bin/chown -R 65534:65534 /logging/config/prometheus.yml"
       ];
-      ExecStart = "${pkgs.bash}/bin/bash -c 'GRAFANA_PASSWORD=$(cat ${config.sops.secrets.grafana_admin_password.path}) ${pkgs.docker-compose}/bin/docker-compose up'";
+      ExecStart = "${pkgs.docker-compose}/bin/docker-compose up";
       ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
       Restart = "always";
     };

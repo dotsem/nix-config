@@ -12,13 +12,13 @@
 
   # DankMaterialShell shell layer
   environment.systemPackages = [
-    inputs.dms.packages.${pkgs.system}.default
+    inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default
     pkgs.quickshell
     pkgs.xwayland-satellite
   ];
 
   # Register the systemd service from the dms package
-  systemd.packages = [ inputs.dms.packages.${pkgs.system}.default ];
+  systemd.packages = [ inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default ];
 
   # Enable the user service for the graphical session
   systemd.user.services.dms = {
