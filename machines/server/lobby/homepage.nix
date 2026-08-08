@@ -57,7 +57,6 @@
             "Reboot-Van" = {
               icon = "proxmox.png";
               href = "https://192.168.10.10:8006";
-              description = "Reboot-Van hypervisor node";
               widget = {
                 type = "proxmox";
                 url = "https://192.168.10.10:8006";
@@ -71,7 +70,6 @@
             "Supply-Drop" = {
               icon = "proxmox.png";
               href = "https://192.168.10.11:8006";
-              description = "Supply-Drop hypervisor node";
               widget = {
                 type = "proxmox";
                 url = "https://192.168.10.11:8006";
