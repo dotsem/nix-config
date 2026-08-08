@@ -56,11 +56,11 @@
           {
             "Reboot-Van" = {
               icon = "proxmox.png";
-              href = "http://192.168.10.10:8006";
+              href = "https://192.168.10.10:8006";
               description = "Reboot-Van hypervisor node";
               widget = {
                 type = "proxmox";
-                url = "http://192.168.10.10:8006";
+                url = "https://192.168.10.10:8006";
                 username = "lobby@pve!homepage";
                 password = "{{HOMEPAGE_VAR_PROXMOX_KEY}}";
                 node = "reboot-van";
@@ -70,11 +70,11 @@
           {
             "Supply-Drop" = {
               icon = "proxmox.png";
-              href = "http://192.168.10.11:8006";
+              href = "https://192.168.10.11:8006";
               description = "Supply-Drop hypervisor node";
               widget = {
                 type = "proxmox";
-                url = "http://192.168.10.11:8006";
+                url = "https://192.168.10.11:8006";
                 username = "lobby@pve!homepage";
                 password = "{{HOMEPAGE_VAR_PROXMOX_KEY}}";
                 node = "supply-drop";
