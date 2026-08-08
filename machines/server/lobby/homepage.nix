@@ -140,13 +140,13 @@
               {
                 "Server Snack" = {
                   icon = "/assets/grafana-alerts-dashboard.png";
-                  href = "http://${hosts.lonely-lodge.ip}:3000/d/server-snack/server-snack?orgId=1&from=now-24h&to=now&timezone=browser&refresh=30s";
+                  href = "http://${hosts.lonely-lodge.ip}:3000/d/server-snack-overview";
                 };
               }
               {
                 "GoStrategy Operations" = {
                   icon = "gomft.png";
-                  href = "http://${hosts.lonely-lodge.ip}:3000/d/gostrategy-ops/gostrategy-e28094-operations?orgId=1&from=now-24h&to=now&timezone=browser&refresh=30s";
+                  href = "http://${hosts.lonely-lodge.ip}:3000/d/gostrategy-ops";
                 };
               }
             ];
