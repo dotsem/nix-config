@@ -63,7 +63,7 @@
                 url = "https://192.168.10.10:8006";
                 username = "lobby@pve!homepage";
                 password = "{{HOMEPAGE_VAR_PROXMOX_KEY}}";
-                node = "reboot-van";
+                node = "rebootvan";
               };
             };
           }
@@ -77,7 +77,7 @@
                 url = "https://192.168.10.11:8006";
                 username = "lobby@pve!homepage";
                 password = "{{HOMEPAGE_VAR_PROXMOX_KEY}}";
-                node = "supply-drop";
+                node = "supplydrop";
               };
             };
           }
