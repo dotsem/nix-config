@@ -154,7 +154,7 @@
           {
             "Prometheus" = {
               icon = "prometheus.png";
-              href = "http://${hosts.lonely-lodge.ip}:9090";
+              href = "http://${hosts.lonely-lodge.ip}:9090/targets";
             };
           }
         ];
