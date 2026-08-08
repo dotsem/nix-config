@@ -26,9 +26,9 @@
       theme = "dark";
       color = "slate";
       headerStyle = "clean";
-      background = "https://upload.wikimedia.org/wikipedia/commons/5/53/John_Constable_-_Salisbury_Cathedral_from_the_Bishop%27s_Garden_-_Google_Art_Project.jpg";
+      background = "/assets/background.jpg";
       cardBlur = "xl";
-      favicon = "https://dotsem.be/_app/immutable/assets/favicon.BbzKcFA8.png";
+      favicon = "/assets/favicon.png";
       quicklaunch = {
         searchDescriptions = true;
         hideInternetSearch = false;
@@ -139,7 +139,7 @@
             "Dashboards" = [
               {
                 "Server Snack" = {
-                  icon = "https://cdn.jsdelivr.net/gh/selfhst/icons/png/grafana-alerts-dashboard.png";
+                  icon = "/assets/grafana-alerts-dashboard.png";
                   href = "http://${hosts.lonely-lodge.ip}:3000/d/server-snack/server-snack?orgId=1&from=now-24h&to=now&timezone=browser&refresh=30s";
                 };
               }
