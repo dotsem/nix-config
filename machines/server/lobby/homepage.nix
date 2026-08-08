@@ -173,6 +173,10 @@
     ];
 
     customCSS = ''
+      :root {
+        --theme-color: 38, 36, 23;
+      }
+
       /* Search bar styling */
       form.information-widget-search {
         min-width: 360px !important;
@@ -185,7 +189,7 @@
         border-radius: 0.75rem !important;
         backdrop-filter: blur(16px) !important;
         -webkit-backdrop-filter: blur(16px) !important;
-        background-color: rgba(15, 23, 42, 0.85) !important;
+        background-color: rgba(var(--theme-color), 0.85) !important;
         border: 1px solid rgba(255, 255, 255, 0.15) !important;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
         color: #ffffff !important;
@@ -194,13 +198,13 @@
 
       form.information-widget-search input:focus,
       #search-input:focus {
-        background-color: rgba(15, 23, 42, 0.95) !important;
+        background-color: rgba(var(--theme-color), 0.95) !important;
         border-color: rgba(255, 255, 255, 0.35) !important;
       }
 
-      /* Dark frosted glass cards for high contrast against wallpaper */
+      /* Frosted glass cards */
       .service-card {
-        background-color: rgba(15, 23, 42, 0.85) !important;
+        background-color: rgba(var(--theme-color), 0.85) !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         backdrop-filter: blur(16px) !important;
         -webkit-backdrop-filter: blur(16px) !important;
@@ -208,17 +212,17 @@
       }
 
       .service-card:hover {
-        background-color: rgba(15, 23, 42, 0.95) !important;
+        background-color: rgba(var(--theme-color), 0.95) !important;
         border-color: rgba(255, 255, 255, 0.22) !important;
       }
 
-      /* Clean readable text inside cards */
+      /* Text inside cards */
       .service-card span,
       .service-card p {
         color: #f1f5f9 !important;
       }
 
-      /* Clean category headers without blurry smudges */
+      /* Category headers */
       .group-title, h2, h3 {
         color: #ffffff !important;
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7) !important;
