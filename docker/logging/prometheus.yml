@@ -15,4 +15,4 @@ scrape_configs:
           - "lonely-lodge.home:9100"
           - "adguard-home.home:9100"
           - "tailscale.home:9100"
-
+          - "lobby.home:9100"
