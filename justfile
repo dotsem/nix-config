@@ -8,9 +8,10 @@ rebuild host ip action="switch":
 rebuild-all parallel="false":
     #!/usr/bin/env bash
     if [ "{{parallel}}" = "true" ]; then
-        just adguard-home & just lonely-lodge & just retail-row & just tailscale & wait
+        just adguard-home & just lobby & just lonely-lodge & just retail-row & just tailscale & wait
     else
         just adguard-home
+        just lobby
         just lonely-lodge
         just retail-row
         just tailscale
@@ -25,6 +26,7 @@ setup-dev:
     bash ./scripts/setup-devshells.sh
 
 adguard-home:  (rebuild "adguard-home"  env_var("ADGUARD_HOME_IP"))
+lobby:         (rebuild "lobby"         env_var("LOBBY_IP"))
 tailscale:     (rebuild "tailscale"     env_var("TAILSCALE_IP"))
 lonely-lodge: (rebuild "lonely-lodge" env_var("LONELY_LODGE_IP"))
 retail-row:   (rebuild "retail-row"   env_var("RETAIL_ROW_IP"))
