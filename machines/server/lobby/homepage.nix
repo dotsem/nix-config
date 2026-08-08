@@ -87,7 +87,6 @@
             "AdGuard Home" = {
               icon = "adguard-home.png";
               href = "http://192.168.10.100:3000";
-              description = "DNS & Ad Blocker";
               widget = {
                 type = "adguard";
                 url = "http://192.168.10.100:3000";
@@ -95,10 +94,9 @@
             };
           }
           {
-            "Tailscale" = {
+            "Tailscale Dashboard" = {
               icon = "tailscale.png";
               href = "https://console.tailscale.com/admin/machines";
-              description = "Tailscale dashboard";
             };
           }
         ];
@@ -109,14 +107,28 @@
             "Grafana" = {
               icon = "grafana.png";
               href = "http://192.168.10.103:3000";
-              description = "Metrics & Telemetry Dashboards";
             };
+          }
+          {
+            "Dashboards" = [
+              {
+                "Server Snack" = {
+                  icon = "grafana-alerts-dashboard.png";
+                  href = "http://192.168.10.103:3000/d/server-snack/server-snack?orgId=1&from=now-24h&to=now&timezone=browser&refresh=30s";
+                };
+              }
+              {
+                "GoStrategy Operations" = {
+                  icon = "gomft.png";
+                  href = "http://192.168.10.103:3000/d/gostrategy-ops/gostrategy-e28094-operations?orgId=1&from=now-24h&to=now&timezone=browser&refresh=30s";
+                };
+              }
+            ];
           }
           {
             "Prometheus" = {
               icon = "prometheus.png";
               href = "http://192.168.10.103:9090";
-              description = "Metrics Scraper & Targets";
             };
           }
         ];
