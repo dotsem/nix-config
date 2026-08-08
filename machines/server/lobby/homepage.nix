@@ -30,7 +30,7 @@
         opacity = 50;
         blur = "xs";
       };
-      cardBlur = "sm";
+      cardBlur = "lg";
       favicon = "https://dotsem.be/_app/immutable/assets/favicon.BbzKcFA8.png";
     };
 
