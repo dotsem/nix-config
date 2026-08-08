@@ -16,6 +16,7 @@ keys:
   - &server_retail "age1hxxxu4jl875hryqmyh5uxc0sv29xrkqmsq5cur2df07l3fc80f4q3hvu0e"
   - &server_lonely "age186deupfpq3ztuk9qher083mwerfxclzmtfkrv3dc2e5jrvyerdjsyx5ym9"
   - &server_lobby "age1ex3wq9wxazxdlj573z6vwghjz7hanlsu44aa2h3t7al80h086cnq7revjx"
+  - &server_battle ""
 
 creation_rules:
   # Secret matching rules by directory path
@@ -36,3 +37,9 @@ creation_rules:
       - age:
           - *user_sem
           - *server_lobby
+
+  - path_regex: machines/server/battle-bus/secrets\.yaml$
+    key_groups:
+      - age:
+          - *user_sem
+          - *server_battle

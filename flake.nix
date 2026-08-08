@@ -117,6 +117,19 @@
             }
           ];
         };
+
+        battle-bus = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs hosts; };
+          modules = [
+            ./common/core
+            inputs.sops-nix.nixosModules.sops
+            ./machines/server/battle-bus/configuration.nix
+            {
+              custom.server.description = "Edge Ingress Gateway with Nginx & Cloudflare Tunnel";
+            }
+          ];
+        };
       };
     };
 }
