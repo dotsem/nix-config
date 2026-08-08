@@ -112,7 +112,7 @@
                     {
                       type = "tailscale";
                       deviceid = "nhYhJVxE2N11CNTRL";
-                      key = "{{TAILSCALE_KEY}}";
+                      key = "{{HOMEPAGE_VAR_TAILSCALE_KEY}}";
                     };
                 };
           }
