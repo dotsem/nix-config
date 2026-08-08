@@ -99,6 +99,18 @@
               href = "https://console.tailscale.com/admin/machines";
             };
           }
+          {
+            "OpenWRT Router" = {
+              icon = "openwrt.png";
+              href = "http://192.168.0.167/cgi-bin/luci/";
+            };
+          }
+          {
+            "Netgear Switch" = {
+              icon = "netgear.png";
+              href = "http://192.168.0.11/login.cgi";
+            };
+          }
         ];
       }
       {
