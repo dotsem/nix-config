@@ -173,28 +173,35 @@
     ];
 
     customCSS = ''
-      /* Center and enlarge the search bar with frosted glass */
+      /* Search Container & Input (Targets Homepage's actual form selector) */
+      form.information-widget-search {
+        min-width: 360px !important;
+      }
+
+      form.information-widget-search input,
       #search-input {
-        font-size: 1.15rem !important;
-        padding: 0.75rem 1.25rem !important;
+        font-size: 1.1rem !important;
+        padding: 0.7rem 1.2rem !important;
         border-radius: 0.85rem !important;
         backdrop-filter: blur(20px) !important;
         -webkit-backdrop-filter: blur(20px) !important;
-        background-color: rgba(15, 23, 42, 0.75) !important;
+        background-color: rgb(var(--color-theme-900) / 0.75) !important;
         border: 1px solid rgba(255, 255, 255, 0.15) !important;
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35) !important;
-        min-width: 380px !important;
+        color: #fff !important;
         transition: all 0.2s ease-in-out !important;
       }
+
+      form.information-widget-search input:focus,
       #search-input:focus {
-        background-color: rgba(15, 23, 42, 0.9) !important;
+        background-color: rgb(var(--color-theme-900) / 0.9) !important;
         border-color: rgba(255, 255, 255, 0.35) !important;
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5) !important;
       }
 
-      /* Dark frosted glass for cards to contrast against bright wallpaper areas */
+      /* Use dynamic theme colors for frosted glass cards */
       .service-card {
-        background-color: rgba(15, 23, 42, 0.75) !important;
+        background-color: rgb(var(--color-theme-900) / 0.75) !important;
         border: 1px solid rgba(255, 255, 255, 0.12) !important;
         backdrop-filter: blur(16px) !important;
         -webkit-backdrop-filter: blur(16px) !important;
@@ -202,11 +209,11 @@
       }
 
       .service-card:hover {
-        background-color: rgba(15, 23, 42, 0.88) !important;
+        background-color: rgb(var(--color-theme-800) / 0.85) !important;
         border-color: rgba(255, 255, 255, 0.25) !important;
       }
 
-      /* Enhance legibility for group headers */
+      /* Enhance contrast for category headers */
       .group-title, h2, h3 {
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.85) !important;
       }
