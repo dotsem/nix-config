@@ -56,10 +56,10 @@
           {
             "Reboot-Van" = {
               icon = "proxmox.png";
-              href = "https://192.168.10.10:8006";
+              href = "https://${hosts.reboot-van.ip}:8006";
               widget = {
                 type = "proxmox";
-                url = "https://192.168.10.10:8006";
+                url = "https://${hosts.reboot-van.ip}:8006";
                 username = "lobby@pve!homepage";
                 password = "{{HOMEPAGE_VAR_PROXMOX_KEY}}";
                 node = "rebootvan";
@@ -69,10 +69,10 @@
           {
             "Supply-Drop" = {
               icon = "proxmox.png";
-              href = "https://192.168.10.11:8006";
+              href = "https://${hosts.supply-drop.ip}:8006";
               widget = {
                 type = "proxmox";
-                url = "https://192.168.10.11:8006";
+                url = "https://${hosts.supply-drop.ip}:8006";
                 username = "lobby@pve!homepage";
                 password = "{{HOMEPAGE_VAR_PROXMOX_KEY}}";
                 node = "supplydrop";
@@ -86,10 +86,10 @@
           {
             "AdGuard Home" = {
               icon = "adguard-home.png";
-              href = "http://192.168.10.100:3000";
+              href = "http://${hosts.adguard-home.ip}:3000";
               widget = {
                 type = "adguard";
-                url = "http://192.168.10.100:3000";
+                url = "http://${hosts.adguard-home.ip}:3000";
               };
             };
           }
@@ -102,13 +102,13 @@
           {
             "OpenWRT Router" = {
               icon = "openwrt.png";
-              href = "http://192.168.0.167/cgi-bin/luci/";
+              href = "http://${hosts.openwrt.ip}/cgi-bin/luci/";
             };
           }
           {
             "Netgear Switch" = {
               icon = "netgear.png";
-              href = "http://192.168.0.11/login.cgi";
+              href = "http://${hosts.netgear-switch.ip}/login.cgi";
             };
           }
         ];
@@ -118,7 +118,7 @@
           {
             "Grafana" = {
               icon = "grafana.png";
-              href = "http://192.168.10.103:3000";
+              href = "http://${hosts.lonely-lodge.ip}:3000";
             };
           }
           {
@@ -126,13 +126,13 @@
               {
                 "Server Snack" = {
                   icon = "grafana-alerts-dashboard.png";
-                  href = "http://192.168.10.103:3000/d/server-snack/server-snack?orgId=1&from=now-24h&to=now&timezone=browser&refresh=30s";
+                  href = "http://${hosts.lonely-lodge.ip}:3000/d/server-snack/server-snack?orgId=1&from=now-24h&to=now&timezone=browser&refresh=30s";
                 };
               }
               {
                 "GoStrategy Operations" = {
                   icon = "gomft.png";
-                  href = "http://192.168.10.103:3000/d/gostrategy-ops/gostrategy-e28094-operations?orgId=1&from=now-24h&to=now&timezone=browser&refresh=30s";
+                  href = "http://${hosts.lonely-lodge.ip}:3000/d/gostrategy-ops/gostrategy-e28094-operations?orgId=1&from=now-24h&to=now&timezone=browser&refresh=30s";
                 };
               }
             ];
@@ -140,7 +140,7 @@
           {
             "Prometheus" = {
               icon = "prometheus.png";
-              href = "http://192.168.10.103:9090";
+              href = "http://${hosts.lonely-lodge.ip}:9090";
             };
           }
         ];

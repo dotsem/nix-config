@@ -12,4 +12,7 @@
   lonely-lodge = { ip = "192.168.10.103"; domain = "lonely-lodge.home"; prefixLength = 24; gateway = "192.168.10.1"; };
   tailscale    = { ip = "192.168.10.110"; domain = "tailscale.home"; prefixLength = 24; gateway = "192.168.10.1"; };
 
+  # network hardware
+  openwrt        = { ip = "192.168.0.167"; };
+  netgear-switch = { ip = "192.168.0.11"; };
 }
