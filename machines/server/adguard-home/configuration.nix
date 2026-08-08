@@ -69,7 +69,7 @@
           domain = host.domain;
           answer = host.ip;
           enabled = true;
-        }) hosts;
+        })  (lib.filterAttrs (_: host: host ? domain) hosts);
       };
     };
   };
