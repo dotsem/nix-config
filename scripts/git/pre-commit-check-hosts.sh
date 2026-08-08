@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 # Git pre-commit hook: Verifies hosts.env is up-to-date with lib/hosts.nix
 
-# Setup:
-# ln -sf scripts/pre-commit-check-hosts.sh .git/hooks/
-# chmod +x scripts/pre-commit-check-hosts.sh
+if command -v git &>/dev/null && git rev-parse --show-toplevel &>/dev/null; then
+  REPO_ROOT="$(git rev-parse --show-toplevel)"
+else
+  REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+fi
+cd "$REPO_ROOT"
 
 HOSTS_NIX="lib/hosts.nix"
 HOSTS_ENV="hosts.env"

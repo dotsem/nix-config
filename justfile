@@ -25,6 +25,16 @@ install host ip:
 setup-dev:
     bash ./scripts/setup-devshells.sh
 
+# Configure Git pre-commit hooks for automatic secret encryption and host checks
+setup-hooks:
+    chmod +x scripts/*.sh .githooks/*
+    git config core.hooksPath .githooks
+    @echo "✅ Git hooks configured to .githooks"
+
+# Automatically encrypt all unencrypted SOPS secret files and re-stage if needed
+encrypt-secrets:
+    bash ./scripts/git/pre-commit-encrypt-secrets.sh
+
 adguard-home:  (rebuild "adguard-home"  env_var("ADGUARD_HOME_IP"))
 lobby:         (rebuild "lobby"         env_var("LOBBY_IP"))
 tailscale:     (rebuild "tailscale"     env_var("TAILSCALE_IP"))
