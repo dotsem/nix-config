@@ -25,23 +25,36 @@
       title = "Lobby - lab.dotsem.be";
       theme = "dark";
       color = "slate";
+      headerStyle = "clean";
       background = "https://upload.wikimedia.org/wikipedia/commons/5/53/John_Constable_-_Salisbury_Cathedral_from_the_Bishop%27s_Garden_-_Google_Art_Project.jpg";
       cardBlur = "xl";
       favicon = "https://dotsem.be/_app/immutable/assets/favicon.BbzKcFA8.png";
+      quicklaunch = {
+        searchDescriptions = true;
+        hideInternetSearch = false;
+        showSearchSuggestions = true;
+        provider = "brave";
+      };
     };
 
     widgets = [
       {
-        search = {
-          provider = "brave";
-          target = "_blank";
+        datetime = {
+          text_size = "2xl";
+          locale = "en-GB";
+          format = {
+            timeStyle = "short";
+            dateStyle = "medium";
+            hour12 = false;
+          };
         };
       }
       {
-        resources = {
-          cpu = true;
-          memory = true;
-          disk = "/";
+        search = {
+          provider = "brave";
+          target = "_blank";
+          focus = true;
+          showSearchSuggestions = true;
         };
       }
     ];
@@ -102,17 +115,15 @@
             };
           }
           {
-            
-                "Tailscale Admin" = {
-                  icon = "tailscale.png";
-                  href = "https://console.tailscale.com/admin/machines";
-                  widget = 
-                    {
-                      type = "tailscale";
-                      deviceid = "nhYhJVxE2N11CNTRL";
-                      key = "{{HOMEPAGE_VAR_TAILSCALE_KEY}}";
-                    };
-                };
+            "Tailscale Admin" = {
+              icon = "tailscale.png";
+              href = "https://console.tailscale.com/admin/machines";
+              widget = {
+                type = "tailscale";
+                deviceid = "nhYhJVxE2N11CNTRL";
+                key = "{{HOMEPAGE_VAR_TAILSCALE_KEY}}";
+              };
+            };
           }
         ];
       }
@@ -160,5 +171,45 @@
         ];
       }
     ];
+
+    customCSS = ''
+      /* Center and enlarge the search bar with frosted glass */
+      #search-input {
+        font-size: 1.15rem !important;
+        padding: 0.75rem 1.25rem !important;
+        border-radius: 0.85rem !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        background-color: rgba(15, 23, 42, 0.75) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35) !important;
+        min-width: 380px !important;
+        transition: all 0.2s ease-in-out !important;
+      }
+      #search-input:focus {
+        background-color: rgba(15, 23, 42, 0.9) !important;
+        border-color: rgba(255, 255, 255, 0.35) !important;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5) !important;
+      }
+
+      /* Dark frosted glass for cards to contrast against bright wallpaper areas */
+      .service-card {
+        background-color: rgba(15, 23, 42, 0.75) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.35) !important;
+      }
+
+      .service-card:hover {
+        background-color: rgba(15, 23, 42, 0.88) !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
+      }
+
+      /* Enhance legibility for group headers */
+      .group-title, h2, h3 {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.85) !important;
+      }
+    '';
   };
 }
