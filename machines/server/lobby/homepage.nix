@@ -6,11 +6,20 @@
   ...
 }:
 {
+
+  sops.defaultSopsFile = ./secrets.yaml;
+  sops.secrets.homepage_env = {
+    restartUnits = [ "homepage-dashboard.service" ];
+  };
+
   # Native Homepage Dashboard Service
   services.homepage-dashboard = {
     enable = true;
     listenPort = 8080;
     allowedHosts = "*";
+    environmentFiles = [
+      config.sops.secrets.homepage_env.path
+    ];
 
     settings = {
       title = "Lobby - lab.dotsem.be";
@@ -49,6 +58,13 @@
               icon = "proxmox.png";
               href = "http://192.168.10.10:8006";
               description = "Reboot-Van hypervisor node";
+              widget = {
+                type = "proxmox";
+                url = "http://192.168.10.10:8006";
+                username = "lobby@pve!homepage";
+                password = "{{HOMEPAGE_VAR_PROXMOX_KEY}}";
+                node = "reboot-van";
+              };
             };
           }
           {
@@ -56,6 +72,13 @@
               icon = "proxmox.png";
               href = "http://192.168.10.11:8006";
               description = "Supply-Drop hypervisor node";
+              widget = {
+                type = "proxmox";
+                url = "http://192.168.10.11:8006";
+                username = "lobby@pve!homepage";
+                password = "{{HOMEPAGE_VAR_PROXMOX_KEY}}";
+                node = "supply-drop";
+              };
             };
           }
         ];
