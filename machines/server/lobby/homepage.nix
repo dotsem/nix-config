@@ -125,7 +125,7 @@
             "Dashboards" = [
               {
                 "Server Snack" = {
-                  icon = "grafana-alerts-dashboard.png";
+                  icon = "https://cdn.jsdelivr.net/gh/selfhst/icons/png/grafana-alerts-dashboard.png";
                   href = "http://${hosts.lonely-lodge.ip}:3000/d/server-snack/server-snack?orgId=1&from=now-24h&to=now&timezone=browser&refresh=30s";
                 };
               }
