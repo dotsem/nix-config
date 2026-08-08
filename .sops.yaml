@@ -1,5 +1,7 @@
 # .sops.yaml - SOPS configuration file for managing recipient keys
 #
+# Install ssh-to-age with: nix shell nixpkgs#sops nixpkgs#ssh-to-age
+#
 # Before encrypting secrets, you must obtain:
 # 1. Your user's age public key (from ~/.ssh/id_ed25519.pub):
 #    ssh-to-age < ~/.ssh/id_ed25519.pub
