@@ -12,6 +12,132 @@
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "#EAB308", "value": 70 },
+              { "color": "#EF4444", "value": 85 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 0 },
+      "id": 1,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [ "lastNotNull" ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "10.0.0",
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+          "editorMode": "code",
+          "expr": "100 - (avg(rate(node_cpu_seconds_total{instance=~\"reboot-van.*\", mode=\"idle\"}[2m])) * 100)",
+          "instant": true,
+          "legendFormat": "CPU",
+          "refId": "CPU"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+          "editorMode": "code",
+          "expr": "(1 - (node_memory_MemAvailable_bytes{instance=~\"reboot-van.*\"} / node_memory_MemTotal_bytes{instance=~\"reboot-van.*\"})) * 100",
+          "instant": true,
+          "legendFormat": "RAM",
+          "refId": "RAM"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+          "editorMode": "code",
+          "expr": "100 - ((node_filesystem_avail_bytes{instance=~\"reboot-van.*\", mountpoint=\"/\"} / node_filesystem_size_bytes{instance=~\"reboot-van.*\", mountpoint=\"/\"}) * 100)",
+          "instant": true,
+          "legendFormat": "Disk",
+          "refId": "Disk"
+        }
+      ],
+      "title": "Hypervisor: Reboot-Van",
+      "type": "gauge"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "#EAB308", "value": 70 },
+              { "color": "#EF4444", "value": 85 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 0 },
+      "id": 2,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [ "lastNotNull" ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "10.0.0",
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+          "editorMode": "code",
+          "expr": "100 - (avg(rate(node_cpu_seconds_total{instance=~\"supply-drop.*\", mode=\"idle\"}[2m])) * 100)",
+          "instant": true,
+          "legendFormat": "CPU",
+          "refId": "CPU"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+          "editorMode": "code",
+          "expr": "(1 - (node_memory_MemAvailable_bytes{instance=~\"supply-drop.*\"} / node_memory_MemTotal_bytes{instance=~\"supply-drop.*\"})) * 100",
+          "instant": true,
+          "legendFormat": "RAM",
+          "refId": "RAM"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+          "editorMode": "code",
+          "expr": "100 - ((node_filesystem_avail_bytes{instance=~\"supply-drop.*\", mountpoint=\"/\"} / node_filesystem_size_bytes{instance=~\"supply-drop.*\", mountpoint=\"/\"}) * 100)",
+          "instant": true,
+          "legendFormat": "Disk",
+          "refId": "Disk"
+        }
+      ],
+      "title": "Hypervisor: Supply-Drop",
+      "type": "gauge"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
           "custom": {
             "align": "auto",
             "cellOptions": { "type": "auto" },
@@ -96,8 +222,8 @@
           }
         ]
       },
-      "gridPos": { "h": 18, "w": 24, "x": 0, "y": 0 },
-      "id": 1,
+      "gridPos": { "h": 16, "w": 24, "x": 0, "y": 7 },
+      "id": 3,
       "options": {
         "footer": { "fields": "", "reducer": ["sum"], "show": false },
         "frameIndex": 0,
@@ -109,7 +235,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
           "editorMode": "code",
-          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[2m])) * 100)",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{job=\"node-exporter\", mode=\"idle\"}[2m])) * 100)",
           "format": "table",
           "instant": true,
           "legendFormat": "{{instance}}",
@@ -118,7 +244,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
           "editorMode": "code",
-          "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100",
+          "expr": "(1 - (node_memory_MemAvailable_bytes{job=\"node-exporter\"} / node_memory_MemTotal_bytes{job=\"node-exporter\"})) * 100",
           "format": "table",
           "instant": true,
           "legendFormat": "{{instance}}",
@@ -127,7 +253,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
           "editorMode": "code",
-          "expr": "100 - ((node_filesystem_avail_bytes{mountpoint=\"/\"} / node_filesystem_size_bytes{mountpoint=\"/\"}) * 100)",
+          "expr": "100 - ((node_filesystem_avail_bytes{job=\"node-exporter\", mountpoint=\"/\"} / node_filesystem_size_bytes{job=\"node-exporter\", mountpoint=\"/\"}) * 100)",
           "format": "table",
           "instant": true,
           "legendFormat": "{{instance}}",
@@ -136,7 +262,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
           "editorMode": "code",
-          "expr": "sum by (instance) (rate(node_disk_read_bytes_total[2m]))",
+          "expr": "sum by (instance) (rate(node_disk_read_bytes_total{job=\"node-exporter\"}[2m]))",
           "format": "table",
           "instant": true,
           "legendFormat": "{{instance}}",
@@ -145,7 +271,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
           "editorMode": "code",
-          "expr": "sum by (instance) (rate(node_disk_written_bytes_total[2m]))",
+          "expr": "sum by (instance) (rate(node_disk_written_bytes_total{job=\"node-exporter\"}[2m]))",
           "format": "table",
           "instant": true,
           "legendFormat": "{{instance}}",
@@ -154,7 +280,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
           "editorMode": "code",
-          "expr": "sum by (instance) (rate(node_network_receive_bytes_total{device!~\"lo|veth.*|docker.*\"}[2m])) * 8",
+          "expr": "sum by (instance) (rate(node_network_receive_bytes_total{job=\"node-exporter\", device!~\"lo|veth.*|docker.*\"}[2m])) * 8",
           "format": "table",
           "instant": true,
           "legendFormat": "{{instance}}",
@@ -163,13 +289,14 @@
         {
           "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
           "editorMode": "code",
-          "expr": "sum by (instance) (rate(node_network_transmit_bytes_total{device!~\"lo|veth.*|docker.*\"}[2m])) * 8",
+          "expr": "sum by (instance) (rate(node_network_transmit_bytes_total{job=\"node-exporter\", device!~\"lo|veth.*|docker.*\"}[2m])) * 8",
           "format": "table",
           "instant": true,
           "legendFormat": "{{instance}}",
           "refId": "NetOut"
         }
       ],
+      "title": "LXC & Service Health Overview",
       "transformations": [
         {
           "id": "seriesToColumns",
@@ -218,5 +345,5 @@
   "timezone": "browser",
   "title": "Server Health Overview",
   "uid": "server-snack-overview",
-  "version": 2
+  "version": 3
 }
