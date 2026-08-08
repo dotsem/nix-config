@@ -94,12 +94,6 @@
             };
           }
           {
-            "Tailscale Dashboard" = {
-              icon = "tailscale.png";
-              href = "https://console.tailscale.com/admin/machines";
-            };
-          }
-          {
             "OpenWRT Router" = {
               icon = "openwrt.png";
               href = "http://${hosts.openwrt.ip}/cgi-bin/luci/";
@@ -110,6 +104,19 @@
               icon = "netgear.png";
               href = "http://${hosts.netgear-switch.ip}/login.cgi";
             };
+          }
+          {
+            
+                "Tailscale Admin" = {
+                  icon = "tailscale.png";
+                  href = "https://console.tailscale.com/admin/machines";
+                  widget = 
+                    {
+                      type = "tailscale";
+                      deviceid = "nhYhJVxE2N11CNTRL";
+                      key = "{{TAILSCALE_KEY}}";
+                    };
+                };
           }
         ];
       }
