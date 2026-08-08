@@ -1,0 +1,54 @@
+:root {
+  --theme-color: 38, 36, 23;
+}
+
+/* Search bar styling */
+form.information-widget-search {
+  min-width: 360px !important;
+}
+
+form.information-widget-search input,
+#search-input {
+  font-size: 1.05rem !important;
+  padding: 0.65rem 1.2rem !important;
+  border-radius: 0.75rem !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  background-color: rgba(var(--theme-color), 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+  color: #ffffff !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+form.information-widget-search input:focus,
+#search-input:focus {
+  background-color: rgba(var(--theme-color), 0.95) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* Frosted glass cards */
+.service-card {
+  background-color: rgba(var(--theme-color), 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+}
+
+.service-card:hover {
+  background-color: rgba(var(--theme-color), 0.95) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+
+/* Text inside cards */
+.service-card span,
+.service-card p {
+  color: #f1f5f9 !important;
+}
+
+/* Category headers */
+.group-title, h2, h3 {
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7) !important;
+}
