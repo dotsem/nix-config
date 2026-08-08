@@ -27,8 +27,6 @@
       color = "slate";
       background = {
         image = "https://upload.wikimedia.org/wikipedia/commons/5/53/John_Constable_-_Salisbury_Cathedral_from_the_Bishop%27s_Garden_-_Google_Art_Project.jpg";
-        opacity = 50;
-        blur = "xs";
       };
       cardBlur = "lg";
       favicon = "https://dotsem.be/_app/immutable/assets/favicon.BbzKcFA8.png";
