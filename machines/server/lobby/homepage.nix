@@ -173,49 +173,55 @@
     ];
 
     customCSS = ''
-      /* Search Container & Input (Targets Homepage's actual form selector) */
+      /* Search bar styling */
       form.information-widget-search {
         min-width: 360px !important;
       }
 
       form.information-widget-search input,
       #search-input {
-        font-size: 1.1rem !important;
-        padding: 0.7rem 1.2rem !important;
-        border-radius: 0.85rem !important;
-        backdrop-filter: blur(20px) !important;
-        -webkit-backdrop-filter: blur(20px) !important;
-        background-color: rgb(var(--color-theme-900) / 0.75) !important;
+        font-size: 1.05rem !important;
+        padding: 0.65rem 1.2rem !important;
+        border-radius: 0.75rem !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        background-color: rgba(15, 23, 42, 0.85) !important;
         border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35) !important;
-        color: #fff !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+        color: #ffffff !important;
         transition: all 0.2s ease-in-out !important;
       }
 
       form.information-widget-search input:focus,
       #search-input:focus {
-        background-color: rgb(var(--color-theme-900) / 0.9) !important;
+        background-color: rgba(15, 23, 42, 0.95) !important;
         border-color: rgba(255, 255, 255, 0.35) !important;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5) !important;
       }
 
-      /* Use dynamic theme colors for frosted glass cards */
+      /* Dark frosted glass cards for high contrast against wallpaper */
       .service-card {
-        background-color: rgb(var(--color-theme-900) / 0.75) !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        background-color: rgba(15, 23, 42, 0.85) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
         backdrop-filter: blur(16px) !important;
         -webkit-backdrop-filter: blur(16px) !important;
-        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.35) !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
       }
 
       .service-card:hover {
-        background-color: rgb(var(--color-theme-800) / 0.85) !important;
-        border-color: rgba(255, 255, 255, 0.25) !important;
+        background-color: rgba(15, 23, 42, 0.95) !important;
+        border-color: rgba(255, 255, 255, 0.22) !important;
       }
 
-      /* Enhance contrast for category headers */
+      /* Clean readable text inside cards */
+      .service-card span,
+      .service-card p {
+        color: #f1f5f9 !important;
+      }
+
+      /* Clean category headers without blurry smudges */
       .group-title, h2, h3 {
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.85) !important;
+        color: #ffffff !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7) !important;
       }
     '';
   };
