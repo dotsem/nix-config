@@ -26,7 +26,7 @@
       theme = "dark";
       color = "slate";
       headerStyle = "clean";
-      background = "/assets/background.jpg";
+      background = "/assets/background.webp";
       cardBlur = "xl";
       favicon = "/assets/favicon.png";
       quicklaunch = {
