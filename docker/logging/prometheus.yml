@@ -5,7 +5,7 @@ global:
 scrape_configs:
   - job_name: "gostrategy-backend"
     static_configs:
-      - targets: ["retail-row.home:80"]
+      - targets: ["retail-row.home:1001"]
     metrics_path: /metrics
 
   - job_name: "proxmox-nodes"
@@ -22,3 +22,4 @@ scrape_configs:
           - "adguard-home.home:9100"
           - "tailscale.home:9100"
           - "lobby.home:9100"
+          - "battle-bus.home:9100"
