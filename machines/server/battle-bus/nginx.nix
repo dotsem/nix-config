@@ -43,12 +43,14 @@ in
         };
       };
 
-      # GoStrategy (Frontend :1000, Backend/WS :1001)
       "gostrategy.dotsem.be" = {
         locations = securityLocations // {
+          # Frontend
           "/" = {
             proxyPass = "http://${hosts.retail-row.ip}:1000";
           };
+          
+          # Backend
           "/api/" = {
             proxyPass = "http://${hosts.retail-row.ip}:1001/";
           };
@@ -66,7 +68,6 @@ in
         };
       };
 
-      # Lobby Dashboard with central immutable cached static assets
       "lobby.dotsem.be" = {
         serverAliases = [
           "lobby.home"
@@ -87,7 +88,6 @@ in
         };
       };
 
-      # Grafana Monitoring
       "grafana.dotsem.be" = {
         locations = securityLocations // {
           "/" = {
