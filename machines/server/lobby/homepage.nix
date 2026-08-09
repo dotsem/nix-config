@@ -63,6 +63,12 @@
       {
         "Infrastructure" = [
           {
+            "Cloudflare" = {
+              icon = "cloudflare.png";
+              href = "https://dash.cloudflare.com";
+            };
+          }
+          {
             "Reboot-Van" = {
               icon = "proxmox.png";
               href = "https://${hosts.reboot-van.ip}:8006";
@@ -115,15 +121,41 @@
             };
           }
           {
-            "Tailscale Admin" = {
-              icon = "tailscale.png";
-              href = "https://console.tailscale.com/admin/machines";
-              widget = {
-                type = "tailscale";
-                deviceid = "nhYhJVxE2N11CNTRL";
-                key = "{{HOMEPAGE_VAR_TAILSCALE_KEY}}";
-              };
-            };
+            "Tailscale" = [
+              {
+                "Flush Factory" = {
+                  icon = "tailscale.png";
+                  href = "https://console.tailscale.com/admin/machines";
+                  widget = {
+                    type = "tailscale";
+                    deviceid = "nhYhJVxE2N11CNTRL";
+                    key = "{{HOMEPAGE_VAR_TAILSCALE_KEY}}";
+                  };
+                };
+              }
+              {
+                "Tailscale LXC" = {
+                  icon = "tailscale.png";
+                  href = "https://console.tailscale.com/admin/machines";
+                  widget = {
+                    type = "tailscale";
+                    deviceid = "njYm5oWd4w11CNTRL";
+                    key = "{{HOMEPAGE_VAR_TAILSCALE_KEY}}";
+                  };
+                };
+              }
+              {
+                "ToasterBTW" = {
+                  icon = "tailscale.png";
+                  href = "https://console.tailscale.com/admin/machines";
+                  widget = {
+                    type = "tailscale";
+                    deviceid = "nPsj49Gwp921CNTRL";
+                    key = "{{HOMEPAGE_VAR_TAILSCALE_KEY}}";
+                  };
+                };
+              }
+            ];
           }
         ];
       }
@@ -132,7 +164,8 @@
           {
             "Grafana" = {
               icon = "grafana.png";
-              href = "http://${hosts.lonely-lodge.ip}:3000";
+              href = "https://grafana.dotsem.be";
+              siteMonitor = "https://grafana.dotsem.be";
             };
           }
           {
@@ -140,13 +173,13 @@
               {
                 "Server Snack" = {
                   icon = "/assets/grafana-alerts-dashboard.png";
-                  href = "http://${hosts.lonely-lodge.ip}:3000/d/server-snack-overview";
+                  href = "https://grafana.dotsem.be/d/server-snack-overview";
                 };
               }
               {
                 "GoStrategy Operations" = {
                   icon = "gomft.png";
-                  href = "http://${hosts.lonely-lodge.ip}:3000/d/gostrategy-ops";
+                  href = "https://grafana.dotsem.be/d/gostrategy-ops";
                 };
               }
             ];
