@@ -162,6 +162,13 @@
       {
         "Monitoring" = [
           {
+            "Uptime Kuma" = {
+              icon = "uptime-kuma.png";
+              href = "https://uptime.dotsem.be";
+              siteMonitor = "https://uptime.dotsem.be";
+            };
+          }
+          {
             "Grafana" = {
               icon = "grafana.png";
               href = "https://grafana.dotsem.be";

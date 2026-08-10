@@ -96,6 +96,15 @@ in
           };
         };
       };
+
+      "uptime.dotsem.be" = {
+        locations = securityLocations // {
+          "/" = {
+            proxyPass = "http://${hosts.lobby.ip}:3001";
+            proxyWebsockets = true;
+          };
+        };
+      };
     };
   };
 }

@@ -12,6 +12,7 @@
     ../../../common/core/default.nix
     ../../../common/server/default.nix
     ./homepage.nix
+    ./uptime-kuma.nix
   ];
 
   fileSystems."/" = {
@@ -21,5 +22,8 @@
 
   networking.hostName = "lobby";
 
-  networking.firewall.allowedTCPPorts = [ 8080 ];
+  networking.firewall.allowedTCPPorts = [
+    8080
+    3001
+  ];
 }
