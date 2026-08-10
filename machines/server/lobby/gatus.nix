@@ -75,6 +75,13 @@ let
           interval = "1m";
           conditions = [ "[STATUS] == 200" ];
         }
+        {
+          name = "Weighted Decision Maker";
+          group = "Applications";
+          url = "https://dotsem.github.io/Weighted-Decision-Matrix/";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
       ];
     };
 
