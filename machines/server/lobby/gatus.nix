@@ -63,22 +63,29 @@ let
       endpoints = [
         {
           name = "GoStrategy";
-          group = "Applications";
+          group = "Projects";
           url = "https://gostrategy.dotsem.be";
           interval = "1m";
           conditions = [ "[STATUS] == 200" ];
         }
         {
           name = "Portfolio";
-          group = "Applications";
+          group = "Projects";
           url = "https://dotsem.be";
           interval = "1m";
           conditions = [ "[STATUS] == 200" ];
         }
         {
           name = "Weighted Decision Maker";
-          group = "Applications";
+          group = "Projects";
           url = "https://dotsem.github.io/Weighted-Decision-Matrix/";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
+        {
+          name = "Chez Natalie";
+          group = "Projects";
+          url = "https://cheznatalie.tiboit.be";
           interval = "1m";
           conditions = [ "[STATUS] == 200" ];
         }
