@@ -162,8 +162,8 @@
       {
         "Monitoring" = [
           {
-            "Uptime Kuma" = {
-              icon = "uptime-kuma.png";
+            "Status (Gatus)" = {
+              icon = "gatus.png";
               href = "https://uptime.dotsem.be";
               siteMonitor = "https://uptime.dotsem.be";
             };

@@ -100,7 +100,7 @@ in
       "uptime.dotsem.be" = {
         locations = securityLocations // {
           "/" = {
-            proxyPass = "http://${hosts.lobby.ip}:3001";
+            proxyPass = "http://${hosts.lobby.ip}:4000";
             proxyWebsockets = true;
           };
         };
