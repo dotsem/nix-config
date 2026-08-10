@@ -72,7 +72,7 @@
             "GitHub" = {
               icon = "github.png";
               href = "https://github.com/dotsem?tab=repositories";
-            }
+            };
           }
           {
             "Reboot-Van" = {
