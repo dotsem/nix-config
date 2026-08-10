@@ -12,6 +12,7 @@
     ../../../common/core/default.nix
     ../../../common/server/default.nix
     ./homepage.nix
+    ./gatus.nix
   ];
 
   fileSystems."/" = {
