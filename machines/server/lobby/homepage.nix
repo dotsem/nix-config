@@ -69,6 +69,12 @@
             };
           }
           {
+            "GitHub" = {
+              icon = "github.png";
+              href = "https://github.com/dotsem?tab=repositories";
+            }
+          }
+          {
             "Reboot-Van" = {
               icon = "proxmox.png";
               href = "https://${hosts.reboot-van.ip}:8006";
@@ -224,6 +230,13 @@
               icon = "gomft.png";
               href = "https://gostrategy.dotsem.be";
               siteMonitor = "https://gostrategy.dotsem.be";
+            };
+          }
+          {
+            "Portfolio" = {
+              icon = "/assets/favicon.png";
+              href = "https://dotsem.be";
+              siteMonitor = "https://dotsem.be";
             };
           }
         ];
