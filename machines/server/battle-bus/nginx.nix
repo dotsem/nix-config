@@ -103,6 +103,27 @@ in
             proxyPass = "http://${hosts.lobby.ip}:4000";
             proxyWebsockets = true;
           };
+          "/internal" = {
+            return = "301 https://uptime-internal.dotsem.be$request_uri";
+          };
+        };
+      };
+
+      "uptime-internal.dotsem.be" = {
+        locations = securityLocations // {
+          "/" = {
+            proxyPass = "http://${hosts.lobby.ip}:4001";
+            proxyWebsockets = true;
+          };
+        };
+      };
+
+      "uptime-stalker.dotsem.be" = {
+        locations = securityLocations // {
+          "/" = {
+            proxyPass = "http://${hosts.lobby.ip}:4002";
+            proxyWebsockets = true;
+          };
         };
       };
     };

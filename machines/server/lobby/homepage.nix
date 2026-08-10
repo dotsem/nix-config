@@ -162,11 +162,29 @@
       {
         "Monitoring" = [
           {
-            "Status (Gatus)" = {
-              icon = "gatus.png";
-              href = "https://uptime.dotsem.be";
-              siteMonitor = "https://uptime.dotsem.be";
-            };
+            "Status Pages" = [
+              {
+                "Public Projects" = {
+                  icon = "gatus.png";
+                  href = "https://uptime.dotsem.be";
+                  siteMonitor = "https://uptime.dotsem.be";
+                };
+              }
+              {
+                "Homelab Internal" = {
+                  icon = "gatus.png";
+                  href = "https://uptime-internal.dotsem.be";
+                  siteMonitor = "http://${hosts.lobby.ip}:4001";
+                };
+              }
+              {
+                "External Stalker" = {
+                  icon = "gatus.png";
+                  href = "https://uptime-stalker.dotsem.be";
+                  siteMonitor = "http://${hosts.lobby.ip}:4002";
+                };
+              }
+            ];
           }
           {
             "Grafana" = {

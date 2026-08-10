@@ -5,21 +5,84 @@
   hosts,
   ...
 }:
-{
-  services.gatus = {
-    enable = true;
-    openFirewall = true;
-    settings = {
-      web.port = 4000;
-      storage = {
-        type = "sqlite";
-        path = "/var/lib/gatus/data.db";
+let
+  yaml = pkgs.formats.yaml { };
+
+  mkGatusService =
+    {
+      name,
+      port,
+      title,
+      header,
+      endpoints,
+    }:
+    let
+      settings = {
+        web.port = port;
+        storage = {
+          type = "sqlite";
+          path = "/var/lib/${name}/data.db";
+        };
+        ui = {
+          inherit title header;
+          description = "Service Health Status";
+        };
+        inherit endpoints;
       };
-      ui = {
-        title = "Status | dotsem.be";
-        description = "Homelab Service Health";
-        header = "Homelab Status";
+      configFile = yaml.generate "${name}.yaml" settings;
+    in
+    {
+      description = "Gatus service - ${name}";
+      after = [ "network-online.target" ];
+      wants = [ "network-online.target" ];
+      wantedBy = [ "multi-user.target" ];
+      environment = {
+        GATUS_CONFIG_PATH = "${configFile}";
       };
+      serviceConfig = {
+        Type = "simple";
+        DynamicUser = true;
+        User = name;
+        Group = name;
+        Restart = "on-failure";
+        ExecStart = "${pkgs.gatus}/bin/gatus";
+        StateDirectory = name;
+        SyslogIdentifier = name;
+        AmbientCapabilities = "CAP_NET_RAW";
+        CapabilityBoundingSet = "CAP_NET_RAW";
+        NoNewPrivileges = true;
+      };
+    };
+
+  instances = {
+    gatus-public = {
+      name = "gatus-public";
+      port = 4000;
+      title = "Public Status | dotsem.be";
+      header = "Public Projects | dotsem.be";
+      endpoints = [
+        {
+          name = "GoStrategy";
+          group = "Applications";
+          url = "https://gostrategy.dotsem.be";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
+        {
+          name = "Portfolio";
+          group = "Applications";
+          url = "https://dotsem.be";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
+      ];
+    };
+
+    gatus-internal = {
+      name = "gatus-internal";
+      port = 4001;
+      title = "Internal Status | dotsem.be";
+      header = "Homelab Infrastructure";
       endpoints = [
         {
           name = "Lobby Dashboard";
@@ -57,19 +120,10 @@
           conditions = [ "[STATUS] == 200" ];
         }
         {
-          name = "GoStrategy";
-          group = "Applications";
-          url = "https://gostrategy.dotsem.be";
-          interval = "1m";
-          conditions = [ "[STATUS] == 200" ];
-        }
-        {
           name = "Proxmox (Reboot Van)";
           group = "Hypervisors";
           url = "https://${hosts.reboot-van.ip}:8006";
-          client = {
-            insecure = true;
-          };
+          client.insecure = true;
           interval = "1m";
           conditions = [ "[STATUS] == 200" ];
         }
@@ -77,13 +131,49 @@
           name = "Proxmox (Supply Drop)";
           group = "Hypervisors";
           url = "https://${hosts.supply-drop.ip}:8006";
-          client = {
-            insecure = true;
-          };
+          client.insecure = true;
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
+      ];
+    };
+
+    gatus-stalker = {
+      name = "gatus-stalker";
+      port = 4002;
+      title = "Stalker Status | dotsem.be";
+      header = "External Websites | dotsem.be";
+      endpoints = [
+        {
+          name = "Cloudflare DNS";
+          group = "External DNS";
+          url = "https://1.1.1.1";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
+        {
+          name = "GitHub";
+          group = "External Services";
+          url = "https://github.com";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
+        {
+          name = "Orca Bree";
+          url = "https://orca-bree.be";
           interval = "1m";
           conditions = [ "[STATUS] == 200" ];
         }
       ];
     };
   };
+in
+{
+  systemd.services = lib.mapAttrs (name: cfg: mkGatusService cfg) instances;
+
+  networking.firewall.allowedTCPPorts = [
+    4000
+    4001
+    4002
+  ];
 }
