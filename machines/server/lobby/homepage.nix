@@ -100,6 +100,13 @@
               };
             };
           }
+          {
+            "Homelabable" = {
+              icon = "si-blueprint";
+              href = "https://homelabable.dotsem.be";
+              siteMonitor = "http://${hosts.lobby.ip}:3000";
+            };
+          }
         ];
       }
       {

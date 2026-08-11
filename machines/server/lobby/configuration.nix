@@ -13,6 +13,7 @@
     ../../../common/server/default.nix
     ./homepage.nix
     ./gatus.nix
+    ./homelabable.nix
   ];
 
   fileSystems."/" = {

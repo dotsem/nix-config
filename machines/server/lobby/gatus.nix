@@ -106,6 +106,13 @@ let
           conditions = [ "[STATUS] == 200" ];
         }
         {
+          name = "Homelabable";
+          group = "Core Infrastructure";
+          url = "http://${hosts.lobby.ip}:3000";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
+        {
           name = "AdGuard Home";
           group = "Core Infrastructure";
           url = "http://${hosts.adguard-home.ip}:3000";

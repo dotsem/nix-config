@@ -126,6 +126,19 @@ in
           };
         };
       };
+
+      "homelabable.dotsem.be" = {
+        serverAliases = [
+          "homelable.dotsem.be"
+          "homelabable.home"
+        ];
+        locations = securityLocations // {
+          "/" = {
+            proxyPass = "http://${hosts.lobby.ip}:3000";
+            proxyWebsockets = true;
+          };
+        };
+      };
     };
   };
 }
