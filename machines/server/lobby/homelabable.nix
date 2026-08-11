@@ -80,7 +80,10 @@
   };
 
   systemd.services.docker-homelabable-frontend = {
-    after = [ "docker-homelabable-network.service" ];
+    after = [
+      "docker-homelabable-network.service"
+      "docker-homelabable-backend.service"
+    ];
     requires = [ "docker-homelabable-network.service" ];
   };
 
