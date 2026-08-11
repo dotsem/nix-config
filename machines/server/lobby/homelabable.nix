@@ -6,6 +6,11 @@
   ...
 }:
 {
+  sops.defaultSopsFile = ./secrets.yaml;
+  sops.secrets.homepage_env.restartUnits = [
+    "docker-homelabable-backend.service"
+  ];
+
   virtualisation.docker.enable = true;
   virtualisation.oci-containers.backend = "docker";
 
@@ -41,8 +46,8 @@
           "https://homelable.dotsem.be"
         ];
       };
-      environmentFiles = lib.optionals (config.sops.secrets ? homelabable_env) [
-        config.sops.secrets.homelabable_env.path
+      environmentFiles = [
+        config.sops.secrets.homepage_env.path
       ];
       volumes = [
         "/var/lib/homelabable/data:/app/data"
