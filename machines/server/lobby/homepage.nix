@@ -39,6 +39,12 @@
 
     widgets = [
       {
+        greeting = {
+          text_size = "2xl";
+          text = "Welcome back, Sem";
+        };
+      }
+      {
         datetime = {
           text_size = "2xl";
           locale = "en-GB";
@@ -47,14 +53,6 @@
             dateStyle = "medium";
             hour12 = false;
           };
-        };
-      }
-      {
-        search = {
-          provider = "brave";
-          target = "_blank";
-          focus = true;
-          showSearchSuggestions = true;
         };
       }
     ];
