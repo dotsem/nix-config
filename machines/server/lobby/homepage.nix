@@ -227,7 +227,7 @@
         "Applications" = [
           {
             "World Wide Bulb" = {
-              icon = "lightbulb.png";
+              icon = "/assets/bulb.png";
               href = "https://wwb.dotsem.be";
               siteMonitor = "https://wwb.dotsem.be";
             };
