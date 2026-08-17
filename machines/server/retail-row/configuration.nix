@@ -5,6 +5,9 @@
   hosts,
   ...
 }:
+let
+  keys = import ../../../lib/keys.nix;
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -36,6 +39,7 @@
 
   # Enable SSH
   services.openssh.enable = true;
+  users.users.sem.openssh.authorizedKeys.keys = [ keys.retailRowDeploy_wwb ];
 
   # Disk configuration (overriding disko-config.nix default)
   disko.devices.disk.main.device = "/dev/sda";
