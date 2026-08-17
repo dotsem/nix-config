@@ -226,6 +226,13 @@
       {
         "Applications" = [
           {
+            "World Wide Bulb" = {
+              icon = "lightbulb.png";
+              href = "https://wwb.dotsem.be";
+              siteMonitor = "https://wwb.dotsem.be";
+            };
+          }
+          {
             "GoStrategy" = {
               icon = "gomft.png";
               href = "https://gostrategy.dotsem.be";

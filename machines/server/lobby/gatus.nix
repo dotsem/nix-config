@@ -62,6 +62,13 @@ let
       header = "Public Projects | dotsem.be";
       endpoints = [
         {
+          name = "World Wide Bulb";
+          group = "Projects";
+          url = "https://wwb.dotsem.be";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
+        {
           name = "GoStrategy";
           group = "Projects";
           url = "https://gostrategy.dotsem.be";

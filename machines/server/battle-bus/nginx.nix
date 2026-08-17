@@ -68,6 +68,18 @@ in
         };
       };
 
+      "wwb.dotsem.be" = {
+        serverAliases = [
+          "wwb.home"
+        ];
+        locations = securityLocations // {
+          "/" = {
+            proxyPass = "http://${hosts.retail-row.ip}:5000";
+            proxyWebsockets = true;
+          };
+        };
+      };
+
       "lobby.dotsem.be" = {
         serverAliases = [
           "lobby.home"
