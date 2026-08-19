@@ -6,7 +6,7 @@ services:
       - "3100:3100"
     volumes:
       - /etc/logging/loki-config.yaml:/etc/loki/local-config.yaml
-      - /logging/loki:/logging/loki
+      - /logs/loki:/logs/loki
     command: -config.file=/etc/loki/local-config.yaml
     restart: unless-stopped
     networks:
@@ -32,11 +32,12 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - /logging/config/prometheus.yml:/etc/prometheus/prometheus.yml
-      - /logging/prometheus:/prometheus
+      - /logs/config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /logs/prometheus:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=14d'
     restart: unless-stopped
     depends_on:
       - loki
@@ -51,9 +52,9 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /logging/grafana:/var/lib/grafana
-      - /logging/config/grafana/provisioning:/etc/grafana/provisioning
-      - /logging/config/grafana/dashboards:/var/lib/grafana/dashboards
+      - /logs/grafana:/var/lib/grafana
+      - /logs/config/grafana/provisioning:/etc/grafana/provisioning
+      - /logs/config/grafana/dashboards:/var/lib/grafana/dashboards
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:?GRAFANA_PASSWORD must be provided}
     restart: unless-stopped

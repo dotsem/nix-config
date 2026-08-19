@@ -75,24 +75,24 @@
       EnvironmentFile = [ "-${config.sops.templates."grafana-env".path}" ];
       ExecStartPre = [
         # Ensure directories exist
-        "${pkgs.coreutils}/bin/mkdir -p /logging/loki"
-        "${pkgs.coreutils}/bin/mkdir -p /logging/grafana"
-        "${pkgs.coreutils}/bin/mkdir -p /logging/prometheus"
-        "${pkgs.coreutils}/bin/mkdir -p /logging/config"
-        "${pkgs.coreutils}/bin/mkdir -p /logging/config/grafana"
+        "${pkgs.coreutils}/bin/mkdir -p /logs/loki"
+        "${pkgs.coreutils}/bin/mkdir -p /logs/grafana"
+        "${pkgs.coreutils}/bin/mkdir -p /logs/prometheus"
+        "${pkgs.coreutils}/bin/mkdir -p /logs/config"
+        "${pkgs.coreutils}/bin/mkdir -p /logs/config/grafana"
 
         # Dereference symlinks using cp -rL into host-local stateful config partition
-        "${pkgs.coreutils}/bin/rm -rf /logging/config/prometheus.yml /logging/config/grafana/provisioning /logging/config/grafana/dashboards"
-        "${pkgs.coreutils}/bin/cp -rL /etc/logging/prometheus.yml /logging/config/prometheus.yml"
-        "${pkgs.coreutils}/bin/cp -rL /etc/logging/grafana/provisioning /logging/config/grafana/provisioning"
-        "${pkgs.coreutils}/bin/cp -rL /etc/logging/grafana/dashboards /logging/config/grafana/dashboards"
+        "${pkgs.coreutils}/bin/rm -rf /logs/config/prometheus.yml /logs/config/grafana/provisioning /logs/config/grafana/dashboards"
+        "${pkgs.coreutils}/bin/cp -rL /etc/logging/prometheus.yml /logs/config/prometheus.yml"
+        "${pkgs.coreutils}/bin/cp -rL /etc/logging/grafana/provisioning /logs/config/grafana/provisioning"
+        "${pkgs.coreutils}/bin/cp -rL /etc/logging/grafana/dashboards /logs/config/grafana/dashboards"
 
         # Ensure correct ownership permissions for container runs
-        "${pkgs.coreutils}/bin/chown -R 10001:10001 /logging/loki"
-        "${pkgs.coreutils}/bin/chown -R 472:472 /logging/grafana"
-        "${pkgs.coreutils}/bin/chown -R 472:472 /logging/config/grafana"
-        "${pkgs.coreutils}/bin/chown -R 65534:65534 /logging/prometheus"
-        "${pkgs.coreutils}/bin/chown -R 65534:65534 /logging/config/prometheus.yml"
+        "${pkgs.coreutils}/bin/chown -R 10001:10001 /logs/loki"
+        "${pkgs.coreutils}/bin/chown -R 472:472 /logs/grafana"
+        "${pkgs.coreutils}/bin/chown -R 472:472 /logs/config/grafana"
+        "${pkgs.coreutils}/bin/chown -R 65534:65534 /logs/prometheus"
+        "${pkgs.coreutils}/bin/chown -R 65534:65534 /logs/config/prometheus.yml"
       ];
       ExecStart = "${pkgs.docker-compose}/bin/docker-compose up";
       ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";

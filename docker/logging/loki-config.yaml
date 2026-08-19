@@ -6,11 +6,11 @@ server:
 
 common:
   instance_addr: 127.0.0.1
-  path_prefix: /logging/loki
+  path_prefix: /logs/loki
   storage:
     filesystem:
-      chunks_directory: /logging/loki/chunks
-      rules_directory: /logging/loki/rules
+      chunks_directory: /logs/loki/chunks
+      rules_directory: /logs/loki/rules
   replication_factor: 1
   ring:
     kvstore:
@@ -33,8 +33,14 @@ schema_config:
         prefix: index_
         period: 24h
 
+compactor:
+  working_directory: /logs/loki/compactor
+  retention_enabled: true
+  delete_request_store: filesystem
+
 ruler:
   alertmanager_url: http://localhost:9093
 
 limits_config:
   allow_structured_metadata: false
+  retention_period: 336h
