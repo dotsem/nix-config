@@ -8,7 +8,7 @@ rebuild host ip action="switch":
 rebuild-all parallel="false":
     #!/usr/bin/env bash
     if [ "{{parallel}}" = "true" ]; then
-        just adguard-home & just lobby & just lonely-lodge & just retail-row & just tailscale & just battle-bus & wait
+        just adguard-home & just lobby & just lonely-lodge & just retail-row & just tailscale & just battle-bus & just greasy-grove & wait
     else
         just adguard-home
         just lobby
@@ -16,6 +16,7 @@ rebuild-all parallel="false":
         just retail-row
         just tailscale
         just battle-bus
+        just greasy-grove
     fi
 
 # Install NixOS onto a clean target machine using nixos-anywhere
@@ -43,6 +44,7 @@ tailscale:     (rebuild "tailscale"     env_var("TAILSCALE_IP"))
 lonely-lodge: (rebuild "lonely-lodge" env_var("LONELY_LODGE_IP"))
 retail-row:   (rebuild "retail-row"   env_var("RETAIL_ROW_IP"))
 battle-bus:   (rebuild "battle-bus"   env_var("BATTLE_BUS_IP"))
+greasy-grove: (rebuild "greasy-grove" env_var("GREASY_GROVE_IP"))
 
 # Prepare target configuration for initial fast bootstrap (essential apps only)
 bootstrap-prep:

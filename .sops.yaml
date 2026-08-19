@@ -19,6 +19,7 @@ keys:
   - &server_lonely "age186deupfpq3ztuk9qher083mwerfxclzmtfkrv3dc2e5jrvyerdjsyx5ym9"
   - &server_lobby "age1ex3wq9wxazxdlj573z6vwghjz7hanlsu44aa2h3t7al80h086cnq7revjx"
   - &server_battle "age1s3gkusnj42q5ek28h4e4w0762dxn74g5umj2wqtmc95xanr6nfkqds4fq5"
+  - &server_greasy ""
 
 creation_rules:
   # Secret matching rules by directory path
@@ -45,3 +46,9 @@ creation_rules:
       - age:
           - *user_sem
           - *server_battle
+
+  - path_regex: machines/server/greasy-grove/secrets\.yaml$
+    key_groups:
+      - age:
+          - *user_sem
+          - *server_greasy
