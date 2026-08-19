@@ -4,6 +4,7 @@
   # proxmox hosts
   reboot-van = { ip = "192.168.10.10"; domain = "reboot-van.home"; prefixLength = 24; gateway = "192.168.10.1"; };
   supply-drop  = { ip = "192.168.10.11"; domain = "supply-drop.home"; prefixLength = 24; gateway = "192.168.10.1"; };
+  zero-point = { ip = "192.168.10.12"; domain = "zero-point.home"; prefixLength = 24; gateway = "192.168.10.1"; };
   
   # vms & lxc'
   adguard-home = { ip = "192.168.10.100"; domain = "adguard-home.home"; prefixLength = 24; gateway = "192.168.10.1"; };
