@@ -12,6 +12,7 @@
     nixfmt
     golangci-lint
     just
+    lefthook
     neovim
     sqlite
   ];

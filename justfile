@@ -26,11 +26,12 @@ install host ip:
 setup-dev:
     bash ./scripts/setup-devshells.sh
 
-# Configure Git pre-commit hooks for automatic secret encryption and host checks
+# Configure Git pre-commit hooks via Lefthook
 setup-hooks:
-    chmod +x scripts/*.sh .githooks/*
-    git config core.hooksPath .githooks
-    @echo "✅ Git hooks configured to .githooks"
+    chmod +x scripts/*.sh scripts/git/*.sh
+    git config --unset core.hooksPath 2>/dev/null || true
+    lefthook install
+    @echo "Lefthook git hooks installed"
 
 # Automatically encrypt all unencrypted SOPS secret files and re-stage if needed
 encrypt-secrets:

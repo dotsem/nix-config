@@ -65,7 +65,7 @@ Ensure the following runtimes and tools are installed on your control node:
 After cloning the repository, initialize the local environment and activate Git pre-commit hooks:
 
 ```bash
-# Set up Git pre-commit hooks (links core.hooksPath to .githooks)
+# Set up Git pre-commit hooks via Lefthook
 just setup-hooks
 
 # Or provision localized language devshells inside ~/prog and configure hooks simultaneously
@@ -73,13 +73,13 @@ just setup-dev
 ```
 
 > [!IMPORTANT]
-> Git does not run repository-tracked hooks automatically after cloning. You must run `just setup-hooks` once per cloned instance to activate automatic secret encryption and host verification guards.
+> Git does not run repository-tracked hooks automatically after cloning. You must run `just setup-hooks` once per cloned instance to activate automatic secret encryption and host verification guards via Lefthook.
 
 ### Secret Management & Pre-commit Hooks
 
-SOPS secret files (`machines/**/secrets.yaml`) are automatically protected by Git pre-commit hooks:
+SOPS secret files (`machines/**/secrets.yaml`) are automatically protected by Lefthook pre-commit hooks:
 
-* **Automatic Pre-commit Encryption**: When committing changes, `.githooks/pre-commit` detects any unencrypted secret files matching `.sops.yaml` creation rules or `*secrets*.{yaml,yml,json,env}`, encrypts them in place using `sops -e -i`, and re-stages them.
+* **Automatic Pre-commit Encryption**: When committing changes, Lefthook detects any unencrypted secret files matching `.sops.yaml` creation rules or `*secrets*.{yaml,yml,json,env}`, encrypts them in place using `sops -e -i`, and re-stages them.
 * **Commit Security Guard**: Commits are automatically blocked if any plaintext secret cannot be encrypted or if required recipient keys are missing.
 * **Manual Commands**:
   ```bash

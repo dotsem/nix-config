@@ -1,0 +1,8 @@
+pre-commit:
+  parallel: false
+  commands:
+    encrypt-secrets:
+      run: bash ./scripts/git/pre-commit-encrypt-secrets.sh
+      stage_fixed: true
+    check-hosts:
+      run: bash ./scripts/git/pre-commit-check-hosts.sh
