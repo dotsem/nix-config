@@ -56,11 +56,13 @@ in
     docker-compose
   ];
 
-  # Expose GoStrategy (:1000, :1001) and World Wide Bulb (:5000) to battle-bus ingress
   networking.firewall.allowedTCPPorts = [
     22
+    # GoStrategy
     1000
     1001
+    # World Wide Bulb
     5000
+    5010
   ];
 }

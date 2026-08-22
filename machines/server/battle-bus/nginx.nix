@@ -16,6 +16,7 @@ in
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
+    #! Don't forget to allow access to the ports on retail-row's firewall
     virtualHosts = {
       "_" = {
         default = true;
@@ -68,13 +69,19 @@ in
         };
       };
 
+      # World Wide Bulb
       "wwb.dotsem.be" = {
-        serverAliases = [
-          "wwb.home"
-        ];
         locations = securityLocations // {
           "/" = {
             proxyPass = "http://${hosts.retail-row.ip}:5000";
+            proxyWebsockets = true;
+          };
+        };
+      };
+      "staging-wwb.dotsem.be" = {
+        locations = securityLocations // {
+          "/" = {
+            proxyPass = "http://${hosts.retail-row.ip}:5010";
             proxyWebsockets = true;
           };
         };

@@ -255,25 +255,40 @@
       {
         "Applications" = [
           {
-            "World Wide Bulb" = {
-              icon = "/assets/bulb.png";
-              href = "https://wwb.dotsem.be";
-              siteMonitor = "https://wwb.dotsem.be";
-            };
+            "Production" = [
+              {
+                "World Wide Bulb" = {
+                  icon = "/assets/bulb.png";
+                  href = "https://wwb.dotsem.be";
+                  siteMonitor = "https://wwb.dotsem.be";
+                };
+              }
+              {
+                "GoStrategy" = {
+                  icon = "gomft.png";
+                  href = "https://gostrategy.dotsem.be";
+                  siteMonitor = "https://gostrategy.dotsem.be";
+                };
+              }
+              {
+                "Portfolio" = {
+                  icon = "/assets/favicon.png";
+                  href = "https://dotsem.be";
+                  siteMonitor = "https://dotsem.be";
+                };
+              }
+            ];
           }
           {
-            "GoStrategy" = {
-              icon = "gomft.png";
-              href = "https://gostrategy.dotsem.be";
-              siteMonitor = "https://gostrategy.dotsem.be";
-            };
-          }
-          {
-            "Portfolio" = {
-              icon = "/assets/favicon.png";
-              href = "https://dotsem.be";
-              siteMonitor = "https://dotsem.be";
-            };
+            "Staging" = [
+              {
+                "World Wide Bulb" = {
+                  icon = "/assets/bulb.png";
+                  href = "https://staging-wwb.dotsem.be";
+                  siteMonitor = "https://staging-wwb.dotsem.be";
+                };
+              }
+            ];
           }
         ];
       }
