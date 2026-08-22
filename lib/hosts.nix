@@ -7,6 +7,7 @@
   zero-point = { ip = "192.168.10.12"; domain = "zero-point.home"; prefixLength = 24; gateway = "192.168.10.1"; };
   
   # vms & lxc'
+  flush-factory = { ip = "192.168.10.1"; domain = "flush-factory.home"; }; # is router lol
   adguard-home = { ip = "192.168.10.100"; domain = "adguard-home.home"; prefixLength = 24; gateway = "192.168.10.1"; };
   lobby        = { ip = "192.168.10.101"; domain = "lobby.home"; prefixLength = 24; gateway = "192.168.10.1"; };
   retail-row   = { ip = "192.168.10.102"; domain = "retail-row.home"; prefixLength = 24; gateway = "192.168.10.1"; };
@@ -16,6 +17,5 @@
   tailscale    = { ip = "192.168.10.110"; domain = "tailscale.home"; prefixLength = 24; gateway = "192.168.10.1"; };
 
   # network hardware
-  openwrt        = { ip = "192.168.0.167"; };
   netgear-switch = { ip = "192.168.0.11"; };
 }

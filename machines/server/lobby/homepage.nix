@@ -126,9 +126,16 @@
             };
           }
           {
-            "OpenWRT Router" = {
-              icon = "openwrt.png";
-              href = "http://${hosts.openwrt.ip}/cgi-bin/luci/";
+            "OPNsense" = {
+              icon = "opnsense.png";
+              href = "http://${hosts.flush-factory.ip}/";
+              # TODO
+              # widget = {
+              #   type = "opnsense";
+              #   url = "http://${hosts.flush-factory.ip}";
+              #   username = "admin";
+              #   password = "[PASSWORD]";
+              # }; 
             };
           }
           {

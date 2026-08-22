@@ -307,7 +307,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
           "editorMode": "code",
-          "expr": "(1 - (node_memory_MemAvailable_bytes{job=\"node-exporter\"} / node_memory_MemTotal_bytes{job=\"node-exporter\"})) * 100",
+          "expr": "(1 - ((node_memory_MemAvailable_bytes{job=\"node-exporter\"} or node_memory_free_bytes{job=\"node-exporter\"}) / (node_memory_MemTotal_bytes{job=\"node-exporter\"} or node_memory_size_bytes{job=\"node-exporter\"}))) * 100",
           "format": "table",
           "instant": true,
           "legendFormat": "{{instance}}",
@@ -325,7 +325,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
           "editorMode": "code",
-          "expr": "sum by (instance) (rate(node_disk_read_bytes_total{job=\"node-exporter\"}[2m]))",
+          "expr": "sum by (instance) (rate(node_disk_read_bytes_total{job=\"node-exporter\"}[2m])) or sum by (instance) (rate(node_devstat_bytes_total{job=\"node-exporter\", type=\"read\"}[2m]))",
           "format": "table",
           "instant": true,
           "legendFormat": "{{instance}}",
@@ -334,7 +334,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "gostrategy-prometheus" },
           "editorMode": "code",
-          "expr": "sum by (instance) (rate(node_disk_written_bytes_total{job=\"node-exporter\"}[2m]))",
+          "expr": "sum by (instance) (rate(node_disk_written_bytes_total{job=\"node-exporter\"}[2m])) or sum by (instance) (rate(node_devstat_bytes_total{job=\"node-exporter\", type=\"write\"}[2m]))",
           "format": "table",
           "instant": true,
           "legendFormat": "{{instance}}",
