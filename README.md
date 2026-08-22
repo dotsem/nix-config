@@ -48,6 +48,8 @@ This repository uses NixOS 26.05 and the following declarative tools:
 | **lobby** | Server (LXC) | `192.168.10.101` | Central homelab gateway dashboard (Homepage) on HTTP (80). | `machines/server/lobby` |
 | **retail-row** | Server (VM) | `192.168.10.102` | Production application server hosting GoStrategy and World Wide Bulb with Nginx reverse proxy. | `machines/server/retail-row` |
 | **lonely-lodge** | Server (LXC) | `192.168.10.103` | Telemetry & log aggregation node running Docker-managed Grafana, Loki, Promtail, and Prometheus. | `machines/server/lonely-lodge` |
+| **battle-bus** | Server (LXC) | `192.168.10.104` | Edge Ingress Gateway with Nginx reverse proxy and Cloudflare Tunnel. | `machines/server/battle-bus` |
+| **greasy-grove** | Server (LXC) | `192.168.10.105` | Kitchen, inventory & pantry logistics server hosting Homebox and KitchenOwl. | `machines/server/greasy-grove` |
 | **tailscale** | Server (LXC) | `192.168.10.110` | Secure remote access subnet router and exit node. | `machines/server/tailscale` |
 
 ## Getting Started & Workflows

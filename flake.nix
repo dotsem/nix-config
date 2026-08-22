@@ -130,6 +130,19 @@
             }
           ];
         };
+
+        greasy-grove = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs hosts; };
+          modules = [
+            ./common/core
+            inputs.sops-nix.nixosModules.sops
+            ./machines/server/greasy-grove/configuration.nix
+            {
+              custom.server.description = "Kitchen, inventory & pantry logistics server (Homebox & KitchenOwl)";
+            }
+          ];
+        };
       };
     };
 }

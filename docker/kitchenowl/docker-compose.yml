@@ -1,0 +1,26 @@
+services:
+  front:
+    image: tombursch/kitchenowl-web:latest
+    container_name: kitchenowl-web
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    depends_on:
+      - back
+    networks:
+      - kitchenowl-net
+
+  back:
+    image: tombursch/kitchenowl-backend:latest
+    container_name: kitchenowl-backend
+    restart: unless-stopped
+    environment:
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:?JWT_SECRET_KEY must be provided}
+    volumes:
+      - /var/lib/kitchenowl/data:/data
+    networks:
+      - kitchenowl-net
+
+networks:
+  kitchenowl-net:
+    driver: bridge

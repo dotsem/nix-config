@@ -24,3 +24,4 @@ scrape_configs:
           - "tailscale.home:9100"
           - "lobby.home:9100"
           - "battle-bus.home:9100"
+          - "greasy-grove.home:9100"
