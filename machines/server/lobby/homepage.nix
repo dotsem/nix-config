@@ -98,6 +98,19 @@
               };
             };
           }
+          {
+            "Zero Point" = {
+              icon = "proxmox.png";
+              href = "https://${hosts.zero-point.ip}:8006";
+              widget = {
+                type = "proxmox";
+                url = "https://${hosts.zero-point.ip}:8006";
+                username = "lobby@pve!homepage";
+                password = "{{HOMEPAGE_VAR_PROXMOX_KEY}}";
+                node = "zeropoint";
+              };
+            };
+          }
         ];
       }
       {

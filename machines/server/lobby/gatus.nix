@@ -156,6 +156,14 @@ let
           interval = "1m";
           conditions = [ "[STATUS] == 200" ];
         }
+        {
+          name = "Proxmox (Zero Point)";
+          group = "Hypervisors";
+          url = "https://${hosts.zero-point.ip}:8006";
+          client.insecure = true;
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
       ];
     };
 
