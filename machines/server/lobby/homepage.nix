@@ -152,7 +152,7 @@
                   href = "https://console.tailscale.com/admin/machines";
                   widget = {
                     type = "tailscale";
-                    deviceid = "nhYhJVxE2N11CNTRL";
+                    deviceid = "nQr8NoUgZe11CNTRL";
                     key = "{{HOMEPAGE_VAR_TAILSCALE_KEY}}";
                   };
                 };
@@ -175,6 +175,17 @@
                   widget = {
                     type = "tailscale";
                     deviceid = "nPsj49Gwp921CNTRL";
+                    key = "{{HOMEPAGE_VAR_TAILSCALE_KEY}}";
+                  };
+                };
+              }
+              {
+                "Geen Telefoon" = {
+                  icon = "tailscale.png";
+                  href = "https://console.tailscale.com/admin/machines";
+                  widget = {
+                    type = "tailscale";
+                    deviceid = "nMA39HdmhW11CNTRL";
                     key = "{{HOMEPAGE_VAR_TAILSCALE_KEY}}";
                   };
                 };
