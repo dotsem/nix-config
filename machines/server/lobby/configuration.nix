@@ -14,6 +14,7 @@
     ./homepage.nix
     ./gatus.nix
     ./ntfy.nix
+    ./healthchecks.nix
   ];
 
   fileSystems."/" = {
