@@ -12,6 +12,7 @@ This repository uses NixOS 26.05 and the following declarative tools:
 * **Just**: Command execution runner for system rebuilds, deployment automation, and devshell provisioning.
 * **Direnv**: Automatic directory-based development shell loading via Flake targets.
 * **Docker & Docker Compose**: Container orchestration for application workloads and telemetry infrastructure.
+* **`ntfy-sh` & Gatus**: Real-time push notification server and automated endpoint health monitoring.
 
 ## Repository Layout
 
@@ -45,7 +46,7 @@ This repository uses NixOS 26.05 and the following declarative tools:
 | **nasaPC** | Desktop | Dynamic (DHCP) | High-performance workstation. NVIDIA proprietary drivers, Steam, GameMode optimizations. | `machines/desktop/nasaPC` |
 | **toasterBTW** | Workstation | Dynamic (DHCP) | Mobile laptop setup. TLP power management, Intel/NVIDIA hybrid graphics (PRIME offloading), thermald. | `machines/desktop/toasterBTW` |
 | **adguard-home** | Server (LXC) | `192.168.10.100` | Network-wide DNS resolution and ad-blocking server. | `machines/server/adguard-home` |
-| **lobby** | Server (LXC) | `192.168.10.101` | Central homelab gateway dashboard (Homepage) on HTTP (80). | `machines/server/lobby` |
+| **lobby** | Server (LXC) | `192.168.10.101` | Central homelab gateway dashboard (Homepage), Gatus status monitoring, ntfy push notification server, and Healthchecks.io heartbeat ping. | `machines/server/lobby` |
 | **retail-row** | Server (VM) | `192.168.10.102` | Production application server hosting GoStrategy and World Wide Bulb with Nginx reverse proxy. | `machines/server/retail-row` |
 | **lonely-lodge** | Server (LXC) | `192.168.10.103` | Telemetry & log aggregation node running Docker-managed Grafana, Loki, Promtail, and Prometheus. | `machines/server/lonely-lodge` |
 | **battle-bus** | Server (LXC) | `192.168.10.104` | Edge Ingress Gateway with Nginx reverse proxy and Cloudflare Tunnel. | `machines/server/battle-bus` |
