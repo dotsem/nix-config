@@ -13,6 +13,8 @@
     ../../../common/server/default.nix
     ./homepage.nix
     ./gatus.nix
+    ./ntfy.nix
+    ./healthchecks.nix
   ];
 
   fileSystems."/" = {
@@ -22,5 +24,8 @@
 
   networking.hostName = "lobby";
 
-  networking.firewall.allowedTCPPorts = [ 8080 ];
+  networking.firewall.allowedTCPPorts = [
+    8080
+    8090
+  ];
 }

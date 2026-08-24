@@ -87,6 +87,7 @@ in
         };
       };
 
+      # Internal Stuff
       "lobby.dotsem.be" = {
         serverAliases = [
           "lobby.home"
@@ -142,6 +143,19 @@ in
           "/" = {
             proxyPass = "http://${hosts.lobby.ip}:4002";
             proxyWebsockets = true;
+          };
+        };
+      };
+
+      "ntfy.dotsem.be" = {
+        locations = securityLocations // {
+          "/" = {
+            proxyPass = "http://${hosts.lobby.ip}:8090";
+            proxyWebsockets = true;
+            extraConfig = ''
+              proxy_buffering off;
+              proxy_read_timeout 24h;
+            '';
           };
         };
       };

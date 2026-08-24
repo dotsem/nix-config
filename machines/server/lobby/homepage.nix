@@ -250,6 +250,13 @@
               href = "http://${hosts.lonely-lodge.ip}:9090/targets";
             };
           }
+          {
+            "Push Alerts (ntfy)" = {
+              icon = "ntfy.png";
+              href = "https://ntfy.dotsem.be";
+              siteMonitor = "https://ntfy.dotsem.be";
+            };
+          }
         ];
       }
       {
