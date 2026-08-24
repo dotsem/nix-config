@@ -8,6 +8,17 @@
 let
   yaml = pkgs.formats.yaml { };
 
+  defaultAlerts = [
+    {
+      type = "ntfy";
+      failure-threshold = 3;
+      success-threshold = 2;
+      send-on-resolved = true;
+    }
+  ];
+
+  withAlerts = endpoints: map (e: e // { alerts = defaultAlerts; }) endpoints;
+
   mkGatusService =
     {
       name,
@@ -15,6 +26,7 @@ let
       title,
       header,
       endpoints,
+      enableAlerting ? true,
     }:
     let
       settings = {
@@ -26,6 +38,13 @@ let
         ui = {
           inherit title header;
           description = "Service Health Status";
+        };
+        alerting = lib.optionalAttrs enableAlerting {
+          ntfy = {
+            url = "http://127.0.0.1:8090";
+            topic = "alerts";
+            priority = 4;
+          };
         };
         inherit endpoints;
       };
@@ -60,7 +79,7 @@ let
       port = 4000;
       title = "Public Status | dotsem.be";
       header = "Public Projects | dotsem.be";
-      endpoints = [
+      endpoints = withAlerts [
         {
           name = "World Wide Bulb";
           group = "Projects";
@@ -104,7 +123,7 @@ let
       port = 4001;
       title = "Internal Status | dotsem.be";
       header = "Homelab Infrastructure";
-      endpoints = [
+      endpoints = withAlerts [
         {
           name = "Lobby Dashboard";
           group = "Core Infrastructure";
@@ -172,6 +191,7 @@ let
       port = 4002;
       title = "Stalker Status | dotsem.be";
       header = "External Websites | dotsem.be";
+      enableAlerting = false;
       endpoints = [
         {
           name = "Cloudflare DNS";
