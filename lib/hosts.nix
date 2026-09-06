@@ -17,5 +17,5 @@
   tailscale    = { ip = "192.168.10.110"; domain = "tailscale.home"; prefixLength = 24; gateway = "192.168.10.1"; };
 
   # network hardware
-  netgear-switch = { ip = "192.168.0.11"; };
+  netgear-switch = { ip = "192.168.0.9"; };
 }
