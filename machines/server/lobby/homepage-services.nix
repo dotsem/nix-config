@@ -7,7 +7,7 @@
           icon = "si-windows10";
           href = "/api/wake-nasapc";
           description = "Click to Wake on LAN";
-          ping = "${hosts.nasapc.ip}";
+          siteMonitor = "http://${hosts.lobby.ip}:9099/status";
         };
       }
       {

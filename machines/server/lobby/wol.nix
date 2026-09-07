@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  hosts,
   ...
 }:
 let
@@ -10,6 +11,9 @@ let
     version = "0.1.0";
     src = ../../../scripts/wake;
     vendorHash = null;
+    ldflags = [
+      "-X main.targetIP=${hosts.nasapc.ip}"
+    ];
   };
 in
 {
@@ -23,7 +27,10 @@ in
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
 
-    path = [ pkgs.wakeonlan ];
+    path = [
+      pkgs.wakeonlan
+      pkgs.iputils
+    ];
 
     serviceConfig = {
       ExecStart = "${wakeDaemon}/bin/wake";
@@ -37,6 +44,8 @@ in
       ProtectSystem = "strict";
       ProtectHome = true;
       NoNewPrivileges = true;
+      AmbientCapabilities = [ "CAP_NET_RAW" ];
+      CapabilityBoundingSet = [ "CAP_NET_RAW" ];
     };
   };
 
