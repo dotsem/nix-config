@@ -15,6 +15,7 @@
     ./gatus.nix
     ./ntfy.nix
     ./healthchecks.nix
+    ./wol.nix
   ];
 
   fileSystems."/" = {

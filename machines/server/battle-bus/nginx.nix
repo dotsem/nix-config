@@ -105,6 +105,9 @@ in
             proxyPass = "http://${hosts.lobby.ip}:8080";
             proxyWebsockets = true;
           };
+          "/api/wake-nasapc" = {
+            proxyPass = "http://${hosts.lobby.ip}:9099/wake";
+          };
         };
       };
 
