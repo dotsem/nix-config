@@ -18,4 +18,7 @@
 
   # network hardware
   netgear-switch = { ip = "192.168.0.9"; };
+
+  # other
+  nasapc = { ip = "192.168.10.20"; };
 }
