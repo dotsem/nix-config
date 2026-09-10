@@ -20,18 +20,6 @@
 
   networking.hostName = "adguard-home";
 
-  # Static IP configuration for LXC container
-  networking.useDHCP = false;
-  networking.interfaces.eth0.ipv4.addresses = [
-    {
-      address = hosts.adguard-home.ip;
-      prefixLength = hosts.adguard-home.prefixLength;
-    }
-  ];
-  networking.defaultGateway = {
-    address = hosts.adguard-home.gateway;
-    interface = "eth0";
-  };
   networking.nameservers = lib.mkForce [ "1.1.1.1" ];
 
   # Disable systemd-resolved so AdGuard Home can bind to port 53

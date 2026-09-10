@@ -1,3 +1,6 @@
-{ config, lib, ... }: {
-  networking.nameservers = [ "192.168.10.100" ];
+{ hosts, ... }: {
+  networking.nameservers = [
+    hosts.adguard-home.ip
+    "1.1.1.1"
+  ];
 }

@@ -33,10 +33,6 @@
     address = hosts.greasy-grove.gateway;
     interface = "eth0";
   };
-  networking.nameservers = [
-    hosts.adguard-home.ip
-    "1.1.1.1"
-  ];
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets.kitchenowl_jwt_secret = {

@@ -21,23 +21,6 @@
 
   networking.hostName = "battle-bus";
 
-  # Static IP configuration
-  networking.useDHCP = false;
-  networking.interfaces.eth0.ipv4.addresses = [
-    {
-      address = hosts.battle-bus.ip;
-      prefixLength = hosts.battle-bus.prefixLength;
-    }
-  ];
-  networking.defaultGateway = {
-    address = hosts.battle-bus.gateway;
-    interface = "eth0";
-  };
-  networking.nameservers = [
-    hosts.adguard-home.ip
-    "1.1.1.1"
-  ];
-
   # SOPS secrets setup for Cloudflare Tunnel credentials
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets.cloudflare_tunnel_token = {

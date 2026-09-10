@@ -29,10 +29,6 @@ in
     address = hosts.retail-row.gateway;
     interface = "ens18";
   };
-  networking.nameservers = [
-    hosts.adguard-home.ip
-    "1.1.1.1"
-  ];
 
   # Enable QEMU Guest Agent for Proxmox
   services.qemuGuest.enable = true;
