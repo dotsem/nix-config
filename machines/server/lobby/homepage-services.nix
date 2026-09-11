@@ -76,6 +76,16 @@
         };
       }
       {
+        "AdGuard Home ZP" = {
+          icon = "adguard-home.png";
+          href = "http://${hosts.adguard-home-zp.ip}:3000";
+          widget = {
+            type = "adguard";
+            url = "http://${hosts.adguard-home-zp.ip}:3000";
+          };
+        };
+      }
+      {
         "OPNsense" = {
           icon = "opnsense.png";
           href = "http://${hosts.flush-factory.ip}/";
