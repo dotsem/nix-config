@@ -8,55 +8,87 @@ else
 fi
 cd "$REPO_ROOT"
 
-HOSTS_NIX="lib/hosts.nix"
-HOSTS_ENV="hosts.env"
+HOSTS_NIX="${HOSTS_NIX:-lib/hosts.nix}"
+HOSTS_ENV="${HOSTS_ENV:-hosts.env}"
 
 if [ ! -f "$HOSTS_NIX" ] || [ ! -f "$HOSTS_ENV" ]; then
   exit 0
 fi
 
-# Extract IPs from lib/hosts.nix
-ADGUARD_NIX=$(grep 'adguard-home' "$HOSTS_NIX" | grep -oP 'ip = "\K[0-9\.]+' || true)
-TAILSCALE_NIX=$(grep 'tailscale' "$HOSTS_NIX" | grep -oP 'ip = "\K[0-9\.]+' || true)
-LOBBY_NIX=$(grep 'lobby' "$HOSTS_NIX" | grep -oP 'ip = "\K[0-9\.]+' || true)
-RETAIL_NIX=$(grep 'retail-row' "$HOSTS_NIX" | grep -oP 'ip = "\K[0-9\.]+' || true)
-LONELY_NIX=$(grep 'lonely-lodge' "$HOSTS_NIX" | grep -oP 'ip = "\K[0-9\.]+' || true)
+# Parse lib/hosts.nix dynamically, skipping entries marked with #ch-ignore
+declare -A NIX_HOSTS
+declare -A EXPECTED_ENV_VARS
 
-# Extract IPs from hosts.env
-ADGUARD_ENV=$(grep 'ADGUARD_HOME_IP' "$HOSTS_ENV" | cut -d'=' -f2 || true)
-TAILSCALE_ENV=$(grep 'TAILSCALE_IP' "$HOSTS_ENV" | cut -d'=' -f2 || true)
-LOBBY_ENV=$(grep 'LOBBY_IP' "$HOSTS_ENV" | cut -d'=' -f2 || true)
-RETAIL_ENV=$(grep 'RETAIL_ROW_IP' "$HOSTS_ENV" | cut -d'=' -f2 || true)
-LONELY_ENV=$(grep 'LONELY_LODGE_IP' "$HOSTS_ENV" | cut -d'=' -f2 || true)
+while read -r host ip; do
+  [[ -z "$host" || -z "$ip" ]] && continue
+  env_var="$(echo "$host" | tr '[:lower:]' '[:upper:]' | tr '-' '_')_IP"
+  NIX_HOSTS["$env_var"]="$ip"
+  EXPECTED_ENV_VARS["$host"]="$env_var"
+done < <(awk '
+  /#[[:space:]]*[cC][hH]-[iI][gG][nN][oO][rR][eE]/ {
+    ignore = 1
+  }
+  /^[[:space:]]*([a-zA-Z0-9_-]+)[[:space:]]*=[[:space:]]*\{/ {
+    match($0, /^[[:space:]]*([a-zA-Z0-9_-]+)/, m)
+    curr_host = m[1]
+    if ($0 ~ /#[[:space:]]*[cC][hH]-[iI][gG][nN][oO][rR][eE]/) {
+      ignore = 1
+    }
+  }
+  curr_host && /ip[[:space:]]*=[[:space:]]*"[0-9.]+"/ {
+    match($0, /ip[[:space:]]*=[[:space:]]*"([0-9.]+)"/, m)
+    curr_ip = m[1]
+  }
+  curr_host && /\}/ {
+    if (!ignore && curr_ip) {
+      print curr_host, curr_ip
+    }
+    curr_host = ""
+    curr_ip = ""
+    ignore = 0
+  }
+' "$HOSTS_NIX")
+
+declare -A ENV_HOSTS
+while IFS='=' read -r key val || [ -n "$key" ]; do
+  [[ "$key" =~ ^[[:space:]]*# ]] && continue
+  [[ -z "$key" ]] && continue
+
+  key=$(echo "$key" | xargs)
+  val=$(echo "$val" | xargs)
+  val="${val%\"}"
+  val="${val#\"}"
+  val="${val%\'}"
+  val="${val#\'}"
+
+  [[ -n "$key" ]] && ENV_HOSTS["$key"]="$val"
+done < "$HOSTS_ENV"
 
 ERRORS=0
 
-if [ "$ADGUARD_NIX" != "$ADGUARD_ENV" ]; then
-  echo "Error: ADGUARD_HOME_IP mismatch between lib/hosts.nix ($ADGUARD_NIX) and hosts.env ($ADGUARD_ENV)"
-  ERRORS=1
-fi
+for host in "${!EXPECTED_ENV_VARS[@]}"; do
+  env_var="${EXPECTED_ENV_VARS[$host]}"
+  nix_ip="${NIX_HOSTS[$env_var]}"
 
-if [ "$LOBBY_NIX" != "$LOBBY_ENV" ]; then
-  echo "Error: LOBBY_IP mismatch between lib/hosts.nix ($LOBBY_NIX) and hosts.env ($LOBBY_ENV)"
-  ERRORS=1
-fi
+  if [[ -z "${ENV_HOSTS[$env_var]+x}" ]]; then
+    echo "Error: Missing $env_var in $HOSTS_ENV for host '$host' ($nix_ip)"
+    ERRORS=1
+  elif [[ "${ENV_HOSTS[$env_var]}" != "$nix_ip" ]]; then
+    echo "Error: $env_var mismatch: $HOSTS_NIX has '$nix_ip', $HOSTS_ENV has '${ENV_HOSTS[$env_var]}'"
+    ERRORS=1
+  fi
+done
 
-if [ "$TAILSCALE_NIX" != "$TAILSCALE_ENV" ]; then
-  echo "Error: TAILSCALE_IP mismatch between lib/hosts.nix ($TAILSCALE_NIX) and hosts.env ($TAILSCALE_ENV)"
-  ERRORS=1
-fi
-
-if [ "$RETAIL_NIX" != "$RETAIL_ENV" ]; then
-  echo "Error: RETAIL_ROW_IP mismatch between lib/hosts.nix ($RETAIL_NIX) and hosts.env ($RETAIL_ENV)"
-  ERRORS=1
-fi
-
-if [ "$LONELY_NIX" != "$LONELY_ENV" ]; then
-  echo "Error: LONELY_LODGE_IP mismatch between lib/hosts.nix ($LONELY_NIX) and hosts.env ($LONELY_ENV)"
-  ERRORS=1
-fi
+for key in "${!ENV_HOSTS[@]}"; do
+  if [[ "$key" =~ _IP$ ]]; then
+    if [[ -z "${NIX_HOSTS[$key]+x}" ]]; then
+      echo "Error: Stale variable $key in $HOSTS_ENV (not in $HOSTS_NIX or marked #ch-ignore)"
+      ERRORS=1
+    fi
+  fi
+done
 
 if [ "$ERRORS" -eq 1 ]; then
-  echo "Please sync hosts.env with lib/hosts.nix before committing."
+  echo "Please sync $HOSTS_ENV with $HOSTS_NIX (or mark non-deployable hosts with #ch-ignore)."
   exit 1
 fi
