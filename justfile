@@ -38,7 +38,19 @@ setup-hooks:
 encrypt-secrets:
     bash ./scripts/git/pre-commit-encrypt-secrets.sh
 
-adguard-home:  (rebuild "adguard-home"  env_var("ADGUARD_HOME_IP"))
+adguard-home target="both":
+    #!/usr/bin/env bash
+    if [ "{{target}}" = "rv" ]; then
+        just rebuild "adguard-home" "$ADGUARD_HOME_IP"
+    elif [ "{{target}}" = "zp" ]; then
+        just rebuild "adguard-home-zp" "$ADGUARD_HOME_ZP_IP"
+    elif [ "{{target}}" = "both" ]; then
+        just rebuild "adguard-home" "$ADGUARD_HOME_IP"
+        just rebuild "adguard-home-zp" "$ADGUARD_HOME_ZP_IP"
+    else
+        echo "Invalid target '{{target}}'. Use 'rv', 'zp', or leave empty for both."
+        exit 1
+    fi
 lobby:         (rebuild "lobby"         env_var("LOBBY_IP"))
 tailscale:     (rebuild "tailscale"     env_var("TAILSCALE_IP"))
 lonely-lodge: (rebuild "lonely-lodge" env_var("LONELY_LODGE_IP"))

@@ -24,6 +24,15 @@
     }@inputs:
     let
       hosts = import ./lib/hosts.nix;
+
+      mkServer = extraModules: nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs hosts; };
+        modules = [
+          ./common/core
+          inputs.sops-nix.nixosModules.sops
+        ] ++ extraModules;
+      };
     in
     {
       nixosConfigurations = {
@@ -53,96 +62,52 @@
           ];
         };
 
-        retail-row = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs hosts; };
-          modules = [
-            ./common/core
-            inputs.disko.nixosModules.disko
-            inputs.sops-nix.nixosModules.sops
-            ./common/disko-config.nix
-            ./machines/server/retail-row/configuration.nix
-            { custom.server.description = "production server for GoStrategy"; }
-          ];
-        };
+        retail-row = mkServer [
+          inputs.disko.nixosModules.disko
+          ./common/disko-config.nix
+          ./machines/server/retail-row/configuration.nix
+          { custom.server.description = "production server for GoStrategy"; }
+        ];
 
-        lonely-lodge = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs hosts; };
-          modules = [
-            ./common/core
-            inputs.sops-nix.nixosModules.sops
-            ./machines/server/lonely-lodge/configuration.nix
-            {
-              custom.server.description = "logging stack with grafana, loki and promtail, logs for all nixos machines";
-            }
-          ];
-        };
+        lonely-lodge = mkServer [
+          ./machines/server/lonely-lodge/configuration.nix
+          {
+            custom.server.description = "logging stack with grafana, loki and promtail, logs for all nixos machines";
+          }
+        ];
 
-        adguard-home = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs hosts; };
-          modules = [
-            ./common/core
-            inputs.sops-nix.nixosModules.sops
-            ./machines/server/adguard-home/configuration.nix
-            {
-              custom.server.description = "AdGuard Home DNS server";
-            }
-          ];
-        };
+        adguard-home = mkServer [
+          ./machines/server/adguard-home/configuration.nix
+          { custom.server.description = "AdGuard Home DNS server"; }
+        ];
 
-        lobby = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs hosts; };
-          modules = [
-            ./common/core
-            inputs.sops-nix.nixosModules.sops
-            ./machines/server/lobby/configuration.nix
-            {
-              custom.server.description = "Homepage gateway dashboard server";
-            }
-          ];
-        };
+        adguard-home-zp = mkServer [
+          ./machines/server/adguard-home/configuration.nix
+          {
+            networking.hostName = "adguard-home-zp";
+            custom.server.description = "Secondary AdGuard Home DNS server on zeropoint";
+          }
+        ];
 
-        tailscale = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs hosts; };
-          modules = [
-            ./common/core
-            inputs.sops-nix.nixosModules.sops
-            ./machines/server/tailscale/configuration.nix
-            {
-              custom.server.description = "Tailscale Subnet Router & Exit Node LXC";
-            }
-          ];
-        };
+        lobby = mkServer [
+          ./machines/server/lobby/configuration.nix
+          { custom.server.description = "Homepage gateway dashboard server"; }
+        ];
 
-        battle-bus = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs hosts; };
-          modules = [
-            ./common/core
-            inputs.sops-nix.nixosModules.sops
-            ./machines/server/battle-bus/configuration.nix
-            {
-              custom.server.description = "Edge Ingress Gateway with Nginx & Cloudflare Tunnel";
-            }
-          ];
-        };
+        tailscale = mkServer [
+          ./machines/server/tailscale/configuration.nix
+          { custom.server.description = "Tailscale Subnet Router & Exit Node LXC"; }
+        ];
 
-        greasy-grove = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs hosts; };
-          modules = [
-            ./common/core
-            inputs.sops-nix.nixosModules.sops
-            ./machines/server/greasy-grove/configuration.nix
-            {
-              custom.server.description = "Kitchen, inventory & pantry logistics server (Homebox & KitchenOwl)";
-            }
-          ];
-        };
+        battle-bus = mkServer [
+          ./machines/server/battle-bus/configuration.nix
+          { custom.server.description = "Edge Ingress Gateway with Nginx & Cloudflare Tunnel"; }
+        ];
+
+        greasy-grove = mkServer [
+          ./machines/server/greasy-grove/configuration.nix
+          { custom.server.description = "Kitchen, inventory & pantry logistics server (Homebox & KitchenOwl)"; }
+        ];
       };
     };
 }

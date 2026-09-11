@@ -2,13 +2,15 @@
 # Machines without fixed IPs are not listed here.
 {
   # proxmox hosts
-  reboot-van = { ip = "192.168.10.10"; domain = "reboot-van.home"; prefixLength = 24; gateway = "192.168.10.1"; };
-  supply-drop  = { ip = "192.168.10.11"; domain = "supply-drop.home"; prefixLength = 24; gateway = "192.168.10.1"; };
-  zero-point = { ip = "192.168.10.12"; domain = "zero-point.home"; prefixLength = 24; gateway = "192.168.10.1"; };
+  reboot-van = { ip = "192.168.10.10"; domain = "reboot-van.home"; prefixLength = 24; gateway = "192.168.10.1"; }; # ch-ignore
+  supply-drop  = { ip = "192.168.10.11"; domain = "supply-drop.home"; prefixLength = 24; gateway = "192.168.10.1"; }; # ch-ignore
+  zero-point = { ip = "192.168.10.12"; domain = "zero-point.home"; prefixLength = 24; gateway = "192.168.10.1"; }; # ch-ignore
   
   # vms & lxc'
-  flush-factory = { ip = "192.168.10.1"; domain = "flush-factory.home"; }; # is router lol
+  flush-factory = { ip = "192.168.10.1"; domain = "flush-factory.home"; }; # is router lol # ch-ignore
   adguard-home = { ip = "192.168.10.100"; domain = "adguard-home.home"; prefixLength = 24; gateway = "192.168.10.1"; };
+  adguard-home-zp = { ip = "192.168.10.150"; domain = "adguard-home-zp.home"; prefixLength = 24; gateway = "192.168.10.1"; };
+
   lobby        = { ip = "192.168.10.101"; domain = "lobby.home"; prefixLength = 24; gateway = "192.168.10.1"; };
   retail-row   = { ip = "192.168.10.102"; domain = "retail-row.home"; prefixLength = 24; gateway = "192.168.10.1"; };
   lonely-lodge = { ip = "192.168.10.103"; domain = "lonely-lodge.home"; prefixLength = 24; gateway = "192.168.10.1"; };
@@ -17,8 +19,8 @@
   tailscale    = { ip = "192.168.10.110"; domain = "tailscale.home"; prefixLength = 24; gateway = "192.168.10.1"; };
 
   # network hardware
-  netgear-switch = { ip = "192.168.0.9"; };
+  netgear-switch = { ip = "192.168.0.9"; }; # ch-ignore
 
   # other
-  nasapc = { ip = "192.168.10.20"; };
+  nasapc = { ip = "192.168.10.20"; }; # ch-ignore
 }
