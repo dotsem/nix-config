@@ -160,6 +160,20 @@ let
           conditions = [ "[STATUS] == 200" ];
         }
         {
+          name = "Grocy";
+          group = "Logistics";
+          url = "http://${hosts.greasy-grove.ip}";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
+        {
+          name = "Homebox";
+          group = "Logistics";
+          url = "http://${hosts.greasy-grove.ip}:7745";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
+        {
           name = "Grafana";
           group = "Observability";
           url = "http://${hosts.lonely-lodge.ip}:3000";

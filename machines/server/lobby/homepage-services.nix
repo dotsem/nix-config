@@ -252,4 +252,29 @@
       }
     ];
   }
+  {
+    "Logistics & Home" = [
+      {
+        "Grocy" = {
+          icon = "grocy.png";
+          href = "http://${hosts.greasy-grove.ip}";
+          siteMonitor = "http://${hosts.greasy-grove.ip}";
+        };
+      }
+      {
+        "Homebox" = {
+          icon = "homebox.png";
+          href = "http://${hosts.greasy-grove.ip}:7745";
+          siteMonitor = "http://${hosts.greasy-grove.ip}:7745";
+        };
+      }
+      {
+        "KitchenOwl" = {
+          icon = "kitchenowl.png";
+          href = "http://${hosts.greasy-grove.ip}:8080";
+          siteMonitor = "http://${hosts.greasy-grove.ip}:8080";
+        };
+      }
+    ];
+  }
 ]

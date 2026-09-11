@@ -165,6 +165,15 @@ in
           };
         };
       };
+
+      "grocy.dotsem.be" = {
+        locations = securityLocations // {
+          "/" = {
+            proxyPass = "http://${hosts.greasy-grove.ip}:80";
+            proxyWebsockets = true;
+          };
+        };
+      };
     };
   };
 }

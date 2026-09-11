@@ -13,6 +13,7 @@
     ../../../common/server/default.nix
     ./homebox.nix
     ./kitchenowl.nix
+    ./grocy.nix
   ];
 
   fileSystems."/" = {
@@ -51,6 +52,7 @@
 
   networking.firewall.allowedTCPPorts = [
     22
+    80
     7745
     8080
   ];
