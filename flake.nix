@@ -104,6 +104,14 @@
           { custom.server.description = "Edge Ingress Gateway with Nginx & Cloudflare Tunnel"; }
         ];
 
+        battle-bus-sd = mkServer [
+          ./machines/server/battle-bus/configuration.nix
+          {
+            networking.hostName = "battle-bus-sd";
+            custom.server.description = "Secondary Edge Ingress Gateway on supplydrop";
+          }
+        ];
+
         greasy-grove = mkServer [
           ./machines/server/greasy-grove/configuration.nix
           { custom.server.description = "Kitchen, inventory & pantry logistics server (Homebox & KitchenOwl)"; }

@@ -19,7 +19,7 @@
     fsType = "ext4";
   };
 
-  networking.hostName = "battle-bus";
+  networking.hostName = lib.mkDefault "battle-bus";
 
   # SOPS secrets setup for Cloudflare Tunnel credentials
   sops.defaultSopsFile = ./secrets.yaml;

@@ -55,7 +55,19 @@ lobby:         (rebuild "lobby"         env_var("LOBBY_IP"))
 tailscale:     (rebuild "tailscale"     env_var("TAILSCALE_IP"))
 lonely-lodge: (rebuild "lonely-lodge" env_var("LONELY_LODGE_IP"))
 retail-row:   (rebuild "retail-row"   env_var("RETAIL_ROW_IP"))
-battle-bus:   (rebuild "battle-bus"   env_var("BATTLE_BUS_IP"))
+battle-bus target="both":
+    #!/usr/bin/env bash
+    if [ "{{target}}" = "rv" ]; then
+        just rebuild "battle-bus" "$BATTLE_BUS_IP"
+    elif [ "{{target}}" = "sd" ]; then
+        just rebuild "battle-bus-sd" "$BATTLE_BUS_SD_IP"
+    elif [ "{{target}}" = "both" ]; then
+        just rebuild "battle-bus" "$BATTLE_BUS_IP"
+        just rebuild "battle-bus-sd" "$BATTLE_BUS_SD_IP"
+    else
+        echo "Invalid target '{{target}}'. Use 'rv', 'sd', or leave empty for both."
+        exit 1
+    fi
 greasy-grove: (rebuild "greasy-grove" env_var("GREASY_GROVE_IP"))
 
 # Prepare target configuration for initial fast bootstrap (essential apps only)

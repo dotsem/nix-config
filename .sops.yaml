@@ -19,6 +19,7 @@ keys:
   - &server_lonely "age186deupfpq3ztuk9qher083mwerfxclzmtfkrv3dc2e5jrvyerdjsyx5ym9"
   - &server_lobby "age1ex3wq9wxazxdlj573z6vwghjz7hanlsu44aa2h3t7al80h086cnq7revjx"
   - &server_battle "age1s3gkusnj42q5ek28h4e4w0762dxn74g5umj2wqtmc95xanr6nfkqds4fq5"
+  - &server_battle_sd "age1ze2edfcvfsepzk6vjvgm0snaf6r9xtyg5rn2fx27g29najjy3pgsw4m7sx"
   - &server_greasy "age1fp2dmujcyzn6rmss6cs48jeel9h4rq4j4xw5yvfdx0esmfmq3ysq364nud"
 
 creation_rules:
@@ -46,6 +47,7 @@ creation_rules:
       - age:
           - *user_sem
           - *server_battle
+          - *server_battle_sd
 
   - path_regex: machines/server/greasy-grove/secrets\.yaml$
     key_groups:

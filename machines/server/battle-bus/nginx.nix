@@ -31,6 +31,9 @@ in
           hosts.battle-bus.ip
           "localhost"
           "127.0.0.1"
+        ] ++ lib.optionals (hosts ? battle-bus-sd) [
+          hosts.battle-bus-sd.ip
+          hosts.battle-bus-sd.domain
         ];
         locations = securityLocations // {
           "/" = {

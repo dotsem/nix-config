@@ -132,16 +132,30 @@ let
           conditions = [ "[STATUS] == 200" ];
         }
         {
-          name = "AdGuard Home";
+          name = "AdGuard Home (Reboot Van)";
           group = "Core Infrastructure";
           url = "http://${hosts.adguard-home.ip}:3000";
           interval = "1m";
           conditions = [ "[STATUS] == 200" ];
         }
         {
-          name = "Battle Bus Ingress";
+          name = "AdGuard Home (Zero Point)";
+          group = "Core Infrastructure";
+          url = "http://${hosts.adguard-home-zp.ip}:3000";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
+        {
+          name = "Battle Bus Ingress (Reboot Van)";
           group = "Core Infrastructure";
           url = "http://${hosts.battle-bus.ip}/healthz";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
+        {
+          name = "Battle Bus Ingress (Supply Drop)";
+          group = "Core Infrastructure";
+          url = "http://${hosts.battle-bus-sd.ip}/healthz";
           interval = "1m";
           conditions = [ "[STATUS] == 200" ];
         }
