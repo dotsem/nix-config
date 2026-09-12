@@ -116,6 +116,15 @@
           ./machines/server/greasy-grove/configuration.nix
           { custom.server.description = "Kitchen, inventory & pantry logistics server (Homebox & KitchenOwl)"; }
         ];
+
+        lxc-template = mkServer [
+          ./machines/server/lxc-template/configuration.nix
+          { custom.server.description = "Base Proxmox NixOS LXC Template"; }
+        ];
+      };
+
+      packages.x86_64-linux = {
+        lxc-template = self.nixosConfigurations.lxc-template.config.system.build.tarball;
       };
     };
 }
