@@ -20,18 +20,6 @@
 
   networking.hostName = "tailscale";
 
-  networking.useDHCP = false;
-  networking.interfaces.eth0.ipv4.addresses = [
-    {
-      address = hosts.tailscale.ip;
-      prefixLength = hosts.tailscale.prefixLength;
-    }
-  ];
-  networking.defaultGateway = {
-    address = hosts.tailscale.gateway;
-    interface = "eth0";
-  };
-
   # Enable Kernel IP forwarding (required for Subnet Routing and Exit Node functionality)
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;

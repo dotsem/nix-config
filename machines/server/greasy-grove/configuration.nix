@@ -23,18 +23,6 @@
 
   networking.hostName = "greasy-grove";
 
-  networking.useDHCP = false;
-  networking.interfaces.eth0.ipv4.addresses = [
-    {
-      address = hosts.greasy-grove.ip;
-      prefixLength = hosts.greasy-grove.prefixLength;
-    }
-  ];
-  networking.defaultGateway = {
-    address = hosts.greasy-grove.gateway;
-    interface = "eth0";
-  };
-
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets.kitchenowl_jwt_secret = {
     restartUnits = [ "kitchenowl.service" ];
