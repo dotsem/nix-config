@@ -23,6 +23,10 @@ rebuild-all parallel="false":
 install host ip:
     nix run github:nix-community/nixos-anywhere -- --flake ".#{{host}}" "nixos@{{ip}}" --option ssh-extra-opts "-C"
 
+# Build the Proxmox NixOS LXC template tarball
+build-template:
+    nix build .#lxc-template -o result-lxc-template
+
 # Automate the deployment of master flake and .envrc files inside ~/prog
 setup-dev:
     bash ./scripts/setup-devshells.sh
