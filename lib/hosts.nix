@@ -17,6 +17,7 @@
   battle-bus   = { ip = "192.168.10.104"; domain = "battle-bus.home"; prefixLength = 24; gateway = "192.168.10.1"; };
   battle-bus-sd = { ip = "192.168.10.154"; domain = "battle-bus-sd.home"; prefixLength = 24; gateway = "192.168.10.1"; };
   greasy-grove = { ip = "192.168.10.105"; domain = "greasy-grove.home"; prefixLength = 24; gateway = "192.168.10.1"; };
+  risky-reels  = { ip = "192.168.10.106"; domain = "risky-reels.home"; prefixLength = 24; gateway = "192.168.10.1"; };
   tailscale    = { ip = "192.168.10.110"; domain = "tailscale.home"; prefixLength = 24; gateway = "192.168.10.1"; };
 
   # network hardware

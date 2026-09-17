@@ -35,6 +35,8 @@
         showSearchSuggestions = true;
         provider = "brave";
       };
+      maxGroupColumns = 5;
+      fullWidth = true;
     };
 
     widgets = [

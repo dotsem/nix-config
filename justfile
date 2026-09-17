@@ -8,7 +8,7 @@ rebuild host ip action="switch":
 rebuild-all parallel="false":
     #!/usr/bin/env bash
     if [ "{{parallel}}" = "true" ]; then
-        just adguard-home & just lobby & just lonely-lodge & just retail-row & just tailscale & just battle-bus & just greasy-grove & wait
+        just adguard-home & just lobby & just lonely-lodge & just retail-row & just tailscale & just battle-bus & just greasy-grove & just risky-reels & wait
     else
         just adguard-home
         just lobby
@@ -17,6 +17,7 @@ rebuild-all parallel="false":
         just tailscale
         just battle-bus
         just greasy-grove
+        just risky-reels
     fi
 
 # Install NixOS onto a clean target machine using nixos-anywhere
@@ -25,7 +26,7 @@ install host ip:
 
 # Build the Proxmox NixOS LXC template tarball
 build-template:
-    nix build .#lxc-template -o result-lxc-template
+    nix build .#lxc-template -o out
 
 # Automate the deployment of master flake and .envrc files inside ~/prog
 setup-dev:
@@ -73,6 +74,7 @@ battle-bus target="both":
         exit 1
     fi
 greasy-grove: (rebuild "greasy-grove" env_var("GREASY_GROVE_IP"))
+risky-reels:  (rebuild "risky-reels"  env_var("RISKY_REELS_IP"))
 
 # Prepare target configuration for initial fast bootstrap (essential apps only)
 bootstrap-prep:
