@@ -20,6 +20,8 @@
 
   networking.hostName = "tailscale";
 
+  sops.defaultSopsFile = ./secrets.yaml;
+
   # Enable Kernel IP forwarding (required for Subnet Routing and Exit Node functionality)
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;

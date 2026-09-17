@@ -6,5 +6,6 @@
     ./monitoring.nix
     ./motd.nix
     ./networking.nix
+    ./sops.nix
   ];
 }

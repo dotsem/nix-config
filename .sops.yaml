@@ -11,8 +11,9 @@
 # Replace the placeholders below with the resulting "age..." public keys.
 
 keys:
-  # Your user master key (allows you to edit secrets from your dev workstation)
+  # User master keys (allows editing secrets from dev workstations)
   - &user_sem "age1x4weu2q4ulwgpdadrz5khr95vt7k8kx0z29he4n402440vhkzcwss72m78"
+  - &user_bitwarden "age1rpdldyehwt4emlvtzmf3phdgy3c0r9lzce42rkgm25ktyfcepegq5j4r2q"
 
   # Machine host keys (allows each respective machine to decrypt its own secrets at boot)
   - &server_retail "age1hxxxu4jl875hryqmyh5uxc0sv29xrkqmsq5cur2df07l3fc80f4q3hvu0e"
@@ -21,31 +22,38 @@ keys:
   - &server_battle "age1s3gkusnj42q5ek28h4e4w0762dxn74g5umj2wqtmc95xanr6nfkqds4fq5"
   - &server_battle_sd "age1ze2edfcvfsepzk6vjvgm0snaf6r9xtyg5rn2fx27g29najjy3pgsw4m7sx"
   - &server_greasy "age1fp2dmujcyzn6rmss6cs48jeel9h4rq4j4xw5yvfdx0esmfmq3ysq364nud"
+  - &server_adguard "age1pvgpkrk0y925tfsv96gj06uavcmgmk9zxhre9ewvls37up50xp0qp3v2wg"
+  - &server_adguard_zp "age1z4gq57uu9vj6jgps4ewn0qhhydkk0vr5hrc3njc55fa9cq39w9lqkq39cf"
+  - &server_tailscale "age1779zwqt52a6fchm6nlcshnaeanv6n0g693uzesk03emtzx0wedws5pv2l0"
+  - &server_risky "age1he4sg5qt5cn0plsuuvug6j2hc85swuk9qesfcs45t3tf3fk9hdes3gfumn"
 
 creation_rules:
-  # Secret matching rules by directory path
   - path_regex: machines/server/retail-row/secrets\.yaml$
     key_groups:
       - age:
           - *user_sem
+          - *user_bitwarden
           - *server_retail
 
   - path_regex: machines/server/lonely-lodge/secrets\.yaml$
     key_groups:
       - age:
           - *user_sem
+          - *user_bitwarden
           - *server_lonely
 
   - path_regex: machines/server/lobby/secrets\.yaml$
     key_groups:
       - age:
           - *user_sem
+          - *user_bitwarden
           - *server_lobby
 
   - path_regex: machines/server/battle-bus/secrets\.yaml$
     key_groups:
       - age:
           - *user_sem
+          - *user_bitwarden
           - *server_battle
           - *server_battle_sd
 
@@ -53,4 +61,27 @@ creation_rules:
     key_groups:
       - age:
           - *user_sem
+          - *user_bitwarden
           - *server_greasy
+
+  - path_regex: machines/server/adguard-home/secrets\.yaml$
+    key_groups:
+      - age:
+          - *user_sem
+          - *user_bitwarden
+          - *server_adguard
+          - *server_adguard_zp
+
+  - path_regex: machines/server/tailscale/secrets\.yaml$
+    key_groups:
+      - age:
+          - *user_sem
+          - *user_bitwarden
+          - *server_tailscale
+
+  - path_regex: machines/server/risky-reels/secrets\.yaml$
+    key_groups:
+      - age:
+          - *user_sem
+          - *user_bitwarden
+          - *server_risky

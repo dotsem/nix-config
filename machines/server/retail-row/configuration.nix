@@ -17,6 +17,8 @@ in
 
   networking.hostName = "retail-row";
 
+  sops.defaultSopsFile = ./secrets.yaml;
+
   # Static IP — values sourced from lib/hosts.nix.
   networking.useDHCP = false;
   networking.interfaces.ens18.ipv4.addresses = [

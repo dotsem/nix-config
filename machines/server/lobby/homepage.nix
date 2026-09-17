@@ -7,7 +7,6 @@
 }:
 {
 
-  sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets.homepage_env = {
     restartUnits = [ "homepage-dashboard.service" ];
   };

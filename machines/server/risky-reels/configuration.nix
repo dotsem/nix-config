@@ -18,6 +18,8 @@
 
   networking.hostName = "risky-reels";
 
+  sops.defaultSopsFile = ./secrets.yaml;
+
   environment.systemPackages = with pkgs; [
     curl
     vim

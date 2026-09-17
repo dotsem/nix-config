@@ -25,6 +25,8 @@
 
   networking.hostName = "lobby";
 
+  sops.defaultSopsFile = ./secrets.yaml;
+
   networking.firewall.allowedTCPPorts = [
     8080
     8090
