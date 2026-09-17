@@ -53,6 +53,7 @@ This repository uses NixOS 26.05 and the following declarative tools:
 | **battle-bus** | Server (LXC) | `192.168.10.104` | Primary Edge Ingress Gateway with Nginx reverse proxy and Cloudflare Tunnel (on rebootvan). | `machines/server/battle-bus` |
 | **battle-bus-sd** | Server (LXC) | `192.168.10.154` | Secondary Edge Ingress Gateway with Nginx reverse proxy and Cloudflare Tunnel (on supplydrop). | `machines/server/battle-bus` |
 | **greasy-grove** | Server (LXC) | `192.168.10.105` | Kitchen, inventory & pantry logistics server hosting Homebox and KitchenOwl. | `machines/server/greasy-grove` |
+| **risky-reels** | Server (LXC) | `192.168.10.106` | Jellyfin media streaming server with VA-API hardware transcoding (on supplydrop). | `machines/server/risky-reels` |
 | **tailscale** | Server (LXC) | `192.168.10.110` | Secure remote access subnet router and exit node. | `machines/server/tailscale` |
 
 ## Getting Started & Workflows

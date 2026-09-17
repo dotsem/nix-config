@@ -117,6 +117,11 @@
           { custom.server.description = "Kitchen, inventory & pantry logistics server (Homebox & KitchenOwl)"; }
         ];
 
+        risky-reels = mkServer [
+          ./machines/server/risky-reels/configuration.nix
+          { custom.server.description = "Jellyfin media streaming server"; }
+        ];
+
         lxc-template = mkServer [
           ./machines/server/lxc-template/configuration.nix
           { custom.server.description = "Base Proxmox NixOS LXC Template"; }
