@@ -20,6 +20,8 @@
 
   networking.hostName = "adguard-home";
 
+  sops.defaultSopsFile = ./secrets.yaml;
+
   networking.nameservers = lib.mkForce [ "1.1.1.1" ];
 
   # Disable systemd-resolved so AdGuard Home can bind to port 53
