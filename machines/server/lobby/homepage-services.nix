@@ -275,6 +275,13 @@
           siteMonitor = "http://${hosts.greasy-grove.ip}:8080";
         };
       }
+      {
+        "JellyFin" = {
+          icon = "jellyfin.png";
+          href = "http://${hosts.risky-reels.ip}:8096";
+          siteMonitor = "http://${hosts.risky-reels.ip}:8096";
+        };
+      }
     ];
   }
 ]
