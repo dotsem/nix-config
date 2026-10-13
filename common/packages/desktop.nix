@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, inputs, ... }: {
   imports = [
     ./profile-state.nix
   ];
@@ -14,6 +14,7 @@
       # essential desktop base
       # web browsers & core networking
       brave
+      inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
       networkmanager-openvpn
 
       # terminal & editor
@@ -48,11 +49,12 @@
       brightnessctl
       fuzzel
       grim
-      hyprlock   # standalone locker, works on niri
-      hyprpicker # color picker, wayland-native
+      hyprlock
+      hyprpicker
       mangohud
       matugen
       mako
+      monique
       nwg-look
       slurp
       wl-clipboard
@@ -65,22 +67,23 @@
       playerctl
       blueman
     ] ++ (lib.optionals config.custom.desktop.fullProfile.enable [
-      # non-essential / heavy applications
-      # secondary browsers & chat
+      # heavy / secondary applications
       firefox
       google-chrome
       vesktop
 
-      # code editors & developer ides
+      # editors & ides
       android-studio
       flutter
       postman
       insomnia
+      jetbrains-toolbox
 
       # productivity & office
       libreoffice-still
       obsidian
       qalculate-gtk
+      staruml
 
       # media & audio creation
       ardour
@@ -88,8 +91,11 @@
       cava
       easyeffects
       crosspipe
+      guitarix
       mpv
       vlc
+      obs-studio
+      openshot-qt
 
       # graphics & 3d tools
       blender
@@ -104,6 +110,15 @@
       prismlauncher
       openttd
       steam
+
+      # remote access & diagnostics
+      remmina
+      moonlight-qt
+      tmog
+      bitwarden-cli
+
+      # flashing & hardware utilities
+      rpi-imager
 
       # virtualization management
       virt-manager

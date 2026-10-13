@@ -1,4 +1,4 @@
-{ config, ... }: {
+{ ... }: {
   imports = [
     ./programming.nix
     ./desktop.nix
