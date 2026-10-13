@@ -20,5 +20,10 @@
       default = "https://github.com/dotsem/dotfiles.git";
       description = "URL of the user dotfiles git repository";
     };
+    isDesktop = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether this system is a desktop workstation";
+    };
   };
 }

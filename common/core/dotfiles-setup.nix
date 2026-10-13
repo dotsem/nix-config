@@ -1,8 +1,7 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   systemd.user.services.dotfiles-setup = {
     description = "Create user directory structures and sync dotfiles via GNU Stow";
     wantedBy = [ "default.target" ];
-    # Git clone requires the network to be fully up
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
     serviceConfig = {
@@ -12,8 +11,22 @@
     script = ''
       set -euo pipefail
 
-      mkdir -p $HOME/Downloads $HOME/Documents $HOME/Desktop $HOME/Music $HOME/Pictures $HOME/Videos
-      mkdir -p $HOME/prog/{c,c++,csharp,di,flutter,go,web,java,linux-web-services,php,python,rust,shell,sin}
+      ${if config.custom.isDesktop then ''
+        mkdir -p $HOME/Downloads $HOME/Documents $HOME/Desktop $HOME/Music $HOME/Pictures $HOME/Videos
+        mkdir -p $HOME/prog/{c,c++,csharp,di,flutter,go,web,java,linux-web-services,php,python,rust,shell,sin}
+      '' else ''
+        mkdir -p $HOME/.config
+        # purge stray desktop symlinks and directories previously linked onto servers
+        for stray in "$HOME"/*; do
+          if [ -L "$stray" ]; then
+            link_target=$(readlink "$stray")
+            if [[ "$link_target" == *".dotfiles/wallpapers"* || "$link_target" == *".dotfiles/gtk"* ]]; then
+              rm -f "$stray"
+            fi
+          fi
+        done
+        rmdir $HOME/Desktop $HOME/Music $HOME/Pictures $HOME/Videos 2>/dev/null || true
+      ''}
 
       # wait for internet connection/dns to resolve github before cloning
       echo "checking network availability..."
@@ -31,25 +44,20 @@
         ${pkgs.git}/bin/git clone "${config.custom.dotfilesUrl}" "$HOME/.dotfiles"
       fi
 
-      # Prevent stow from creating a directory-level symlink over .config
       mkdir -p $HOME/.config
 
       cd "$HOME/.dotfiles"
 
-      # Pre-stow conflict resolution: delete any files, foreign symlinks, or broken symlinks
-      # in $HOME that would conflict with our dotfiles stowing.
+      # Pre-stow conflict resolution
       while read -r stow_file; do
         rel_path="''${stow_file#./}"
-        # Strip the package directory name (e.g., "fish/.config/fish" -> ".config/fish")
         rel_path="''${rel_path#*/}"
         target="$HOME/$rel_path"
         
         if [ -e "$target" ] || [ -L "$target" ]; then
-          # If it is a symlink, check if it already points to our dotfiles
           if [ -L "$target" ]; then
             link_target=$(readlink "$target")
             if [[ "$link_target" == *".dotfiles"* ]]; then
-              # Already stowed correctly, skip
               continue
             fi
           fi
@@ -59,21 +67,34 @@
         fi
       done < <(find . -not -path './.git/*' -not -name '.gitignore' -not -type d)
 
-      # Stow each directory as an individual package
+      # Stow packages
+      headless_packages=("bash" "fish" "nvim" "btop" "fastfetch" "lf" "tmux" "git")
+
       for dir in */; do
         dir="''${dir%/}"
         if [[ "$dir" != .* ]]; then
+          ${if !config.custom.isDesktop then ''
+            is_headless=0
+            for pkg in "''${headless_packages[@]}"; do
+              if [ "$dir" = "$pkg" ]; then
+                is_headless=1
+                break
+              fi
+            done
+            if [ "$is_headless" -eq 0 ]; then
+              echo "Skipping non-headless package on server: $dir"
+              continue
+            fi
+          '' else ""}
+
           echo "Stowing package: $dir"
           
-          # Find all absolute symlinks inside this package and build an ignore pattern
           ignore_pattern=""
           while read -r symlink_file; do
             if [ -L "$symlink_file" ]; then
               link_target=$(readlink "$symlink_file")
               if [[ "$link_target" == /* ]]; then
-                # It's an absolute symlink! Get relative path from package root
                 rel_symlink="''${symlink_file#$dir/}"
-                # Escape dots for regex
                 rel_symlink_escaped=$(echo "$rel_symlink" | sed 's/\./\\./g')
                 if [ -z "$ignore_pattern" ]; then
                   ignore_pattern="$rel_symlink_escaped"
@@ -93,16 +114,17 @@
         fi
       done
 
-      # Ensure Niri's dms/outputs.kdl exists so the config include doesn't crash Niri.
-      # Also inject the software cursor fix for virtualized environments (like Proxmox VMs).
-      mkdir -p $HOME/.config/niri/dms
-      rm -f $HOME/.config/niri/dms/outputs.kdl
-      echo "Creating Niri VM fallback outputs.kdl..."
-      cat <<'EOF' > $HOME/.config/niri/dms/outputs.kdl
+      ${lib.optionalString config.custom.isDesktop ''
+        # Ensure Niri's dms/outputs.kdl exists so the config include doesn't crash Niri.
+        mkdir -p $HOME/.config/niri/dms
+        rm -f $HOME/.config/niri/dms/outputs.kdl
+        echo "Creating Niri VM fallback outputs.kdl..."
+        cat <<'EOF' > $HOME/.config/niri/dms/outputs.kdl
 debug {
     disable-cursor-plane
 }
 EOF
+      ''}
     '';
   };
 }
