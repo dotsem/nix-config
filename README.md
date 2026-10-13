@@ -49,6 +49,7 @@ This repository uses NixOS 26.05 and the following declarative tools:
 | **adguard-home-zp** | Server (LXC) | `192.168.10.150` | Secondary DNS resolution and ad-blocking server (on zeropoint). | `machines/server/adguard-home` |
 | **lobby** | Server (LXC) | `192.168.10.101` | Central homelab gateway dashboard (Homepage), Gatus status monitoring, ntfy push notification server, and Healthchecks.io heartbeat ping. | `machines/server/lobby` |
 | **retail-row** | Server (VM) | `192.168.10.102` | Production application server hosting GoStrategy and World Wide Bulb with Nginx reverse proxy. | `machines/server/retail-row` |
+| **salty-springs** | Server (VM) | `192.168.10.107` | Staging application server for GoStrategy and World Wide Bulb. | `machines/server/salty-springs` |
 | **lonely-lodge** | Server (LXC) | `192.168.10.103` | Telemetry & log aggregation node running Docker-managed Grafana, Loki, Promtail, and Prometheus. | `machines/server/lonely-lodge` |
 | **battle-bus** | Server (LXC) | `192.168.10.104` | Primary Edge Ingress Gateway with Nginx reverse proxy and Cloudflare Tunnel (on rebootvan). | `machines/server/battle-bus` |
 | **battle-bus-sd** | Server (LXC) | `192.168.10.154` | Secondary Edge Ingress Gateway with Nginx reverse proxy and Cloudflare Tunnel (on supplydrop). | `machines/server/battle-bus` |

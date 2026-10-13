@@ -85,3 +85,9 @@ creation_rules:
           - *user_sem
           - *user_bitwarden
           - *server_risky
+
+  - path_regex: machines/server/salty-springs/secrets\.yaml$
+    key_groups:
+      - age:
+          - *user_sem
+          - *user_bitwarden

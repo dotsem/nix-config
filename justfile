@@ -8,12 +8,13 @@ rebuild host ip action="switch":
 rebuild-all parallel="false":
     #!/usr/bin/env bash
     if [ "{{parallel}}" = "true" ]; then
-        just adguard-home & just lobby & just lonely-lodge & just retail-row & just tailscale & just battle-bus & just greasy-grove & just risky-reels & wait
+        just adguard-home & just lobby & just lonely-lodge & just retail-row & just salty-springs & just tailscale & just battle-bus & just greasy-grove & just risky-reels & wait
     else
         just adguard-home
         just lobby
         just lonely-lodge
         just retail-row
+        just salty-springs
         just tailscale
         just battle-bus
         just greasy-grove
@@ -75,6 +76,7 @@ battle-bus target="both":
     fi
 greasy-grove: (rebuild "greasy-grove" env_var("GREASY_GROVE_IP"))
 risky-reels:  (rebuild "risky-reels"  env_var("RISKY_REELS_IP"))
+salty-springs: (rebuild "salty-springs" env_var("SALTY_SPRINGS_IP"))
 
 # Prepare target configuration for initial fast bootstrap (essential apps only)
 bootstrap-prep:

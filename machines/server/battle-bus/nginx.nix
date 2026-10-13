@@ -71,6 +71,30 @@ in
           };
         };
       };
+      "staging-gostrategy.dotsem.be" = {
+        locations = securityLocations // {
+          # Frontend
+          "/" = {
+            proxyPass = "http://${hosts.salty-springs.ip}:1010";
+          };
+          
+          # Backend
+          "/api/" = {
+            proxyPass = "http://${hosts.salty-springs.ip}:1011/";
+          };
+          "/ws/" = {
+            proxyPass = "http://${hosts.salty-springs.ip}:1011/";
+            proxyWebsockets = true;
+          };
+          "/metrics" = {
+            proxyPass = "http://${hosts.salty-springs.ip}:1011/metrics";
+            extraConfig = ''
+              allow ${hosts.lonely-lodge.ip};
+              deny all;
+            '';
+          };
+        };
+      };
 
       # World Wide Bulb
       "wwb.dotsem.be" = {
