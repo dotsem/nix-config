@@ -248,6 +248,13 @@
               siteMonitor = "https://staging-wwb.dotsem.be";
             };
           }
+          {
+            "GoStrategy" = {
+              icon = "gomft.png";
+              href = "https://staging-gostrategy.dotsem.be";
+              siteMonitor = "https://staging-gostrategy.dotsem.be";
+            };
+          }
         ];
       }
     ];
