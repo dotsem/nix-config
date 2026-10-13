@@ -1,4 +1,8 @@
 { config, pkgs, inputs, ... }: {
+  imports = [
+    inputs.noctalia.nixosModules.default
+  ];
+
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
@@ -10,18 +14,15 @@
   # KDE Plasma 6 — fallback session
   services.desktopManager.plasma6.enable = true;
 
-  # DankMaterialShell shell layer
+  # Noctalia Wayland shell (v5)
+  programs.noctalia = {
+    enable = true;
+    package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    systemd.enable = true;
+    recommendedServices.enable = true;
+  };
+
   environment.systemPackages = [
-    inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default
-    pkgs.quickshell
     pkgs.xwayland-satellite
   ];
-
-  # Register the systemd service from the dms package
-  systemd.packages = [ inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default ];
-
-  # Enable the user service for the graphical session
-  systemd.user.services.dms = {
-    wantedBy = [ "graphical-session.target" ];
-  };
 }

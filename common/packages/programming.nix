@@ -1,10 +1,15 @@
 { config, pkgs, ... }: {
   environment.systemPackages = with pkgs; [
-    # DevOps/Cloud Tools
+    # devops & cloud
     k9s
     kubectl
+    helm
+    kind
+    ansible
+    docker-compose
+    openvpn3
 
-    # Developer Utilities
+    # utilities
     jq
     yq
     gh
@@ -15,5 +20,33 @@
     lefthook
     neovim
     sqlite
+    sqlc
+    uv
+    copier
+    meld
+    zap
+
+    # build toolchains
+    gcc
+    gnumake
+    cmake
+    ninja
+    ccache
+
+    # languages & runtimes
+    go
+    govulncheck
+    go-task
+    rustc
+    cargo
+    bun
+    pnpm
+    php
+    php.packages.composer
+    dotnet-sdk
+    jdk21
+    mise
+    claude-code
+    azure-functions-core-tools
   ];
 }

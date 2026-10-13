@@ -18,6 +18,13 @@
 
   # Required for hardware.enableAllFirmware and unfree packages (vscode, nvidia, etc.)
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "qtwebengine-5.15.19"
+  ];
+
+  nixpkgs.overlays = [
+    (import ../../pkgs)
+  ];
 
   # XDG portals: gnome portal is required by niri, kde portal handles plasma sessions
   xdg.portal = {
