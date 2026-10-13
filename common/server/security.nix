@@ -12,10 +12,10 @@
     PermitRootLogin = lib.mkForce "prohibit-password";
   };
 
-  # Modern collaborative brute-force protection (disabled in containers)
+  # Modern collaborative brute-force protection (disabled until LAPI credentials & bouncers are configured)
   services.crowdsec = lib.mkIf (!config.boot.isContainer) {
-    enable = true;
-    autoUpdateService = true;
+    enable = false;
+    autoUpdateService = false;
     openFirewall = true;
     localConfig.acquisitions = [
       {
