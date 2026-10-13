@@ -26,6 +26,7 @@ keys:
   - &server_adguard_zp "age1z4gq57uu9vj6jgps4ewn0qhhydkk0vr5hrc3njc55fa9cq39w9lqkq39cf"
   - &server_tailscale "age1779zwqt52a6fchm6nlcshnaeanv6n0g693uzesk03emtzx0wedws5pv2l0"
   - &server_risky "age1he4sg5qt5cn0plsuuvug6j2hc85swuk9qesfcs45t3tf3fk9hdes3gfumn"
+  - &server_salty "age1mpsg7zy8u3pa8u6xwfzwz4f09c0u8zp2rfl0mqxc99l678q05ysscnz39w"
 
 creation_rules:
   - path_regex: machines/server/retail-row/secrets\.yaml$
@@ -85,3 +86,10 @@ creation_rules:
           - *user_sem
           - *user_bitwarden
           - *server_risky
+
+  - path_regex: machines/server/salty-springs/secrets\.yaml$
+    key_groups:
+      - age:
+          - *user_sem
+          - *user_bitwarden
+          - *server_salty

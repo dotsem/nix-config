@@ -14,6 +14,8 @@
   # Desktops grant wheel users nix daemon trust
   nix.settings.trusted-users = [ "root" "@wheel" ];
 
+  custom.isDesktop = true;
+
   # Required for hardware.enableAllFirmware and unfree packages (vscode, nvidia, etc.)
   nixpkgs.config.allowUnfree = true;
 

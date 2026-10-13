@@ -66,7 +66,14 @@
           inputs.disko.nixosModules.disko
           ./common/disko-config.nix
           ./machines/server/retail-row/configuration.nix
-          { custom.server.description = "production server for GoStrategy"; }
+          { custom.server.description = "production server"; }
+        ];
+
+        salty-springs = mkServer [
+          inputs.disko.nixosModules.disko
+          ./common/disko-config.nix
+          ./machines/server/salty-springs/configuration.nix
+          { custom.server.description = "Staging server"; }
         ];
 
         lonely-lodge = mkServer [
