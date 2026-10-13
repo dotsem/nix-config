@@ -29,3 +29,4 @@ scrape_configs:
           - "greasy-grove.home:9100"
           - "flush-factory.home:9100"
           - "risky-reels.home:9100"
+          - "salty-springs.home:9100"
