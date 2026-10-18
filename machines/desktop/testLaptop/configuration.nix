@@ -9,8 +9,12 @@
 
   # Target SATA SSD/HDD identified during live boot
   disko.devices.disk.main.device = "/dev/sda";
+  custom.disko.swap = {
+    enable = true;
+    size = "6G";
+  };
 
-  # Prevent OOM crashes on 4GB RAM via in-memory compressed swap
+  # Prevent OOM crashes on 4GB RAM via in-memory compressed swap (priority over disk)
   zramSwap = {
     enable = true;
     memoryPercent = 100;

@@ -8,6 +8,7 @@
   networking.hostName = "toasterBTW";
 
   disko.devices.disk.main.device = "/dev/nvme0n1";
+  custom.disko.swap.enable = true;
 
   # Acer EC throttling mitigation
   services.throttled = {
