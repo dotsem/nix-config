@@ -19,6 +19,9 @@
 
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
 
+    noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
+    noctalia-greeter.inputs.nixpkgs.follows = "nixpkgs";
+
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -33,6 +36,7 @@
       nixpkgs-stable,
       zen-browser,
       noctalia,
+      noctalia-greeter,
       disko,
       sops-nix,
       ...
