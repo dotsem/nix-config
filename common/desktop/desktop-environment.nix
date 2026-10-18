@@ -3,16 +3,24 @@
     inputs.noctalia.nixosModules.default
   ];
 
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-  };
+  services.displayManager.gdm.enable = true;
 
   # Niri — primary compositor
   programs.niri.enable = true;
 
-  # KDE Plasma 6 — fallback session
-  services.desktopManager.plasma6.enable = true;
+  # GNOME — fallback session
+  services.desktopManager.gnome.enable = true;
+
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-tour
+    epiphany
+    geary
+    totem
+    gnome-music
+    gnome-contacts
+    gnome-weather
+    gnome-maps
+  ];
 
   # Noctalia Wayland shell (v5)
   programs.noctalia = {

@@ -26,26 +26,30 @@
     (import ../../pkgs)
   ];
 
-  # XDG portals: gnome portal is required by niri, kde portal handles plasma sessions
+  # XDG portals: gnome portal handles screencast and desktop integration for niri and gnome
   xdg.portal = {
     enable = true;
     extraPortals = [
       pkgs.xdg-desktop-portal-gnome
-      pkgs.kdePackages.xdg-desktop-portal-kde
     ];
     config = {
       common.default = [ "gnome" ];
-      kde.default = [ "kde" ];
     };
   };
 
-  # Polkit agent for niri sessions (plasma provides its own agent)
+  # Polkit agent for niri sessions (gnome provides its own agent)
   security.soteria.enable = true;
 
   # Keyring daemon — enables browser/app secret storage and auto-unlock on login
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
-  security.pam.services.sddm.enableGnomeKeyring = true;
+
+  # Unify Qt application styling with GNOME dark mode
+  qt = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
+  };
 
   # Bluetooth manager service (the blueman package alone does nothing without this)
   services.blueman.enable = true;

@@ -92,7 +92,7 @@
       easyeffects
       crosspipe
       guitarix
-      mpv
+      celluloid
       vlc
       obs-studio
       openshot-qt
@@ -103,7 +103,7 @@
       gimp
       imagemagick
       rawtherapee
-      kdePackages.gwenview
+      loupe
 
       # gaming & emulation
       lutris
