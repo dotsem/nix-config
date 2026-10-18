@@ -61,19 +61,16 @@
           enabled = true;
         })  (lib.filterAttrs (_: host: host ? domain) hosts);
       };
-      filters = map(url: { enabled = true; url = url; }) [
+      filters = map (url: { enabled = true; inherit url; }) [
         "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt"  # AdGuard DNS Filter
-        "https://adguardteam.github.io/HostlistsRegistry/assets/filter_7.txt" 
-        "https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt" 
-        "https://adguardteam.github.io/HostlistsRegistry/assets/filter_11.txt" # Malicious URL Blocklist (URLhaus)
+        "https://adguardteam.github.io/HostlistsRegistry/assets/filter_7.txt"  # Smart-TV Blocklist
+        "https://adguardteam.github.io/HostlistsRegistry/assets/filter_11.txt" # URLhaus Malicious URLs
         "https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt" # Dandelion Sprout's Anti-Malware
-        "https://adguardteam.github.io/HostlistsRegistry/assets/filter_27.txt"
         "https://adguardteam.github.io/HostlistsRegistry/assets/filter_30.txt" # Phishing URL Blocklist
-        "https://adguardteam.github.io/HostlistsRegistry/assets/filter_44.txt"
         "https://adguardteam.github.io/HostlistsRegistry/assets/filter_48.txt" # HaGeZi Multi PRO
         "https://adguardteam.github.io/HostlistsRegistry/assets/filter_52.txt" # HaGeZi Encrypted DNS Bypass
-        "https://adguardteam.github.io/HostlistsRegistry/assets/filter_63.txt"
-        "https://adguardteam.github.io/HostlistsRegistry/assets/filter_67.txt"
+        "https://adguardteam.github.io/HostlistsRegistry/assets/filter_63.txt" # HaGeZi Windows/Office Tracker
+        "https://adguardteam.github.io/HostlistsRegistry/assets/filter_67.txt" # HaGeZi Apple Tracker
         "https://adguardteam.github.io/HostlistsRegistry/assets/filter_71.txt" # HaGeZi DNS Rebind Protection
       ];
     };
