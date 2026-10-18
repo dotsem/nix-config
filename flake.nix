@@ -12,6 +12,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
@@ -29,6 +30,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-stable,
       zen-browser,
       noctalia,
       disko,
@@ -38,7 +40,7 @@
     let
       hosts = import ./lib/hosts.nix;
 
-      mkServer = extraModules: nixpkgs.lib.nixosSystem {
+      mkServer = extraModules: nixpkgs-stable.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs hosts; };
         modules = [

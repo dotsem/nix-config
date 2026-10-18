@@ -71,7 +71,7 @@
     pv
     ueberzugpp
     v4l-utils
-    xxHash
+    xxhash
     rustdesk-flutter
   ];
 }

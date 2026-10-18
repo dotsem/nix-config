@@ -21,7 +21,7 @@
       alacritty
       mousepad
       vscode
-      antigravity
+      antigravity-ide
       zed-editor
 
       # desktop utilities & file managers

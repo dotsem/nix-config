@@ -23,6 +23,7 @@
   services.ananicy = {
     enable = true;
     package = pkgs.ananicy-cpp;
+    rulesProvider = pkgs.ananicy-rules-cachyos;
   };
 
   # Transition from sleep to persistent disk hibernation after 1 hour
