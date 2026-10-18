@@ -53,7 +53,6 @@
       hyprpicker
       mangohud
       matugen
-      mako
       monique
       nwg-look
       slurp
