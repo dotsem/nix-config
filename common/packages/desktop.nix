@@ -38,6 +38,7 @@
       seahorse
       libsecret
       spotify
+      steam-run
 
       # thumbnailers & document support
       tumbler

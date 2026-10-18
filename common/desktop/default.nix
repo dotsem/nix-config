@@ -53,4 +53,7 @@
 
   # Bluetooth manager service (the blueman package alone does nothing without this)
   services.blueman.enable = true;
+
+  # Run unpatched dynamic binaries (VS Code extensions, downloaded scripts, language servers)
+  programs.nix-ld.enable = true;
 }
