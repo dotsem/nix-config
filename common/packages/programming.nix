@@ -7,7 +7,7 @@
     kind
     ansible
     docker-compose
-    openvpn3
+    openvpn
 
     # utilities
     jq
