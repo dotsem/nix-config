@@ -67,6 +67,19 @@
           ];
         };
 
+        testLaptop = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./common/core
+            ./common/desktop
+            ./common/packages
+            inputs.disko.nixosModules.disko
+            inputs.sops-nix.nixosModules.sops
+            ./machines/desktop/testLaptop/configuration.nix
+          ];
+        };
+
         retail-row = mkServer [
           inputs.disko.nixosModules.disko
           ./common/disko-config.nix
