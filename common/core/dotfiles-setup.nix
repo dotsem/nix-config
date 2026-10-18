@@ -4,6 +4,7 @@
     wantedBy = [ "default.target" ];
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
+    restartIfChanged = false;
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
@@ -53,7 +54,13 @@
         rel_path="''${stow_file#./}"
         rel_path="''${rel_path#*/}"
         target="$HOME/$rel_path"
-        
+
+        # prevent deleting files in .dotfiles when target traverses a symlinked parent directory
+        real_target=$(realpath -m "$target" 2>/dev/null || true)
+        if [[ "$real_target" == "$HOME/.dotfiles"* ]]; then
+          continue
+        fi
+
         if [ -e "$target" ] || [ -L "$target" ]; then
           if [ -L "$target" ]; then
             link_target=$(readlink "$target")
@@ -61,7 +68,7 @@
               continue
             fi
           fi
-          
+
           echo "Removing conflicting target: $target"
           rm -rf "$target"
         fi
