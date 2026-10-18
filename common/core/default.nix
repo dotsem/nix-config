@@ -22,6 +22,11 @@
   i18n.defaultLocale = "en_US.UTF-8";
   console.keyMap = "be-latin1";
 
+  # Graphical keyboard layout (GDM, GNOME, Wayland sessions)
+  services.xserver.xkb = {
+    layout = "be";
+  };
+
   services.fstrim.enable = true;
 
   # cap journal to prevent log runaway on long-lived installs
