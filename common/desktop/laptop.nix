@@ -37,4 +37,10 @@
     IdleAction = "suspend-then-hibernate";
     IdleActionSec = "1h";
   };
+
+  # Disables wake signals from USB devices (mice, keyboards, phones) so only the lid switch
+  # or power button can wake the laptop. USB 5V VBUS power is preserved so phones still charge.
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{power/wakeup}="disabled"
+  '';
 }
