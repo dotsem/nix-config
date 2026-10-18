@@ -56,4 +56,7 @@
 
   # Run unpatched dynamic binaries (VS Code extensions, downloaded scripts, language servers)
   programs.nix-ld.enable = true;
+
+  # Phone synchronization
+  programs.kdeconnect.enable = true;
 }
