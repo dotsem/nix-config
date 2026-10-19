@@ -23,9 +23,10 @@
               clippy
               sccache
               fontconfig
+              dbus
             ];
             shellHook = ''
-              export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [ pkgs.fontconfig ]}:''${LD_LIBRARY_PATH:-}"
+              export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [ pkgs.fontconfig pkgs.dbus ]}:''${LD_LIBRARY_PATH:-}"
               echo '⚡ Rust DevShell Activated!'
             '';
           };
