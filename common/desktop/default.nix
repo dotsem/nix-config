@@ -3,7 +3,7 @@
     ./desktop-environment.nix
     ./media.nix
     ./hardware.nix
-    ./boot.nix
+    ./refind.nix
     ./services.nix
     ./packages.nix
     ./user.nix
