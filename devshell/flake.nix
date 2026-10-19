@@ -13,23 +13,35 @@
       in
       {
         devShells = {
-          rust = pkgs.mkShell {
-            nativeBuildInputs = with pkgs; [ pkg-config ];
-            buildInputs = with pkgs; [
-              rustc
-              cargo
-              rustfmt
-              rust-analyzer
-              clippy
-              sccache
-              fontconfig
-              dbus
-            ];
-            shellHook = ''
-              export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [ pkgs.fontconfig pkgs.dbus ]}:''${LD_LIBRARY_PATH:-}"
-              echo '⚡ Rust DevShell Activated!'
-            '';
-          };
+          rust =
+            let
+              runtimeLibs = with pkgs; [
+                fontconfig
+                dbus
+                libxkbcommon
+                wayland
+                libGL
+                libx11
+                libxcursor
+                libxi
+                libxrandr
+              ];
+            in
+            pkgs.mkShell {
+              nativeBuildInputs = with pkgs; [ pkg-config ];
+              buildInputs = with pkgs; [
+                rustc
+                cargo
+                rustfmt
+                rust-analyzer
+                clippy
+                sccache
+              ] ++ runtimeLibs;
+              shellHook = ''
+                export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeLibs}:''${LD_LIBRARY_PATH:-}"
+                echo '⚡ Rust DevShell Activated!'
+              '';
+            };
           go = pkgs.mkShell {
             buildInputs = with pkgs; [ go gopls golangci-lint ];
             shellHook = "echo '⚡ Go DevShell Activated!'";
