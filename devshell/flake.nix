@@ -14,8 +14,20 @@
       {
         devShells = {
           rust = pkgs.mkShell {
-            buildInputs = with pkgs; [ rustc cargo rustfmt rust-analyzer clippy sccache ];
-            shellHook = "echo '⚡ Rust DevShell Activated!'";
+            nativeBuildInputs = with pkgs; [ pkg-config ];
+            buildInputs = with pkgs; [
+              rustc
+              cargo
+              rustfmt
+              rust-analyzer
+              clippy
+              sccache
+              fontconfig
+            ];
+            shellHook = ''
+              export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [ pkgs.fontconfig ]}:''${LD_LIBRARY_PATH:-}"
+              echo '⚡ Rust DevShell Activated!'
+            '';
           };
           go = pkgs.mkShell {
             buildInputs = with pkgs; [ go gopls golangci-lint ];
