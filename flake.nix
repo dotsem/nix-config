@@ -1,10 +1,26 @@
 {
   description = "Semdot NixOS Configs";
 
+  nixConfig = {
+    extra-substituters = [
+      "https://noctalia.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
 
-    dms.url = "github:AvengeMedia/DankMaterialShell";
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+
+    noctalia.url = "github:noctalia-dev/noctalia/cachix";
+
+    noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
+    noctalia-greeter.inputs.nixpkgs.follows = "nixpkgs";
 
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
@@ -17,7 +33,10 @@
     {
       self,
       nixpkgs,
-      dms,
+      nixpkgs-stable,
+      zen-browser,
+      noctalia,
+      noctalia-greeter,
       disko,
       sops-nix,
       ...
@@ -25,7 +44,7 @@
     let
       hosts = import ./lib/hosts.nix;
 
-      mkServer = extraModules: nixpkgs.lib.nixosSystem {
+      mkServer = extraModules: nixpkgs-stable.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs hosts; };
         modules = [
@@ -59,6 +78,19 @@
             inputs.disko.nixosModules.disko
             inputs.sops-nix.nixosModules.sops
             ./machines/desktop/toasterBTW/configuration.nix
+          ];
+        };
+
+        testLaptop = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./common/core
+            ./common/desktop
+            ./common/packages
+            inputs.disko.nixosModules.disko
+            inputs.sops-nix.nixosModules.sops
+            ./machines/desktop/testLaptop/configuration.nix
           ];
         };
 

@@ -1,6 +1,24 @@
 { config, pkgs, ... }: {
   environment.systemPackages = with pkgs; [
-    # Modern Terminal Alternatives
+    # shell & terminal
+    starship
+    zoxide
+    fnm
+    atuin
+    sccache
+    xsel
+    xclip
+    kitty
+
+    # wayland utilities
+    wev
+    ydotool
+    gpu-screen-recorder
+    hyprsunset
+    hyprpaper
+    hyprshot
+
+    # terminal alternatives
     bat
     duf
     eza
@@ -10,12 +28,21 @@
     ripgrep-all
     sd
 
-    # System Monitoring & Info
+    # system monitoring & diagnostics
     glances
     htop
     inxi
+    smartmontools
+    strace
+    stress
+    hwinfo
+    cpulimit
+    dmidecode
+    sshs
+    usbutils
+    tuptime
 
-    # File & Archive Management
+    # file & archive
     lf
     p7zip
     rclone
@@ -25,21 +52,15 @@
     unrar
     upx
 
-    # Networking & Security
+    # networking & security
     nmap
     whois
     wakeonlan
 
-    # Process & Hardware Diagnostics
-    cpulimit
-    dmidecode
-    smartmontools
-    strace
-    stress
-    v4l-utils
-    hwinfo
+    # firmware flashing
+    heimdall
 
-    # Terminal Utilities & Fun
+    # terminal utilities & tools
     chafa
     cowsay
     dos2unix
@@ -49,7 +70,8 @@
     plocate
     pv
     ueberzugpp
-    xxHash
+    v4l-utils
+    xxhash
     rustdesk-flutter
   ];
 }

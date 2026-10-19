@@ -1,27 +1,47 @@
 { config, pkgs, inputs, ... }: {
-  services.displayManager.sddm = {
+  imports = [
+    inputs.noctalia.nixosModules.default
+    inputs.noctalia-greeter.nixosModules.default
+  ];
+
+  services.displayManager.noctalia-greeter = {
     enable = true;
-    wayland.enable = true;
+    package = inputs.noctalia-greeter.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    settings = {
+      session.default = "niri";
+      keyboard.layout = "be";
+    };
   };
+
+  # unlock GNOME keyring automatically on greeter login
+  security.pam.services.greetd.enableGnomeKeyring = true;
 
   # Niri — primary compositor
   programs.niri.enable = true;
 
-  # KDE Plasma 6 — fallback session
-  services.desktopManager.plasma6.enable = true;
+  # GNOME — fallback session
+  services.desktopManager.gnome.enable = true;
 
-  # DankMaterialShell shell layer
-  environment.systemPackages = [
-    inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default
-    pkgs.quickshell
-    pkgs.xwayland-satellite
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-tour
+    epiphany
+    geary
+    totem
+    gnome-music
+    gnome-contacts
+    gnome-weather
+    gnome-maps
   ];
 
-  # Register the systemd service from the dms package
-  systemd.packages = [ inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default ];
-
-  # Enable the user service for the graphical session
-  systemd.user.services.dms = {
-    wantedBy = [ "graphical-session.target" ];
+  # Noctalia Wayland shell (v5)
+  programs.noctalia = {
+    enable = true;
+    package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    systemd.enable = true;
+    recommendedServices.enable = true;
   };
+
+  environment.systemPackages = [
+    pkgs.xwayland-satellite
+  ];
 }
