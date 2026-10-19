@@ -8,10 +8,13 @@ REPO_DIR="$(dirname "$SCRIPT_DIR")"
 echo "📂 Creating root development folder: $PROG_DIR..."
 mkdir -p "$PROG_DIR"
 
-# 1. Copy the version-controlled master flake.nix into ~/prog/
-echo "📝 Copying master flake.nix from nix-config/devshell to $PROG_DIR..."
-cp "$REPO_DIR/devshell/flake.nix" "$PROG_DIR/flake.nix"
-echo "✅ Master flake.nix successfully deployed to $PROG_DIR."
+# symlink master flake into ~/prog/ to propagate devshell updates automatically
+echo "📝 Linking master flake from nix-config/devshell to $PROG_DIR..."
+ln -sf "$REPO_DIR/devshell/flake.nix" "$PROG_DIR/flake.nix"
+if [ -f "$REPO_DIR/devshell/flake.lock" ]; then
+  ln -sf "$REPO_DIR/devshell/flake.lock" "$PROG_DIR/flake.lock"
+fi
+echo "✅ Master flake successfully linked to $PROG_DIR."
 
 # 2. Define all required language directories to create
 declare -A DEVSHELLS
