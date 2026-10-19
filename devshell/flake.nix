@@ -25,6 +25,7 @@
                 libxcursor
                 libxi
                 libxrandr
+                pam
               ];
             in
             pkgs.mkShell {
@@ -39,6 +40,7 @@
               ] ++ runtimeLibs;
               shellHook = ''
                 export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeLibs}:''${LD_LIBRARY_PATH:-}"
+                export LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeLibs}:''${LIBRARY_PATH:-}"
                 echo '⚡ Rust DevShell Activated!'
               '';
             };
