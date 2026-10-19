@@ -4,19 +4,15 @@ set -euo pipefail
 PROG_DIR="/home/sem/prog"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(dirname "$SCRIPT_DIR")"
+DEVSHELL_DIR="$REPO_DIR/devshell"
 
 echo "📂 Creating root development folder: $PROG_DIR..."
 mkdir -p "$PROG_DIR"
 
-# symlink master flake into ~/prog/ to propagate devshell updates automatically
-echo "📝 Linking master flake from nix-config/devshell to $PROG_DIR..."
-ln -sf "$REPO_DIR/devshell/flake.nix" "$PROG_DIR/flake.nix"
-if [ -f "$REPO_DIR/devshell/flake.lock" ]; then
-  ln -sf "$REPO_DIR/devshell/flake.lock" "$PROG_DIR/flake.lock"
-fi
-echo "✅ Master flake successfully linked to $PROG_DIR."
+# clean up legacy redundant flake copies in ~/prog
+rm -f "$PROG_DIR/flake.nix" "$PROG_DIR/flake.lock"
 
-# 2. Define all required language directories to create
+# 1. Define all required language directories to create
 declare -A DEVSHELLS
 DEVSHELLS["c"]="cpp"
 DEVSHELLS["c++"]="cpp"
@@ -33,28 +29,22 @@ DEVSHELLS["shell"]="shell"
 DEVSHELLS["skill"]="shell"
 DEVSHELLS["web"]="web"
 
-# 3. Create subdirectories, map them, inject .envrc, and authorize direnv
+# 2. Create subdirectories, map them, inject .envrc, and authorize direnv
 echo "🧹 Initializing language directories & .envrc profiles..."
 for dir_name in "${!DEVSHELLS[@]}"; do
   target_dir="$PROG_DIR/$dir_name"
   shell_target="${DEVSHELLS[$dir_name]}"
   envrc_path="$target_dir/.envrc"
 
-  # Create folder if it doesn't exist
   if [ ! -d "$target_dir" ]; then
     mkdir -p "$target_dir"
     echo "  ✨ Created directory: $target_dir"
   fi
 
-  # Create .envrc mapping
-  if [ ! -f "$envrc_path" ]; then
-    echo "use flake ../#$shell_target" > "$envrc_path"
-    echo "  📝 Created .envrc in $target_dir (mapping to: #$shell_target)"
-  else
-    echo "  ⚠️ .envrc already exists in $target_dir, skipping."
-  fi
+  # direct .envrc mapping to master devshell flake
+  echo "use flake $DEVSHELL_DIR#$shell_target" > "$envrc_path"
+  echo "  📝 Configured .envrc in $target_dir -> devshell#$shell_target"
 
-  # Automatically authorize the directory with direnv
   if command -v direnv &>/dev/null; then
     direnv allow "$target_dir"
   fi
