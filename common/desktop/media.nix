@@ -13,10 +13,30 @@
       "99-low-latency" = {
         "context.properties" = {
           "default.clock.rate" = 48000;
+          "default.clock.allowed-rates" = [ 48000 ];
           "default.clock.quantum" = 1024;
           "default.clock.min-quantum" = 128;
           "default.clock.max-quantum" = 2048;
         };
+      };
+    };
+
+    # Prevent microphones and outputs from sleeping during meetings or silence
+    wireplumber.extraConfig = {
+      "10-disable-suspension" = {
+        "monitor.alsa.rules" = [
+          {
+            matches = [
+              { "node.name" = "~alsa_input.*"; }
+              { "node.name" = "~alsa_output.*"; }
+            ];
+            actions = {
+              update-props = {
+                "session.suspend-timeout-seconds" = 0;
+              };
+            };
+          }
+        ];
       };
     };
 
