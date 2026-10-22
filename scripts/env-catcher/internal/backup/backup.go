@@ -39,8 +39,9 @@ type Summary struct {
 
 // Options configures the backup engine.
 type Options struct {
-	BackupDir string
-	DryRun    bool
+	BackupDir    string
+	DryRun       bool
+	PreserveTree bool
 }
 
 // Run copies scanned files to BackupDir with safe permissions and deduplication.
@@ -69,8 +70,14 @@ func Run(files []scanner.FoundFile, opts Options) (*Summary, error) {
 			return nil, fmt.Errorf("hash source %s: %w", file.AbsPath, err)
 		}
 
-		baseName := GenerateBackupName(file.RelPath)
-		destPath, action, err := resolveDestination(cleanDest, baseName, srcHash, destUsed)
+		var targetPath string
+		if opts.PreserveTree {
+			targetPath = filepath.Clean(file.RelPath)
+		} else {
+			targetPath = GenerateBackupName(file.RelPath)
+		}
+
+		destPath, action, err := resolveDestination(cleanDest, targetPath, srcHash, destUsed)
 		if err != nil {
 			return nil, err
 		}
@@ -87,6 +94,9 @@ func Run(files []scanner.FoundFile, opts Options) (*Summary, error) {
 		}
 
 		if !opts.DryRun {
+			if err := os.MkdirAll(filepath.Dir(destPath), 0700); err != nil {
+				return nil, fmt.Errorf("create parent directory for %s: %w", destPath, err)
+			}
 			if err := copyFileSecure(file.AbsPath, destPath); err != nil {
 				return nil, fmt.Errorf("copy %s to %s: %w", file.AbsPath, destPath, err)
 			}
@@ -125,8 +135,8 @@ func GenerateBackupName(relPath string) string {
 	return slug + "_" + base
 }
 
-func resolveDestination(backupDir, baseName, srcHash string, destUsed map[string]string) (string, Action, error) {
-	destPath := filepath.Join(backupDir, baseName)
+func resolveDestination(backupDir, targetPath, srcHash string, destUsed map[string]string) (string, Action, error) {
+	destPath := filepath.Join(backupDir, targetPath)
 
 	if matchExisting(destPath, srcHash, destUsed) {
 		return destPath, ActionSkipIdentical, nil
@@ -136,12 +146,14 @@ func resolveDestination(backupDir, baseName, srcHash string, destUsed map[string
 		return destPath, ActionCopy, nil
 	}
 
-	ext := filepath.Ext(baseName)
-	prefix := strings.TrimSuffix(baseName, ext)
+	dir := filepath.Dir(targetPath)
+	file := filepath.Base(targetPath)
+	ext := filepath.Ext(file)
+	prefix := strings.TrimSuffix(file, ext)
 	seq := 1
 
 	for {
-		candidate := fmt.Sprintf("%s_%d%s", prefix, seq, ext)
+		candidate := filepath.Join(dir, fmt.Sprintf("%s_%d%s", prefix, seq, ext))
 		candPath := filepath.Join(backupDir, candidate)
 
 		if matchExisting(candPath, srcHash, destUsed) {

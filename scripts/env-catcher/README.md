@@ -9,7 +9,7 @@ The tool protects sensitive application secrets prior to environment transitions
 * **Recursive Traversal & Pruning**: Walks source directories while automatically skipping heavy and non-relevant directories (`.git`, `node_modules`, `.direnv`, `target`, `dist`, `.cache`, `build`, `.venv`, `.cargo`, etc.) to minimize I/O overhead.
 * **Git Tracking Guard**: Integrates with `git ls-files` (`-skip-git-tracked=true` by default) to filter out `.env` files already committed to version control, targeting only local and sensitive secrets.
 * **Smart Filtering**: Automatically excludes non-secret artifacts, templates, and backups (`*.template`, `*.example`, `*.sample`, `*.dist`, `*.bak`, `*.swp`, `*.tmp`, `*.test.env`).
-* **Path-Flattening & Disambiguation**: Flattens nested paths into snake_case prefixed file names (e.g., `services/auth/.env` becomes `services_auth.env`).
+* **Path-Flattening & Hierarchy Preservation**: By default, flattens nested paths into snake_case prefixed file names (e.g., `services/auth/.env` becomes `services_auth.env`). Optionally preserves exact relative directory structures using `-preserve-tree` for seamless 1:1 project restoration.
 * **Deduplication via SHA-256**: Hashes source files to detect identical content across directories (`skipped (identical)`). In the event of a filename collision with differing content, it appends an incrementing numeric suffix (e.g., `services_auth_1.env`).
 * **Enforced Permissions**: Writes destination directories with `0700` permissions and outputs all backup files and tar archive entries with `0600` file modes.
 * **Dual Output Modes**: Supports writing directly to a destination directory or packing directly into a standalone gzip-compressed tarball (`.tar.gz`).
@@ -46,6 +46,8 @@ Options:
         Path to output .tar.gz bundle (overrides -dest)
   -dry-run
         Preview actions without writing files
+  -preserve-tree
+        Preserve relative directory structure instead of flattening filenames
   -skip-git-tracked
         Skip .env files that are already tracked by git (default true)
   -patterns string
@@ -88,7 +90,19 @@ Stream matched environment files directly into an encrypted or compressed `.tar.
 ./env-catcher -scan ~/prog -archive ~/backup/envs_backup.tar.gz
 ```
 
-#### 4. Custom Globs and Directory Pruning
+#### 4. Preserve Directory Hierarchy
+
+Retain relative directory paths in the backup directory or compressed archive for 1:1 automated restores:
+
+```bash
+# Preserve folder hierarchy in target directory
+./env-catcher -preserve-tree -scan ~/prog -dest ~/backup/envs
+
+# Preserve folder hierarchy inside tarball archive
+./env-catcher -preserve-tree -scan ~/prog -archive ~/backup/envs_tree.tar.gz
+```
+
+#### 5. Custom Globs and Directory Pruning
 
 Include additional custom patterns while skipping extra vendor directories:
 
@@ -101,7 +115,7 @@ Include additional custom patterns while skipping extra vendor directories:
   -exclude "*.mock.env"
 ```
 
-#### 5. Include Git-Tracked Files
+#### 6. Include Git-Tracked Files
 
 Disable git-tracking filters to capture all files matching environment patterns regardless of repository tracking state:
 

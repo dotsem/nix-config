@@ -134,6 +134,40 @@ func TestRun(t *testing.T) {
 		assert.Equal(t, 1, summary.Copied)
 		assert.NoDirExists(t, dstDir)
 	})
+
+	t.Run("preserves directory tree when requested", func(t *testing.T) {
+		tmp := t.TempDir()
+		dstDir := filepath.Join(tmp, "dst")
+
+		srcFile := filepath.Join(tmp, "src", "services", "auth", ".env")
+		createTestFile(t, srcFile, "AUTH_SECRET=42")
+
+		found := []scanner.FoundFile{
+			{AbsPath: srcFile, RelPath: "services/auth/.env", Size: int64(len("AUTH_SECRET=42"))},
+		}
+
+		summary, err := backup.Run(found, backup.Options{
+			BackupDir:    dstDir,
+			PreserveTree: true,
+		})
+		require.NoError(t, err)
+		assert.Equal(t, 1, summary.Copied)
+
+		targetDir := filepath.Join(dstDir, "services", "auth")
+		dirInfo, err := os.Stat(targetDir)
+		require.NoError(t, err)
+		assert.True(t, dirInfo.IsDir())
+		assert.Equal(t, os.FileMode(0700), dirInfo.Mode().Perm())
+
+		targetFile := filepath.Join(targetDir, ".env")
+		fileInfo, err := os.Stat(targetFile)
+		require.NoError(t, err)
+		assert.Equal(t, os.FileMode(0600), fileInfo.Mode().Perm())
+
+		content, err := os.ReadFile(targetFile)
+		require.NoError(t, err)
+		assert.Equal(t, "AUTH_SECRET=42", string(content))
+	})
 }
 
 func TestCreateArchive(t *testing.T) {
@@ -180,6 +214,47 @@ func TestCreateArchive(t *testing.T) {
 		content, err := io.ReadAll(tr)
 		require.NoError(t, err)
 		assert.Equal(t, "ARCHIVE=TRUE", string(content))
+	})
+
+	t.Run("preserves directory tree in tar entries", func(t *testing.T) {
+		tmp := t.TempDir()
+		archivePath := filepath.Join(tmp, "preserved.tar.gz")
+
+		srcFile := filepath.Join(tmp, "src", "apps", "web", ".env.local")
+		createTestFile(t, srcFile, "WEB_HOST=localhost")
+
+		found := []scanner.FoundFile{
+			{AbsPath: srcFile, RelPath: "apps/web/.env.local", Size: int64(len("WEB_HOST=localhost"))},
+		}
+
+		summary, err := backup.CreateArchive(found, backup.ArchiveOptions{
+			ArchivePath:  archivePath,
+			PreserveTree: true,
+		})
+		require.NoError(t, err)
+		assert.Equal(t, 1, summary.Copied)
+
+		f, err := os.Open(archivePath)
+		require.NoError(t, err)
+		defer func() {
+			_ = f.Close()
+		}()
+
+		gz, err := gzip.NewReader(f)
+		require.NoError(t, err)
+		defer func() {
+			_ = gz.Close()
+		}()
+
+		tr := tar.NewReader(gz)
+		hdr, err := tr.Next()
+		require.NoError(t, err)
+		assert.Equal(t, "apps/web/.env.local", hdr.Name)
+		assert.Equal(t, int64(0600), hdr.Mode)
+
+		content, err := io.ReadAll(tr)
+		require.NoError(t, err)
+		assert.Equal(t, "WEB_HOST=localhost", string(content))
 	})
 }
 

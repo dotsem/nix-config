@@ -14,8 +14,9 @@ import (
 
 // ArchiveOptions configures compressed tar.gz backup archiving.
 type ArchiveOptions struct {
-	ArchivePath string
-	DryRun      bool
+	ArchivePath  string
+	DryRun       bool
+	PreserveTree bool
 }
 
 // CreateArchive streams scanned files into a tar.gz bundle with 0600 file modes.
@@ -72,8 +73,14 @@ func CreateArchive(files []scanner.FoundFile, opts ArchiveOptions) (summary *Sum
 			return nil, fmt.Errorf("hash source %s: %w", file.AbsPath, hashErr)
 		}
 
-		baseName := GenerateBackupName(file.RelPath)
-		entryName, action := resolveArchiveEntry(baseName, srcHash, destUsed)
+		var targetEntry string
+		if opts.PreserveTree {
+			targetEntry = filepath.ToSlash(filepath.Clean(file.RelPath))
+		} else {
+			targetEntry = GenerateBackupName(file.RelPath)
+		}
+
+		entryName, action := resolveArchiveEntry(targetEntry, srcHash, destUsed)
 
 		if action == ActionSkipIdentical {
 			summary.Skipped++
@@ -105,17 +112,19 @@ func CreateArchive(files []scanner.FoundFile, opts ArchiveOptions) (summary *Sum
 	return summary, nil
 }
 
-func resolveArchiveEntry(baseName, srcHash string, destUsed map[string]string) (string, Action) {
-	if priorHash, exists := destUsed[baseName]; exists {
+func resolveArchiveEntry(targetEntry, srcHash string, destUsed map[string]string) (string, Action) {
+	if priorHash, exists := destUsed[targetEntry]; exists {
 		if priorHash == srcHash {
-			return baseName, ActionSkipIdentical
+			return targetEntry, ActionSkipIdentical
 		}
 
-		ext := filepath.Ext(baseName)
-		prefix := strings.TrimSuffix(baseName, ext)
+		dir := filepath.Dir(targetEntry)
+		file := filepath.Base(targetEntry)
+		ext := filepath.Ext(file)
+		prefix := strings.TrimSuffix(file, ext)
 		seq := 1
 		for {
-			candidate := fmt.Sprintf("%s_%d%s", prefix, seq, ext)
+			candidate := filepath.ToSlash(filepath.Join(dir, fmt.Sprintf("%s_%d%s", prefix, seq, ext)))
 			candHash, candExists := destUsed[candidate]
 			if candExists && candHash == srcHash {
 				return candidate, ActionSkipIdentical
@@ -127,7 +136,7 @@ func resolveArchiveEntry(baseName, srcHash string, destUsed map[string]string) (
 		}
 	}
 
-	return baseName, ActionCopy
+	return targetEntry, ActionCopy
 }
 
 func writeTarEntry(tw *tar.Writer, srcPath, entryName string, size int64) error {

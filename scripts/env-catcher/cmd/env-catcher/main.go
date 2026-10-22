@@ -30,6 +30,7 @@ func run(args []string) error {
 		excludeRaw     string
 		pruneRaw       string
 		skipGitTracked bool
+		preserveTree   bool
 	)
 
 	fs.StringVar(&scanDir, "scan", "", "Directory to scan for .env files")
@@ -37,6 +38,7 @@ func run(args []string) error {
 	fs.StringVar(&archiveFile, "archive", "", "Path to output .tar.gz bundle (overrides -dest)")
 	fs.BoolVar(&dryRun, "dry-run", false, "Preview actions without writing files")
 	fs.BoolVar(&skipGitTracked, "skip-git-tracked", true, "Skip .env files that are already tracked by git")
+	fs.BoolVar(&preserveTree, "preserve-tree", false, "Preserve relative directory structure instead of flattening filenames")
 	fs.StringVar(&patternsRaw, "patterns", "", "Comma-separated glob patterns (default: .env,.env.*,*.env)")
 	fs.StringVar(&excludeRaw, "exclude", "", "Additional comma-separated patterns to exclude")
 	fs.StringVar(&pruneRaw, "prune", "", "Additional comma-separated directory names to prune")
@@ -105,14 +107,16 @@ func run(args []string) error {
 	if archiveFile != "" {
 		fmt.Printf("Target archive: %s\n", archiveFile)
 		summary, err = backup.CreateArchive(found, backup.ArchiveOptions{
-			ArchivePath: archiveFile,
-			DryRun:      dryRun,
+			ArchivePath:  archiveFile,
+			DryRun:       dryRun,
+			PreserveTree: preserveTree,
 		})
 	} else {
 		fmt.Printf("Target directory: %s\n", destDir)
 		summary, err = backup.Run(found, backup.Options{
-			BackupDir: destDir,
-			DryRun:    dryRun,
+			BackupDir:    destDir,
+			DryRun:       dryRun,
+			PreserveTree: preserveTree,
 		})
 	}
 	if err != nil {
