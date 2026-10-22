@@ -34,6 +34,7 @@ This repository uses NixOS 26.05 and the following declarative tools:
 │   ├── desktop/           # Workstation and laptop host configurations (nasaPC, toasterBTW)
 │   └── server/            # LXC and VM server configurations (adguard-home, lonely-lodge, retail-row, tailscale)
 ├── scripts/               # Operational automation scripts (devshell setup, profile toggle, git hooks)
+│   └── env-catcher/       # Secret & .env discovery and backup utility ([README](scripts/env-catcher/README.md))
 ├── flake.nix              # Main flake entrypoint defining nixosConfigurations
 ├── hosts.env              # Environment variable bridge for Just runner recipes
 └── .sops.yaml             # SOPS recipient key mapping and encryption scope rules
@@ -143,6 +144,20 @@ To deploy NixOS onto a target machine over SSH using `nixos-anywhere`:
      ```bash
      just post-install-local <host>
      ```
+
+### Environment Variable & Secret Backup (`env-catcher`)
+
+The repository includes a Go utility under [`scripts/env-catcher/`](scripts/env-catcher/README.md) to discover, aggregate, and back up uncommitted environment configuration files (`.env`, `.env.*`, `*.env`) with strict `0600` permissions into a directory or `.tar.gz` archive.
+
+```bash
+# Preview discoverable uncommitted .env files
+go run ./scripts/env-catcher/cmd/env-catcher -dry-run -scan ~/prog -dest ~/backups/envs
+
+# Archive uncommitted .env files directly into a tarball
+go run ./scripts/env-catcher/cmd/env-catcher -scan ~/prog -archive ~/backups/envs.tar.gz
+```
+
+For complete documentation on CLI options, pruning behaviors, and disambiguation routines, see the [env-catcher README](scripts/env-catcher/README.md).
 
 ## Why NixOS?
 
