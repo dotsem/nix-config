@@ -4,6 +4,7 @@
   lib,
   hosts,
   modulesPath,
+  inputs,
   ...
 }:
 {
@@ -26,6 +27,12 @@
   sops.secrets.cloudflare_tunnel_token = {
     restartUnits = [ "cloudflared-tunnel.service" ];
   };
+
+  nixpkgs.overlays = [
+    (final: prev: {
+      cloudflared = inputs.nixpkgs.legacyPackages.${prev.stdenv.hostPlatform.system}.cloudflared;
+    })
+  ];
 
   # Cloudflare Tunnel Systemd Service
   systemd.services.cloudflared-tunnel = {
