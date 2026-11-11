@@ -16,7 +16,7 @@ in
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
-    #! Don't forget to allow access to the ports on retail-row's firewall
+    #! Don't forget to allow access to the ports on retail-row's/salty-spring's firewall
     virtualHosts = {
       "_" = {
         default = true;
@@ -108,7 +108,7 @@ in
       "staging-wwb.dotsem.be" = {
         locations = securityLocations // {
           "/" = {
-            proxyPass = "http://${hosts.retail-row.ip}:5010";
+            proxyPass = "http://${hosts.salty-springs.ip}:5010";
             proxyWebsockets = true;
           };
         };
