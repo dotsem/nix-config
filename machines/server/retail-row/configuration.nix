@@ -38,7 +38,7 @@ in
   # Enable SSH
   services.openssh.enable = true;
   users.users.sem.openssh.authorizedKeys.keys = [
-    keys.retailRowDeploy_wwb
+    keys.production-wwb
     keys.production-gostrategy
   ];
 

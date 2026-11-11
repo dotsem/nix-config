@@ -37,7 +37,10 @@ in
 
   # Enable SSH
   services.openssh.enable = true;
-  users.users.sem.openssh.authorizedKeys.keys = [ keys.staging-gostrategy ];
+  users.users.sem.openssh.authorizedKeys.keys = [ 
+    keys.staging-wwb
+    keys.staging-gostrategy
+  ];
 
   # Disk configuration (overriding disko-config.nix default)
   disko.devices.disk.main.device = "/dev/sda";
