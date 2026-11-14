@@ -12,5 +12,6 @@
     unzip
     zip
     fastfetch
+    tmux
   ];
 }

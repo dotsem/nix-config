@@ -27,6 +27,7 @@ keys:
   - &server_tailscale "age1779zwqt52a6fchm6nlcshnaeanv6n0g693uzesk03emtzx0wedws5pv2l0"
   - &server_risky "age1he4sg5qt5cn0plsuuvug6j2hc85swuk9qesfcs45t3tf3fk9hdes3gfumn"
   - &server_salty "age1mpsg7zy8u3pa8u6xwfzwz4f09c0u8zp2rfl0mqxc99l678q05ysscnz39w"
+  - &server_vault "age16jpzk7p74d6fgdk5640gapdjurduw8xdn2nzsyxea93x6k050vlqvy2lc0"
 
 creation_rules:
   - path_regex: machines/server/retail-row/secrets\.yaml$
@@ -93,3 +94,10 @@ creation_rules:
           - *user_sem
           - *user_bitwarden
           - *server_salty
+
+  - path_regex: machines/server/the-vault/secrets\.yaml$
+    key_groups:
+      - age:
+          - *user_sem
+          - *user_bitwarden
+          - *server_vault

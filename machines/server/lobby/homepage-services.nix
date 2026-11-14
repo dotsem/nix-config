@@ -289,6 +289,13 @@
           siteMonitor = "http://${hosts.risky-reels.ip}:8096";
         };
       }
+      {
+        "PrivateBin" = {
+          icon = "privatebin.png";
+          href = "https://privatebin.dotsem.be";
+          siteMonitor = "http://${hosts.the-vault.ip}";
+        };
+      }
     ];
   }
 ]
