@@ -174,6 +174,13 @@ let
           conditions = [ "[STATUS] == 200" ];
         }
         {
+          name = "PrivateBin";
+          group = "Applications";
+          url = "http://${hosts.the-vault.ip}";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
+        }
+        {
           name = "Grafana";
           group = "Observability";
           url = "http://${hosts.lonely-lodge.ip}:3000";

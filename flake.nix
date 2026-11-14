@@ -161,6 +161,11 @@
           { custom.server.description = "Jellyfin media streaming server"; }
         ];
 
+        the-vault = mkServer [
+          ./machines/server/the-vault/configuration.nix
+          { custom.server.description = "PrivateBin secret sharing"; }
+        ];
+
         lxc-template = mkServer [
           ./machines/server/lxc-template/configuration.nix
           { custom.server.description = "Base Proxmox NixOS LXC Template"; }

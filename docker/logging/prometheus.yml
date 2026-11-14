@@ -30,3 +30,4 @@ scrape_configs:
           - "flush-factory.home:9100"
           - "risky-reels.home:9100"
           - "salty-springs.home:9100"
+          - "the-vault.home:9100"

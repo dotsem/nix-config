@@ -198,6 +198,15 @@ in
           };
         };
       };
+
+      "privatebin.dotsem.be" = {
+        locations = securityLocations // {
+          "/" = {
+            proxyPass = "http://${hosts.the-vault.ip}:80";
+            extraConfig = "client_max_body_size 10m;";
+          };
+        };
+      };
     };
   };
 }
