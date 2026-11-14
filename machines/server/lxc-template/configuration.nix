@@ -8,4 +8,6 @@
     ../../../common/core/default.nix
     ../../../common/server/default.nix
   ];
+
+  custom.server.sopsPassword.enable = false;
 }
