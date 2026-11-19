@@ -1,0 +1,76 @@
+name: update-flake-lock
+
+on:
+  schedule:
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+    inputs:
+      which:
+        description: "stable = nixpkgs-stable only (CVE response), rest = every other input"
+        type: choice
+        options: [both, stable, rest]
+        default: both
+
+permissions: {}
+
+jobs:
+  bump:
+    name: bump (${{ matrix.name }})
+    # servers (nixpkgs-stable) and desktops/unstable bump separately so an
+    # unstable break never blocks a server security fix
+    strategy:
+      fail-fast: false
+      matrix:
+        # inputs.which is empty on schedule runs, which falls through to both
+        name: ${{ fromJSON(inputs.which == 'stable' && '["stable"]' || inputs.which == 'rest' && '["rest"]' || '["stable","rest"]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    # never cancel a half-pushed branch, queue instead
+    concurrency:
+      group: flake-update-${{ matrix.name }}
+      cancel-in-progress: false
+    permissions:
+      contents: write # push the automation/flake-lock-* branch
+      pull-requests: write # open or update the bump PR
+    defaults:
+      run:
+        shell: bash
+    env:
+      NAME: ${{ matrix.name }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      # credentials stay persisted: this is the one job that pushes, and it uploads no artifacts
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 # zizmor: ignore[artipacked]
+      - uses: DeterminateSystems/determinate-nix-action@16f94ba7aae399b9f9077c254b6719ec6de7e3e3 # v3.24.2
+      - name: update, evaluate all hosts, open PR
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          branch="automation/flake-lock-${NAME}"
+          git switch -c "$branch"
+
+          if [ "$NAME" = stable ]; then
+            inputs=(nixpkgs-stable)
+          else
+            mapfile -t inputs < <(jq -r '.nodes.root.inputs | keys[]' flake.lock | grep -vx nixpkgs-stable)
+          fi
+          nix flake update "${inputs[@]}" 2> update.log
+          cat update.log
+
+          if git diff --quiet flake.lock; then
+            echo "flake.lock unchanged"
+            exit 0
+          fi
+
+          # a lock that does not evaluate never becomes a PR
+          bash scripts/eval-all.sh
+
+          git commit -m "chore: update flake inputs (${NAME})" flake.lock
+          git push --force origin "$branch"
+
+          if gh pr view "$branch" > /dev/null 2>&1; then
+            gh pr edit "$branch" --body-file update.log
+          else
+            gh pr create --base main --head "$branch" \
+              --title "chore: update flake inputs (${NAME})" --body-file update.log
+          fi
