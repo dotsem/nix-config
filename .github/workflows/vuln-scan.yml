@@ -21,6 +21,17 @@ defaults:
     shell: bash
 
 jobs:
+  trivy:
+    name: trivy (fs)
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    uses: dotactions/security/.github/workflows/trivy-audit.yml@4d0356342b83c1c83c8e6ac5496589ba8fa665c2 # v0.1.0
+    with:
+      severity: CRITICAL,HIGH
+      fail-on-findings: false
+
   scan:
     name: flakevuln (${{ matrix.host }})
     # one runner per host: each scan downloads the closure twice (current pin and re-locked).
