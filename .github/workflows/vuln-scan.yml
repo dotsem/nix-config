@@ -27,8 +27,32 @@ jobs:
       contents: read
       pull-requests: write
       issues: write
-    uses: dotactions/security/.github/workflows/trivy-audit.yml@4d0356342b83c1c83c8e6ac5496589ba8fa665c2 # v0.1.0
+    uses: dotactions/security/.github/workflows/trivy-audit.yml@1558970a27d19b3324f329524934d67d1f6b01fd # v0.2.0
     with:
+      severity: CRITICAL,HIGH
+      fail-on-findings: false
+
+  trivy-image:
+    name: trivy (${{ matrix.image }})
+    strategy:
+      fail-fast: false
+      matrix:
+        #! keep in sync with docker/*/compose.yml
+        image:
+          - grafana/grafana:latest
+          - grafana/loki:latest
+          - grafana/promtail:latest
+          - prom/prometheus:latest
+          - tombursch/kitchenowl-backend:latest
+          - tombursch/kitchenowl-web:latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    uses: dotactions/security/.github/workflows/trivy-audit.yml@1558970a27d19b3324f329524934d67d1f6b01fd # v0.2.0
+    with:
+      scan-type: image
+      image-ref: ${{ matrix.image }}
       severity: CRITICAL,HIGH
       fail-on-findings: false
 
