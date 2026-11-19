@@ -1,0 +1,76 @@
+name: vuln-scan
+
+on:
+  schedule:
+    - cron: "43 5 * * *"
+  workflow_dispatch:
+    inputs:
+      fail_on_findings:
+        description: "fail the run when a bump would fix a high finding (turn off for a report-only run)"
+        type: boolean
+        default: true
+
+permissions: {}
+
+concurrency:
+  group: vuln-scan
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  scan:
+    name: flakevuln (${{ matrix.host }})
+    # one runner per host: each scan downloads the closure twice (current pin and re-locked).
+    # every distinct server config; battle-bus-sd, adguard-home-zp and lxc-template are left out
+    # because they only differ from a listed host by hostName or are a subset of it
+    strategy:
+      fail-fast: false
+      matrix:
+        host:
+          - battle-bus
+          - retail-row
+          - the-vault
+          - adguard-home
+          - greasy-grove
+          - lobby
+          - lonely-lodge
+          - risky-reels
+          - salty-springs
+          - tailscale
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90 # TODO: unmeasured, tune after the first runs
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # must run before flakevuln installs Nix: the store lives on this disk and the
+      # preinstalled toolchains are what leaves a hosted runner short of space. df is logged
+      # so the first runs show how much a closure really needs
+      - name: free disk space
+        run: |
+          df -h /
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force > /dev/null
+          df -h /
+      - id: flakevuln
+        uses: tiiuae/flakevuln@afa2f711721defe4eb0ddc6fc30d304bb3ecdc54
+        with:
+          targets: nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
+          input-name: nixpkgs-stable
+          whitelist: .github/vuln/manual_analysis.csv
+          nixtracker: true
+          report-retention-days: 14
+      - name: disk after scan
+        if: ${{ !cancelled() }}
+        run: df -h /
+      - name: gate
+        env:
+          FINDINGS: ${{ steps.flakevuln.outputs.findings-path }}
+          # null on schedule runs, so compare the stringified value, not a loose == false
+          FAIL_ON_FINDINGS: ${{ format('{0}', inputs.fail_on_findings) == 'false' && 'false' || 'true' }}
+        run: bash scripts/vuln-gate.sh "$FINDINGS"

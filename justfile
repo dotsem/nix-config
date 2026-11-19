@@ -5,6 +5,10 @@ set dotenv-load
 rebuild host ip action="switch":
     nix run nixpkgs#nixos-rebuild -- {{action}} --flake .#{{host}} --target-host root@{{ip}} --use-substitutes
 
+# Evaluate every host config (same check CI runs)
+check:
+    bash scripts/eval-all.sh
+
 rebuild-all parallel="false":
     #!/usr/bin/env bash
     if [ "{{parallel}}" = "true" ]; then
