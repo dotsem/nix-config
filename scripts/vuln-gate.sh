@@ -13,16 +13,41 @@ jq -e '.scan_rows | type == "array"' "$findings" > /dev/null \
 
 jq -r '(.errors // [])[] | tostring' "$findings" | while read -r e; do echo "::warning title=flakevuln error::${e}"; done
 
+# packages that only exist in the build closure (the scan targets the .drv), never run on a host
+denylist='["gcc","binutils","bison","cargo","ShellCheck","wheel","setuptools","rubygems","sassc","alex","Diff","bytes","stringbuilder","async"]'
+# a single scanner is mostly version-match noise: nixpkgs backports fixes without bumping versions
+min_scanners="${MIN_SCANNERS:-2}"
+
 # one tsv line per active high current finding: FIX|WAIT, target, vuln, package, severity
-rows=$(jq -r --argjson min "$min" '
+# FIX needs the re-locked scan to have actually run; when the lock is already current it is
+# skipped and nothing is in $relocked, which would otherwise mark every finding FIX
+jqdefs='
   def id: [.target, .vuln_id, .package] | join("|");
-  ([.scan_rows[] | select(.pintype == "lock_updated") | id]) as $relocked
+  def active: .pintype == "current"
+    and ((.whitelist | tostring | ascii_downcase) != "true")
+    and (((.severity | tostring | tonumber?) // 0) >= $min);
+  def denied: .package as $p | $deny | index($p) != null;
+  def lowconf: ((.sum | tostring | tonumber?) // 0) < $scanners;'
+jqargs=(--argjson min "$min" --argjson deny "$denylist" --argjson scanners "$min_scanners")
+
+rows=$(jq -r "${jqargs[@]}" "$jqdefs"'
+  (any((.completed_scans // [])[]; .[2] == "lock_updated")) as $relock_ran
+  | ([.scan_rows[] | select(.pintype == "lock_updated") | id]) as $relocked
   | .scan_rows[]
-  | select(.pintype == "current"
-      and ((.whitelist | tostring | ascii_downcase) != "true")
-      and (((.severity | tostring | tonumber?) // 0) >= $min))
-  | [(if (id as $i | $relocked | index($i)) == null then "FIX" else "WAIT" end),
+  | select(active and (denied | not) and (lowconf | not))
+  | [(if $relock_ran and (id as $i | $relocked | index($i)) == null then "FIX" else "WAIT" end),
      .target, .vuln_id, .package, .severity] | @tsv' "$findings" | sort -u)
+
+# what the filters hid, so a drop never goes unnoticed; build-only wins when both apply
+suppressed=$(jq -r "${jqargs[@]}" "$jqdefs"'
+  [.scan_rows[] | select(active and (denied or lowconf))
+   | {k: id, p: .package, r: (if denied then "build-only" else "single-scanner" end)}]
+  | unique_by(.k) as $u
+  | [($u | map(select(.r == "single-scanner")) | length | select(. > 0) | "\(.) single-scanner (sum < '"$min_scanners"')"),
+     ($u | map(select(.r == "build-only")) | group_by(.p)
+        | map("\(.[0].p) \(length)") | select(length > 0)
+        | "\(map(split(" ")[1] | tonumber) | add) build-only (\(join(", ")))")]
+  | join("; ")' "$findings")
 
 # counted here: the block below runs in a pipeline subshell
 fix=$(printf '%s\n' "$rows" | grep -c '^FIX' || true)
@@ -42,6 +67,11 @@ fix=$(printf '%s\n' "$rows" | grep -c '^FIX' || true)
         echo "::warning title=no fix in channel yet::${target}: ${vuln} in ${pkg} (${sev})" >&2
       fi
     done <<< "$rows"
+  fi
+  if [ -n "$suppressed" ]; then
+    echo
+    echo "suppressed (not gated): ${suppressed}"
+    echo "::notice title=vuln gate suppressed::${suppressed}" >&2
   fi
 } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
 
