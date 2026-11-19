@@ -1,0 +1,51 @@
+name: check
+
+on:
+  pull_request:
+    branches: ["**"]
+    paths-ignore: &paths
+      - "**.md"
+  push:
+    branches: [main]
+    paths-ignore: *paths
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  eval:
+    name: evaluate all hosts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: DeterminateSystems/determinate-nix-action@16f94ba7aae399b9f9077c254b6719ec6de7e3e3 # v3.24.2
+      - run: bash scripts/eval-all.sh
+
+  flake-checker:
+    name: flake-checker (stale or EOL nixpkgs)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: DeterminateSystems/flake-checker-action@786422608c7bded2bbc9741ad9f91356842bf520 # v14
+        with:
+          nixpkgs-keys: nixpkgs,nixpkgs-stable
+          fail-mode: true
+          send-statistics: false
