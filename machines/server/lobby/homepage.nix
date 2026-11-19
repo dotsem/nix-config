@@ -16,7 +16,7 @@
     enable = true;
     listenPort = 8080;
     allowedHosts = "*";
-    environmentFile = config.sops.secrets.homepage_env.path;
+    environmentFiles = [ config.sops.secrets.homepage_env.path ];
 
     settings = {
       title = "Lobby - lab.dotsem.be";

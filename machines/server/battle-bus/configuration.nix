@@ -27,6 +27,9 @@
   sops.secrets.cloudflare_tunnel_token = {
     restartUnits = [ "cloudflared-tunnel.service" ];
   };
+  sops.templates."cloudflared-env".content = ''
+    TUNNEL_TOKEN=${config.sops.placeholder.cloudflare_tunnel_token}
+  '';
 
   nixpkgs.overlays = [
     (final: prev: {
@@ -41,7 +44,8 @@
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
-      ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.cloudflared}/bin/cloudflared tunnel --no-autoupdate run --token $(cat ${config.sops.secrets.cloudflare_tunnel_token.path})'";
+      EnvironmentFile = config.sops.templates."cloudflared-env".path;
+      ExecStart = "${pkgs.cloudflared}/bin/cloudflared tunnel --no-autoupdate run";
       Restart = "on-failure";
       RestartSec = "5s";
     };

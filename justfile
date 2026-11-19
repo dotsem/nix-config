@@ -3,7 +3,7 @@ set dotenv-load
 
 # Rebuild and switch a NixOS flake target host
 rebuild host ip action="switch":
-    nix run nixpkgs#nixos-rebuild -- {{action}} --flake .#{{host}} --target-host root@{{ip}}
+    nix run nixpkgs#nixos-rebuild -- {{action}} --flake .#{{host}} --target-host root@{{ip}} --use-substitutes
 
 rebuild-all parallel="false":
     #!/usr/bin/env bash
@@ -87,7 +87,7 @@ bootstrap-prep:
 # Perform post-install over SSH (enables full profile and rebuilds target host)
 post-install host ip:
     ./scripts/toggle-profile.sh enable
-    nix run nixpkgs#nixos-rebuild -- switch --flake .#{{host}} --target-host sem@{{ip}} --ask-sudo-password
+    nix run nixpkgs#nixos-rebuild -- switch --flake .#{{host}} --target-host sem@{{ip}} --ask-sudo-password --use-substitutes
 
 # Perform post-install locally (enables full profile and rebuilds local host)
 post-install-local host:

@@ -3,6 +3,7 @@
   pkgs,
   lib,
   inputs,
+  options,
   ...
 }:
 {
@@ -31,8 +32,8 @@
   services.fstrim.enable = true;
 
   # cap journal to prevent log runaway on long-lived installs
-  services.journald =
-    if lib.versionAtLeast config.system.nixos.release "26.05" then
+    services.journald =
+    if options.services.journald ? settings then
       { settings.Journal.SystemMaxUse = "100M"; }
     else
       { extraConfig = "SystemMaxUse=100M"; };

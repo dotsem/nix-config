@@ -13,11 +13,14 @@
       "niri.cachix.org-1:Wv0Om607Zp7Mu6KJH77TjshMvK0L1ZisvK1v9rwBve0="
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
     ];
+    # GC kicks in mid-build/copy if free space drops below this, to avoid ENOSPC on small (8G) LXC disks
+    min-free = 536870912; # 512M
+    max-free = 2147483648; # 2G
   };
 
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 14d";
+    options = "--delete-older-than 7d";
   };
 }
