@@ -1,0 +1,38 @@
+name: Go Test CI
+
+on:
+  pull_request:
+    branches: ["**"]
+    paths: &paths
+      - "scripts/env-catcher/**"
+      - ".github/workflows/go-test.yml"
+  push:
+    branches: [main]
+    paths: *paths
+
+concurrency:
+  group: go-test-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  go-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        scripts: [env-catcher]
+    name: run go tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: dotactions/go/setup@e7eec18ffd4c31b202f0a877b53b6632cf2a9c43 # v0.1.0
+        with:
+          working-directory: scripts/${{ matrix.scripts }}
+      - id: test
+        uses: dotactions/go/test@e7eec18ffd4c31b202f0a877b53b6632cf2a9c43 # v0.1.0
+        with:
+          working-directory: scripts/${{ matrix.scripts }}
+        env:
+          TEST_DB_DSN: host=localhost user=app dbname=test sslmode=disable
