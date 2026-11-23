@@ -1,0 +1,49 @@
+name: build servers
+
+# eval-all only proves configs evaluate; a lock bump can still break a package build.
+# Servers only: their closures are mostly cache hits, desktops would blow runner disk/time.
+on:
+  pull_request:
+    paths: [flake.lock]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: build-servers-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build server closures
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: DeterminateSystems/determinate-nix-action@16f94ba7aae399b9f9077c254b6719ec6de7e3e3 # v3.24.2
+      - name: build all server toplevels
+        run: |
+          # a server is any host importing common/server, so new hosts are picked up without editing this
+          # shellcheck disable=SC2016 # ${n} is nix interpolation, not bash
+          mapfile -t hosts < <(nix eval --json .#nixosConfigurations --apply \
+            'cs: builtins.filter (n: cs.${n}.options ? custom.server) (builtins.attrNames cs)' | jq -r '.[]')
+          [ "${#hosts[@]}" -gt 0 ] || { echo "::error::no server hosts found"; exit 1; }
+          echo "building: ${hosts[*]}"
+
+          targets=()
+          for h in "${hosts[@]}"; do
+            targets+=(".#nixosConfigurations.${h}.config.system.build.toplevel")
+          done
+
+          # one invocation so shared deps are fetched once; keep-going reports every broken host
+          if ! nix build --no-link --keep-going "${targets[@]}"; then
+            echo "::error title=server build failed::see log for failing derivations"
+            exit 1
+          fi
